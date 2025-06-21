@@ -24,7 +24,8 @@ import {
   Sparkles,
   Radio,
   Clock,
-  DollarSign
+  DollarSign,
+  ExternalLink
 } from 'lucide-react';
 
 function App() {
@@ -60,16 +61,26 @@ function App() {
     }
   ];
 
+  const handleCreateProfile = () => {
+    window.open('https://airtable.com/appniFqOgWyezV5x7/pagbQ4aikBRgw0Epd/form', '_blank');
+  };
+
+  const handleBookArtist = () => {
+    window.open('https://airtable.com/appniFqOgWyezV5x7/pagbQ4aikBRgw0Epd/form', '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
       {/* Navigation */}
       <nav className="bg-white/80 backdrop-blur-md border-b sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
-              <div className="bg-gradient-to-r from-purple-600 to-teal-500 p-2 rounded-lg">
-                <Music className="h-6 w-6 text-white" />
-              </div>
+            <div className="flex items-center gap-3">
+              <img 
+                src="/live_vibe_icon.png" 
+                alt="Live Vibe Logo" 
+                className="h-10 w-10 object-contain"
+              />
               <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent">
                 Live Vibe
               </span>
@@ -79,7 +90,11 @@ function App() {
               <a href="#artists" className="text-gray-700 hover:text-purple-600 transition-colors">Artists</a>
               <a href="#pricing" className="text-gray-700 hover:text-purple-600 transition-colors">Pricing</a>
               <Button variant="outline" size="sm">Sign In</Button>
-              <Button size="sm" className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600">
+              <Button 
+                size="sm" 
+                className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600"
+                onClick={handleCreateProfile}
+              >
                 Get Started
               </Button>
             </div>
@@ -107,14 +122,24 @@ function App() {
               Live Vibe empowers artists with AI tools, smart bookings, and fan engagement—all in one revolutionary platform.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                onClick={handleCreateProfile}
+              >
                 <Users className="mr-2 h-5 w-5" />
                 Create Your Profile
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ExternalLink className="ml-2 h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 py-6 rounded-xl border-2 hover:bg-gray-50 transition-all duration-300">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 py-6 rounded-xl border-2 hover:bg-gray-50 transition-all duration-300"
+                onClick={handleBookArtist}
+              >
                 <Search className="mr-2 h-5 w-5" />
                 Book an Artist
+                <ExternalLink className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -182,6 +207,19 @@ function App() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+          
+          {/* CTA for Artists */}
+          <div className="text-center mt-12">
+            <Button 
+              size="lg" 
+              className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              onClick={handleCreateProfile}
+            >
+              <Users className="mr-2 h-5 w-5" />
+              Start Your Artist Journey
+              <ExternalLink className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         </div>
       </section>
@@ -299,6 +337,17 @@ function App() {
                   <Input type="date" className="h-12 rounded-xl border-2 focus:border-purple-400" />
                   <Input placeholder="Event location" className="h-12 rounded-xl border-2 focus:border-purple-400" />
                 </div>
+                <div className="text-center">
+                  <Button 
+                    size="lg" 
+                    className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 rounded-xl"
+                    onClick={handleBookArtist}
+                  >
+                    <Calendar className="mr-2 h-5 w-5" />
+                    Submit Booking Request
+                    <ExternalLink className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
               </TabsContent>
             </Tabs>
             
@@ -340,8 +389,12 @@ function App() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button className="flex-1 bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 rounded-xl">
-                        View Profile
+                      <Button 
+                        className="flex-1 bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 rounded-xl"
+                        onClick={handleBookArtist}
+                      >
+                        Book Artist
+                        <ExternalLink className="ml-2 h-4 w-4" />
                       </Button>
                       <Button variant="outline" size="icon" className="rounded-xl">
                         <Heart className="h-4 w-4" />
@@ -397,10 +450,14 @@ function App() {
             </div>
             
             <div className="space-y-6">
-              <Button size="lg" className="bg-white text-purple-900 hover:bg-gray-100 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+              <Button 
+                size="lg" 
+                className="bg-white text-purple-900 hover:bg-gray-100 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                onClick={handleCreateProfile}
+              >
                 <Radio className="mr-2 h-5 w-5" />
-                Go Live Now
-                <ArrowRight className="ml-2 h-5 w-5" />
+                Join as Artist
+                <ExternalLink className="ml-2 h-4 w-4" />
               </Button>
               
               <div className="flex justify-center space-x-12 pt-8">
@@ -427,15 +484,39 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="bg-gradient-to-r from-purple-600 to-teal-500 p-2 rounded-lg">
-                  <Music className="h-6 w-6 text-white" />
-                </div>
+              <div className="flex items-center gap-3">
+                <img 
+                  src="/live_vibe_icon.png" 
+                  alt="Live Vibe Logo" 
+                  className="h-8 w-8 object-contain"
+                />
                 <span className="text-2xl font-bold">Live Vibe</span>
               </div>
               <p className="text-gray-400">
                 Empowering artists worldwide with cutting-edge technology and unlimited opportunities.
               </p>
+              <div className="space-y-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full text-white border-white hover:bg-white hover:text-gray-900"
+                  onClick={handleCreateProfile}
+                >
+                  <Users className="mr-2 h-4 w-4" />
+                  Create Artist Profile
+                  <ExternalLink className="ml-2 h-3 w-3" />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full text-white border-white hover:bg-white hover:text-gray-900"
+                  onClick={handleBookArtist}
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Book an Artist
+                  <ExternalLink className="ml-2 h-3 w-3" />
+                </Button>
+              </div>
             </div>
             
             <div className="space-y-4">
