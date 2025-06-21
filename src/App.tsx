@@ -68,7 +68,7 @@ function App() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
               <img 
-                src="/LIVE VIBE.png" 
+                src="/live-vibe-logo.svg" 
                 alt="Live Vibe Logo" 
                 className="h-10 w-10 object-contain"
               />
@@ -447,7 +447,7 @@ function App() {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <img 
-                  src="/LIVE VIBE.png" 
+                  src="/live-vibe-logo.svg" 
                   alt="Live Vibe Logo" 
                   className="h-8 w-8 object-contain"
                 />
