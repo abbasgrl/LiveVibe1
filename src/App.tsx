@@ -66,10 +66,12 @@ function App() {
       <nav className="bg-white/80 backdrop-blur-md border-b sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
-              <div className="bg-gradient-to-r from-purple-600 to-teal-500 p-2 rounded-lg">
-                <Music className="h-6 w-6 text-white" />
-              </div>
+            <div className="flex items-center gap-3">
+              <img 
+                src="/LIVE VIBE.png" 
+                alt="Live Vibe Logo" 
+                className="h-10 w-10 object-contain"
+              />
               <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent">
                 Live Vibe
               </span>
@@ -79,7 +81,11 @@ function App() {
               <a href="#artists" className="text-gray-700 hover:text-purple-600 transition-colors">Artists</a>
               <a href="#pricing" className="text-gray-700 hover:text-purple-600 transition-colors">Pricing</a>
               <Button variant="outline" size="sm">Sign In</Button>
-              <Button size="sm" className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600">
+              <Button 
+                size="sm" 
+                className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600"
+                onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/pagbQ4aikBRgw0Epd/form', '_blank')}
+              >
                 Get Started
               </Button>
             </div>
@@ -107,12 +113,21 @@ function App() {
               Live Vibe empowers artists with AI tools, smart bookings, and fan engagement—all in one revolutionary platform.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/pagbQ4aikBRgw0Epd/form', '_blank')}
+              >
                 <Users className="mr-2 h-5 w-5" />
                 Create Your Profile
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 py-6 rounded-xl border-2 hover:bg-gray-50 transition-all duration-300">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 py-6 rounded-xl border-2 hover:bg-gray-50 transition-all duration-300"
+                onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/shryv0nldOZuWp1oC', '_blank')}
+              >
                 <Search className="mr-2 h-5 w-5" />
                 Book an Artist
               </Button>
@@ -340,7 +355,10 @@ function App() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button className="flex-1 bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 rounded-xl">
+                      <Button 
+                        className="flex-1 bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 rounded-xl"
+                        onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/shryv0nldOZuWp1oC', '_blank')}
+                      >
                         View Profile
                       </Button>
                       <Button variant="outline" size="icon" className="rounded-xl">
@@ -427,10 +445,12 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="bg-gradient-to-r from-purple-600 to-teal-500 p-2 rounded-lg">
-                  <Music className="h-6 w-6 text-white" />
-                </div>
+              <div className="flex items-center gap-3">
+                <img 
+                  src="/LIVE VIBE.png" 
+                  alt="Live Vibe Logo" 
+                  className="h-8 w-8 object-contain"
+                />
                 <span className="text-2xl font-bold">Live Vibe</span>
               </div>
               <p className="text-gray-400">
