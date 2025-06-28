@@ -107,7 +107,7 @@ function App() {
               <span className="bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent"> Rise</span>
               <br />
               & Vibes Go 
-              <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Global</span>
+              <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Viral</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Live Vibe empowers artists with AI tools, smart bookings, and fan engagement—all in one revolutionary platform.
