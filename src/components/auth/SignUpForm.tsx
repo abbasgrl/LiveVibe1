@@ -133,16 +133,6 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
             type="button"
             variant="outline"
             className="w-full h-12 rounded-xl border-2 hover:bg-gray-50"
-            onClick={() => handleSocialSignUp('github')}
-          >
-            <Github className="mr-2 h-5 w-5" />
-            Continue with GitHub
-          </Button>
-          
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full h-12 rounded-xl border-2 hover:bg-gray-50"
             onClick={() => handleSocialSignUp('spotify')}
           >
             <svg className="mr-2 h-5 w-5" fill="#1DB954" viewBox="0 0 24 24">
