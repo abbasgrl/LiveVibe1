@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { AuthModal } from '@/components/auth/AuthModal';
+import { UserMenu } from '@/components/auth/UserMenu';
+import { Toaster } from '@/components/ui/toaster';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,8 +31,11 @@ import {
   DollarSign
 } from 'lucide-react';
 
-function App() {
+function AppContent() {
   const [selectedTab, setSelectedTab] = useState('search');
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const { user, loading } = useAuth();
 
   const artists = [
     {
@@ -80,14 +87,32 @@ function App() {
               <a href="#features" className="text-gray-700 hover:text-purple-600 transition-colors">Features</a>
               <a href="#artists" className="text-gray-700 hover:text-purple-600 transition-colors">Artists</a>
               <a href="#pricing" className="text-gray-700 hover:text-purple-600 transition-colors">Pricing</a>
-              <Button variant="outline" size="sm">Sign In</Button>
-              <Button 
-                size="sm" 
-                className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600"
-                onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/pagbQ4aikBRgw0Epd/form', '_blank')}
-              >
-                Get Started
-              </Button>
+              {user ? (
+                <UserMenu />
+              ) : (
+                <>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => {
+                      setAuthMode('signin');
+                      setAuthModalOpen(true);
+                    }}
+                  >
+                    Sign In
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600"
+                    onClick={() => {
+                      setAuthMode('signup');
+                      setAuthModalOpen(true);
+                    }}
+                  >
+                    Get Started
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -116,10 +141,17 @@ function App() {
               <Button 
                 size="lg" 
                 className="bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/pagbQ4aikBRgw0Epd/form', '_blank')}
+                onClick={() => {
+                  if (user) {
+                    // Navigate to profile creation
+                  } else {
+                    setAuthMode('signup');
+                    setAuthModalOpen(true);
+                  }
+                }}
               >
                 <Users className="mr-2 h-5 w-5" />
-                Create Your Profile
+                {user ? 'Create Your Profile' : 'Join Live Vibe'}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button 
@@ -494,7 +526,22 @@ function App() {
           </div>
         </div>
       </footer>
+
+      <AuthModal 
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode={authMode}
+      />
+      <Toaster />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
