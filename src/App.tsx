@@ -53,6 +53,9 @@ function AppContent() {
   const [showPricing, setShowPricing] = useState(false);
   const { user, loading } = useAuth();
 
+  // Import PricingPage component
+  const { PricingPage } = require('@/components/pricing/PricingPage');
+
   const artists = [
     {
       name: "Luna Martinez",
@@ -121,60 +124,62 @@ function AppContent() {
   // Show pricing page
   if (showPricing) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center gap-3">
-                <button 
-                  onClick={() => setShowPricing(false)}
-                  className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-                >
-                  <img 
-                    src="/LIVE VIBE.png" 
-                    alt="Live Vibe Logo" 
-                    className="h-8 w-8 object-contain"
-                  />
-                  <span className="text-xl font-bold text-gray-900">
-                    Live Vibe
-                  </span>
-                </button>
-              </div>
-              <div className="flex items-center gap-4">
-                {user ? (
-                  <UserMenu 
-                    onProfileClick={() => {
-                      setShowPricing(false)
-                      setShowProfile(true)
-                    }}
-                    onArtClick={() => setArtUploadOpen(true)}
-                  />
-                ) : (
-                  <>
-                    <Button 
-                      variant="ghost" 
-                      onClick={() => {
-                        setAuthMode('signin');
-                        setAuthModalOpen(true);
+      <>
+        <div className="min-h-screen bg-gray-50">
+          <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-center h-16">
+                <div className="flex items-center gap-3">
+                  <button 
+                    onClick={() => setShowPricing(false)}
+                    className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                  >
+                    <img 
+                      src="/LIVE VIBE.png" 
+                      alt="Live Vibe Logo" 
+                      className="h-8 w-8 object-contain"
+                    />
+                    <span className="text-xl font-bold text-gray-900">
+                      Live Vibe
+                    </span>
+                  </button>
+                </div>
+                <div className="flex items-center gap-4">
+                  {user ? (
+                    <UserMenu 
+                      onProfileClick={() => {
+                        setShowPricing(false)
+                        setShowProfile(true)
                       }}
-                    >
-                      Sign In
-                    </Button>
-                    <Button 
-                      className="bg-blue-600 hover:bg-blue-700 text-white"
-                      onClick={() => {
-                        setAuthMode('signup');
-                        setAuthModalOpen(true);
-                      }}
-                    >
-                      Get Started
-                    </Button>
-                  </>
-                )}
+                      onArtClick={() => setArtUploadOpen(true)}
+                    />
+                  ) : (
+                    <>
+                      <Button 
+                        variant="ghost" 
+                        onClick={() => {
+                          setAuthMode('signin');
+                          setAuthModalOpen(true);
+                        }}
+                      >
+                        Sign In
+                      </Button>
+                      <Button 
+                        className="bg-blue-600 hover:bg-blue-700 text-white"
+                        onClick={() => {
+                          setAuthMode('signup');
+                          setAuthModalOpen(true);
+                        }}
+                      >
+                        Get Started
+                      </Button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        </nav>
+          </nav>
+        </div>
         <PricingPage />
         <AuthModal 
           isOpen={authModalOpen}
@@ -186,7 +191,7 @@ function AppContent() {
           onClose={() => setArtUploadOpen(false)}
         />
         <Toaster />
-      </div>
+      </>
     )
   }
 
