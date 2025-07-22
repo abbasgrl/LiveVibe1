@@ -543,7 +543,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
                     {existingProfile ? 'Updating Profile...' : 'Creating Profile...'}
                   </>
                 ) : (
-                  {existingProfile ? 'Update Profile' : 'Create Profile'}
+                  existingProfile ? 'Update Profile' : 'Create Profile'
                 )}
               </Button>
             )}
