@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { UserMenu } from '@/components/auth/UserMenu';
+import { ArtistWheel } from '@/components/ArtistWheel';
 import { Toaster } from '@/components/ui/toaster';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -232,28 +233,8 @@ function AppContent() {
                 </div>
               </div>
             </div>
-            <div className="relative">
-              <div className="bg-white rounded-2xl shadow-2xl p-8">
-                <img 
-                  src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=600" 
-                  alt="Live Performance" 
-                  className="w-full h-64 object-cover rounded-xl"
-                />
-                <div className="mt-6 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold">Featured Artist</h3>
-                    <Badge className="bg-green-100 text-green-800">Available</Badge>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span className="font-medium">4.9</span>
-                    <span className="text-gray-500">(127 reviews)</span>
-                  </div>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                    View Profile
-                  </Button>
-                </div>
-              </div>
+            <div className="relative max-w-md mx-auto">
+              <ArtistWheel />
             </div>
           </div>
         </div>
