@@ -283,48 +283,6 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
       })
     }
   }
-        user_id: user.id,
-        title: title.trim(),
-        description: description.trim(),
-        type: getFileType(selectedFile),
-        file_url: publicUrl,
-        file_name: selectedFile.name,
-        file_size: selectedFile.size
-      }
-
-      // For now, just add to local state since we don't have the table
-      const newArtPiece: ArtPiece = {
-        id: Date.now().toString(),
-        ...artPiece,
-        created_at: new Date().toISOString()
-      }
-      
-      setArtPieces(prev => [newArtPiece, ...prev])
-
-      toast({
-        title: "Success!",
-        description: "Your art piece has been uploaded successfully",
-      })
-
-      // Reset form
-      setSelectedFile(null)
-      setTitle('')
-      setDescription('')
-      setPreviewUrl(null)
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ''
-      }
-
-    } catch (error: any) {
-      toast({
-        title: "Upload failed",
-        description: error.message || "Failed to upload your art piece",
-        variant: "destructive",
-      })
-    } finally {
-      setUploading(false)
-    }
-  }
 
   const handleRemoveFile = () => {
     setSelectedFile(null)
@@ -542,12 +500,7 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
                           <Button variant="outline" size="sm">
                             <Edit className="h-3 w-3" />
                           </Button>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="text-red-600 hover:text-red-700"
-                            onClick={() => handleDeleteArtPiece(piece)}
-                          >
+                          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
                             <Trash2 className="h-3 w-3" />
                           </Button>
                         </div>
