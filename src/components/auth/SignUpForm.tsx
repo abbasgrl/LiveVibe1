@@ -71,11 +71,20 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
     const { error } = await signUp(email, password)
     
     if (error) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      })
+      if (error.message.includes('User already registered') || error.message.includes('user_already_exists')) {
+        toast({
+          title: "Account Already Exists",
+          description: "This email is already registered. Please sign in instead.",
+          variant: "destructive",
+        })
+        onToggleMode()
+      } else {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        })
+      }
     } else {
       toast({
         title: "Success!",
