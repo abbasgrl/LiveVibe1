@@ -212,7 +212,6 @@ function AppContent() {
                   size="lg" 
                   variant="outline" 
                   className="px-8 py-4 text-lg border-2"
-                  onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/shryv0nldOZuWp1oC', '_blank')}
                 >
                   <Search className="mr-2 h-5 w-5" />
                   Find Artists
@@ -353,7 +352,6 @@ function AppContent() {
                   <div className="flex gap-2">
                     <Button 
                       className="flex-1 bg-blue-600 hover:bg-blue-700"
-                      onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/shryv0nldOZuWp1oC', '_blank')}
                     >
                       Book Now
                     </Button>
@@ -371,7 +369,6 @@ function AppContent() {
               size="lg" 
               variant="outline" 
               className="border-2"
-              onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/shryv0nldOZuWp1oC', '_blank')}
             >
               View All Artists
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -459,7 +456,6 @@ function AppContent() {
                 size="lg" 
                 variant="outline" 
                 className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 text-lg"
-                onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/shryv0nldOZuWp1oC', '_blank')}
               >
                 Find Artists
               </Button>

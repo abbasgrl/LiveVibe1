@@ -159,7 +159,6 @@ export function ArtistWheel() {
           <div className="flex gap-2">
             <Button 
               className="flex-1 bg-blue-600 hover:bg-blue-700"
-              onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/shryv0nldOZuWp1oC', '_blank')}
             >
               Book Now
             </Button>
