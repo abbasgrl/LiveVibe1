@@ -567,19 +567,19 @@ function AppContent() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--secondary))]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8">
             <h2 className="text-3xl md:text-4xl font-bold text-white">
               Ready to Get Started?
             </h2>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+            <p className="text-xl text-white/80 max-w-2xl mx-auto">
               Join thousands of artists and event organizers who trust Live Vibe for their booking needs
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/90 text-white px-8 py-4 text-lg"
+                className="bg-white text-[hsl(var(--primary))] hover:bg-gray-100 px-8 py-4 text-lg"
                 onClick={() => {
                   setAuthMode('signup');
                   setAuthModalOpen(true);
