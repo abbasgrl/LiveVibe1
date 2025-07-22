@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { ArtistProfileSetup } from '@/components/profile/ArtistProfileSetup';
+import { ArtistProfile } from '@/components/profile/ArtistProfile';
 import { ArtistWheel } from '@/components/ArtistWheel';
 import { Toaster } from '@/components/ui/toaster';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -43,6 +44,7 @@ function AppContent() {
   const [selectedTab, setSelectedTab] = useState('search');
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [profileSetupOpen, setProfileSetupOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, loading } = useAuth();
@@ -77,6 +79,37 @@ function AppContent() {
     }
   ];
 
+  // Show profile page if user is viewing their profile
+  if (showProfile && user) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => setShowProfile(false)}
+                  className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                >
+                  <img 
+                    src="/LIVE VIBE.png" 
+                    alt="Live Vibe Logo" 
+                    className="h-8 w-8 object-contain"
+                  />
+                  <span className="text-xl font-bold text-gray-900">
+                    Live Vibe
+                  </span>
+                </button>
+              </div>
+              <UserMenu />
+            </div>
+          </div>
+        </nav>
+        <ArtistProfile />
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -105,7 +138,7 @@ function AppContent() {
 
             <div className="hidden md:flex items-center gap-4">
               {user ? (
-                <UserMenu />
+                <UserMenu onProfileClick={() => setShowProfile(true)} />
               ) : (
                 <>
                   <Button 

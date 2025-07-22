@@ -11,8 +11,13 @@ import {
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useAuth } from '@/contexts/AuthContext'
 import { User, Settings, LogOut, Music } from 'lucide-react'
+import React from 'react'
 
-export function UserMenu() {
+interface UserMenuProps {
+  onProfileClick?: () => void
+}
+
+export function UserMenu({ onProfileClick }: UserMenuProps) {
   const { user, signOut } = useAuth()
 
   if (!user) return null
@@ -40,9 +45,9 @@ export function UserMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={onProfileClick}>
           <User className="mr-2 h-4 w-4" />
-          <span>Profile</span>
+          <span>My Profile</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Music className="mr-2 h-4 w-4" />
