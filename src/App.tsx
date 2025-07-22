@@ -4,6 +4,7 @@ import { AuthModal } from '@/components/auth/AuthModal';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { ArtistProfileSetup } from '@/components/profile/ArtistProfileSetup';
 import { ArtistProfile } from '@/components/profile/ArtistProfile';
+import { ArtUpload } from '@/components/profile/ArtUpload';
 import { ArtistWheel } from '@/components/ArtistWheel';
 import { Toaster } from '@/components/ui/toaster';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,6 +45,7 @@ function AppContent() {
   const [selectedTab, setSelectedTab] = useState('search');
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [profileSetupOpen, setProfileSetupOpen] = useState(false);
+  const [artUploadOpen, setArtUploadOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -106,6 +108,10 @@ function AppContent() {
           </div>
         </nav>
         <ArtistProfile />
+        <ArtUpload
+          isOpen={artUploadOpen}
+          onClose={() => setArtUploadOpen(false)}
+        />
       </div>
     )
   }
@@ -138,7 +144,10 @@ function AppContent() {
 
             <div className="hidden md:flex items-center gap-4">
               {user ? (
-                <UserMenu onProfileClick={() => setShowProfile(true)} />
+                <UserMenu 
+                  onProfileClick={() => setShowProfile(true)}
+                  onArtClick={() => setArtUploadOpen(true)}
+                />
               ) : (
                 <>
                   <Button 
@@ -565,6 +574,10 @@ function AppContent() {
         isOpen={profileSetupOpen}
         existingProfile={null}
         onClose={() => setProfileSetupOpen(false)}
+      />
+      <ArtUpload
+        isOpen={artUploadOpen}
+        onClose={() => setArtUploadOpen(false)}
       />
       <Toaster />
     </div>
