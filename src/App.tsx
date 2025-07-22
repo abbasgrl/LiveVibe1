@@ -313,14 +313,14 @@ function AppContent() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20 lg:py-32">
+      <section className="bg-gradient-to-br from-[hsl(var(--primary))]/10 to-[hsl(var(--purple))]/10 py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-6">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                   Connect Artists with 
-                  <span className="text-blue-600"> Perfect Events</span>
+                  <span className="text-[hsl(var(--primary))]"> Perfect Events</span>
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
                   Live Vibe is the premier platform connecting talented artists with event organizers. 
@@ -390,37 +390,37 @@ function AppContent() {
                 title: "Smart Matching", 
                 description: "AI-powered algorithm matches artists with perfect events based on genre, location, and budget",
                 icon: Zap,
-                color: "bg-blue-100 text-blue-600"
+                color: "bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))]"
               },
               { 
                 title: "Secure Booking", 
                 description: "Safe and secure booking system with escrow payments and contract management",
                 icon: Shield,
-                color: "bg-green-100 text-green-600"
+                color: "bg-[hsl(var(--secondary))]/10 text-[hsl(var(--secondary))]"
               },
               { 
                 title: "Global Reach", 
                 description: "Connect with artists and events worldwide through our international platform",
                 icon: Globe,
-                color: "bg-purple-100 text-purple-600"
+                color: "bg-[hsl(var(--purple))]/10 text-[hsl(var(--purple))]"
               },
               { 
                 title: "Mobile First", 
                 description: "Manage bookings, communicate, and track events on-the-go with our mobile app",
                 icon: Smartphone,
-                color: "bg-orange-100 text-orange-600"
+                color: "bg-[hsl(var(--secondary))]/10 text-[hsl(var(--secondary))]"
               },
               { 
                 title: "Live Streaming", 
                 description: "Stream performances live to expand your audience and create hybrid events",
                 icon: Radio,
-                color: "bg-red-100 text-red-600"
+                color: "bg-[hsl(var(--pink))]/10 text-[hsl(var(--pink))]"
               },
               { 
                 title: "Analytics", 
                 description: "Detailed insights and analytics to help artists and organizers make data-driven decisions",
                 icon: Trophy,
-                color: "bg-teal-100 text-teal-600"
+                color: "bg-[hsl(var(--blue))]/10 text-[hsl(var(--blue))]"
               }
             ].map((feature, idx) => (
               <Card key={idx} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -472,7 +472,7 @@ function AppContent() {
                 <CardContent className="p-6 space-y-4">
                   <div className="space-y-2">
                     <h3 className="text-xl font-bold text-gray-900">{artist.name}</h3>
-                    <p className="text-blue-600 font-medium">{artist.genre}</p>
+                    <p className="text-[hsl(var(--primary))] font-medium">{artist.genre}</p>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
                       <div className="flex items-center gap-1">
                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
@@ -486,7 +486,7 @@ function AppContent() {
                   </div>
                   <div className="flex gap-2">
                     <Button 
-                      className="flex-1 bg-blue-600 hover:bg-blue-700"
+                      className="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/90"
                     >
                       Book Now
                     </Button>
@@ -579,7 +579,7 @@ function AppContent() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg"
+                className="bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/90 text-white px-8 py-4 text-lg"
                 onClick={() => {
                   setAuthMode('signup');
                   setAuthModalOpen(true);
@@ -590,7 +590,7 @@ function AppContent() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 text-lg"
+                className="border-white text-white hover:bg-white hover:text-[hsl(var(--primary))] px-8 py-4 text-lg"
               >
                 Find a Promoter
               </Button>
@@ -620,30 +620,30 @@ function AppContent() {
             <div className="space-y-4">
               <h4 className="text-lg font-semibold">For Artists</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Create Profile</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Find Gigs</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Artist Resources</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Success Stories</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Create Profile</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Find Gigs</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Artist Resources</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Success Stories</a>
               </div>
             </div>
             
             <div className="space-y-4">
               <h4 className="text-lg font-semibold">For Organizers</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Find Promoters</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Post Event</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Event Planning</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Pricing</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Find Promoters</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Post Event</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Event Planning</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Pricing</a>
               </div>
             </div>
             
             <div className="space-y-4">
               <h4 className="text-lg font-semibold">Support</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Help Center</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Contact Us</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Terms of Service</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Help Center</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Contact Us</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Terms of Service</a>
+                <a href="#" className="block text-gray-400 hover:text-[hsl(var(--primary))] transition-colors">Privacy Policy</a>
               </div>
             </div>
           </div>
