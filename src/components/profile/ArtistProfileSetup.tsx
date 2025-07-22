@@ -376,16 +376,16 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                       onValueChange={(value) => handleInputChange('performing_artist_type', value)}
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="singer" id="singer" />
-                        <Label htmlFor="singer">Singers/Vocalists: Use their voice to interpret and perform songs</Label>
+                        <RadioGroupItem value="singer" id="singer-vocalist" />
+                        <Label htmlFor="singer-vocalist">Singers/Vocalists: Use their voice to interpret and perform songs</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="instrumentalist" id="instrumentalist" />
-                        <Label htmlFor="instrumentalist">Instrumentalists/Musicians: Play musical instruments (piano, guitar, violin, drums, etc.)</Label>
+                        <RadioGroupItem value="instrumentalist" id="instrumentalist-musician" />
+                        <Label htmlFor="instrumentalist-musician">Instrumentalists/Musicians: Play musical instruments (piano, guitar, violin, drums, etc.)</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="both" id="both-performer" />
-                        <Label htmlFor="both-performer">Both</Label>
+                        <RadioGroupItem value="both" id="singer-and-instrumentalist" />
+                        <Label htmlFor="singer-and-instrumentalist">Both</Label>
                       </div>
                     </RadioGroup>
                   </div>
