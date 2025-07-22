@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
 import { supabase } from '@/lib/supabase'
@@ -23,7 +24,15 @@ import {
   Star,
   Calendar,
   DollarSign,
-  ExternalLink
+  ExternalLink,
+  Image,
+  Video,
+  File,
+  Play,
+  Pause,
+  Eye,
+  Plus,
+  X
 } from 'lucide-react'
 
 interface ArtistProfileData {
@@ -52,16 +61,32 @@ interface ArtistProfileData {
   updated_at: string
 }
 
+interface ArtPiece {
+  id: string
+  title: string
+  description: string
+  type: 'image' | 'audio' | 'video' | 'document'
+  file_url: string
+  file_name: string
+  file_size: number
+  created_at: string
+}
+
 export function ArtistProfile() {
   const { user } = useAuth()
   const { toast } = useToast()
   const [profile, setProfile] = useState<ArtistProfileData | null>(null)
+  const [artPieces, setArtPieces] = useState<ArtPiece[]>([])
   const [loading, setLoading] = useState(true)
+  const [artLoading, setArtLoading] = useState(false)
   const [editModalOpen, setEditModalOpen] = useState(false)
+  const [selectedArt, setSelectedArt] = useState<ArtPiece | null>(null)
+  const [audioPlaying, setAudioPlaying] = useState<string | null>(null)
 
   useEffect(() => {
     if (user) {
       fetchProfile()
+      fetchArtPieces()
     }
   }, [user])
 
@@ -88,6 +113,83 @@ export function ArtistProfile() {
       })
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchArtPieces = async () => {
+    if (!user) return
+
+    setArtLoading(true)
+    try {
+      // For now, using mock data since we don't have the art_pieces table yet
+      // In a real implementation, this would fetch from the database
+      const mockArtPieces: ArtPiece[] = [
+        {
+          id: '1',
+          title: 'Sunset Symphony',
+          description: 'A beautiful acoustic piece inspired by golden hour',
+          type: 'audio',
+          file_url: 'https://example.com/audio1.mp3',
+          file_name: 'sunset-symphony.mp3',
+          file_size: 5242880,
+          created_at: '2024-01-15T10:30:00Z'
+        },
+        {
+          id: '2',
+          title: 'Urban Landscape',
+          description: 'Digital art capturing city life',
+          type: 'image',
+          file_url: 'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?auto=compress&cs=tinysrgb&w=400',
+          file_name: 'urban-landscape.jpg',
+          file_size: 2097152,
+          created_at: '2024-01-10T14:20:00Z'
+        },
+        {
+          id: '3',
+          title: 'Live Performance',
+          description: 'Recording from my latest concert',
+          type: 'video',
+          file_url: 'https://example.com/video1.mp4',
+          file_name: 'live-performance.mp4',
+          file_size: 15728640,
+          created_at: '2024-01-05T19:45:00Z'
+        }
+      ]
+      
+      setArtPieces(mockArtPieces)
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to load artwork",
+        variant: "destructive",
+      })
+    } finally {
+      setArtLoading(false)
+    }
+  }
+
+  const getFileIcon = (type: string) => {
+    switch (type) {
+      case 'image': return <Image className="h-5 w-5" />
+      case 'audio': return <Music className="h-5 w-5" />
+      case 'video': return <Video className="h-5 w-5" />
+      default: return <File className="h-5 w-5" />
+    }
+  }
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+  }
+
+  const toggleAudioPlay = (id: string) => {
+    if (audioPlaying === id) {
+      setAudioPlaying(null)
+    } else {
+      setAudioPlaying(id)
     }
   }
 
@@ -395,6 +497,128 @@ export function ArtistProfile() {
         </CardContent>
       </Card>
 
+      {/* Artwork Gallery */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
+              <Camera className="h-5 w-5" />
+              My Artwork
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary">
+                {artPieces.length} piece{artPieces.length !== 1 ? 's' : ''}
+              </Badge>
+              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                <Plus className="h-4 w-4 mr-1" />
+                Add Art
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {artLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="aspect-square bg-gray-200 rounded-lg mb-3"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                </div>
+              ))}
+            </div>
+          ) : artPieces.length === 0 ? (
+            <div className="text-center py-12">
+              <Camera className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h4 className="text-lg font-medium text-gray-900 mb-2">No artwork yet</h4>
+              <p className="text-gray-600 mb-4">
+                Upload your first piece to showcase your talent
+              </p>
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <Plus className="h-4 w-4 mr-2" />
+                Upload Artwork
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {artPieces.map((piece) => (
+                <Card key={piece.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
+                  <div 
+                    className="aspect-square bg-gray-100 relative overflow-hidden"
+                    onClick={() => setSelectedArt(piece)}
+                  >
+                    {piece.type === 'image' ? (
+                      <img 
+                        src={piece.file_url} 
+                        alt={piece.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                        <div className="text-center">
+                          <div className="bg-white rounded-full p-4 mb-3 shadow-md">
+                            {getFileIcon(piece.type)}
+                          </div>
+                          <p className="text-sm font-medium text-gray-700">{piece.type.toUpperCase()}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {piece.type === 'audio' ? (
+                          <Button
+                            size="sm"
+                            className="bg-white/90 text-gray-900 hover:bg-white"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              toggleAudioPlay(piece.id)
+                            }}
+                          >
+                            {audioPlaying === piece.id ? (
+                              <Pause className="h-4 w-4" />
+                            ) : (
+                              <Play className="h-4 w-4" />
+                            )}
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            className="bg-white/90 text-gray-900 hover:bg-white"
+                          >
+                            <Eye className="h-4 w-4 mr-1" />
+                            View
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Type Badge */}
+                    <div className="absolute top-2 right-2">
+                      <Badge className="bg-white/90 text-gray-800 text-xs">
+                        {piece.type}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <CardContent className="p-4">
+                    <h4 className="font-medium text-gray-900 truncate mb-1">{piece.title}</h4>
+                    {piece.description && (
+                      <p className="text-sm text-gray-600 line-clamp-2 mb-2">{piece.description}</p>
+                    )}
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <span>{formatFileSize(piece.file_size)}</span>
+                      <span>{new Date(piece.created_at).toLocaleDateString()}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       <ArtistProfileSetup
         isOpen={editModalOpen}
         existingProfile={profile}
@@ -403,6 +627,112 @@ export function ArtistProfile() {
           fetchProfile()
         }}
       />
+
+      {/* Art Piece Detail Modal */}
+      {selectedArt && (
+        <Dialog open={!!selectedArt} onOpenChange={() => setSelectedArt(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <div className="flex items-center justify-between">
+                <DialogTitle className="flex items-center gap-2">
+                  {getFileIcon(selectedArt.type)}
+                  {selectedArt.title}
+                </DialogTitle>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSelectedArt(null)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              {/* Art Display */}
+              <div className="bg-gray-50 rounded-lg p-4">
+                {selectedArt.type === 'image' ? (
+                  <img 
+                    src={selectedArt.file_url} 
+                    alt={selectedArt.title}
+                    className="w-full max-h-96 object-contain rounded-lg"
+                  />
+                ) : selectedArt.type === 'video' ? (
+                  <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
+                    <div className="text-center">
+                      <Video className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                      <p className="text-gray-600">Video Preview</p>
+                      <p className="text-sm text-gray-500">{selectedArt.file_name}</p>
+                    </div>
+                  </div>
+                ) : selectedArt.type === 'audio' ? (
+                  <div className="aspect-video bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="bg-white rounded-full p-6 mb-4 shadow-lg">
+                        <Music className="h-12 w-12 text-blue-600" />
+                      </div>
+                      <p className="text-lg font-medium text-gray-900 mb-2">{selectedArt.title}</p>
+                      <Button
+                        className="bg-blue-600 hover:bg-blue-700"
+                        onClick={() => toggleAudioPlay(selectedArt.id)}
+                      >
+                        {audioPlaying === selectedArt.id ? (
+                          <>
+                            <Pause className="h-4 w-4 mr-2" />
+                            Pause
+                          </>
+                        ) : (
+                          <>
+                            <Play className="h-4 w-4 mr-2" />
+                            Play
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div className="text-center">
+                      <File className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                      <p className="text-gray-600">Document</p>
+                      <p className="text-sm text-gray-500">{selectedArt.file_name}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Art Details */}
+              <div className="space-y-3">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">{selectedArt.title}</h3>
+                  {selectedArt.description && (
+                    <p className="text-gray-600 mt-1">{selectedArt.description}</p>
+                  )}
+                </div>
+                
+                <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <span className="flex items-center gap-1">
+                    <File className="h-4 w-4" />
+                    {selectedArt.file_name}
+                  </span>
+                  <span>{formatFileSize(selectedArt.file_size)}</span>
+                  <span>{new Date(selectedArt.created_at).toLocaleDateString()}</span>
+                </div>
+                
+                <div className="flex gap-2 pt-2">
+                  <Button variant="outline" className="flex-1">
+                    <Edit className="h-4 w-4 mr-2" />
+                    Edit Details
+                  </Button>
+                  <Button variant="outline" className="text-red-600 hover:text-red-700">
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   )
 }
