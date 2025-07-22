@@ -398,11 +398,19 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                         <RadioGroupItem value="singer" id="singer-vocalist" />
                         <Label htmlFor="singer-vocalist">Singers/Vocalists: Use their voice to interpret and perform songs</Label>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className={`flex items-center space-x-2 p-3 rounded-lg border-2 transition-colors ${
+                        formData.performing_artist_type === 'instrumentalist' 
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}>
                         <RadioGroupItem value="instrumentalist" id="instrumentalist-musician" />
                         <Label htmlFor="instrumentalist-musician">Instrumentalists/Musicians: Play musical instruments (piano, guitar, violin, drums, etc.)</Label>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className={`flex items-center space-x-2 p-3 rounded-lg border-2 transition-colors ${
+                        formData.performing_artist_type === 'both' 
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}>
                         <RadioGroupItem value="both" id="singer-and-instrumentalist" />
                         <Label htmlFor="singer-and-instrumentalist">Both</Label>
                       </div>
