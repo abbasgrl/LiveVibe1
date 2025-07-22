@@ -377,15 +377,15 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="singer" id="singer" />
-                        <Label htmlFor="singer">Singer/Vocalist</Label>
+                        <Label htmlFor="singer">Singers/Vocalists: Use their voice to interpret and perform songs</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="instrumentalist" id="instrumentalist" />
-                        <Label htmlFor="instrumentalist">Instrumentalist/Musician</Label>
+                        <Label htmlFor="instrumentalist">Instrumentalists/Musicians: Play musical instruments (piano, guitar, violin, drums, etc.)</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="both" id="singer-instrumentalist" />
-                        <Label htmlFor="singer-instrumentalist">Both</Label>
+                        <RadioGroupItem value="both" id="both-performer" />
+                        <Label htmlFor="both-performer">Both</Label>
                       </div>
                     </RadioGroup>
                   </div>
