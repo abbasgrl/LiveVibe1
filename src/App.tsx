@@ -96,6 +96,7 @@ function AppContent() {
             <div className="hidden md:flex items-center gap-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium">Features</a>
               <a href="#artists" className="text-gray-600 hover:text-gray-900 font-medium">Artists</a>
+              <a href="#promoters" className="text-gray-600 hover:text-gray-900 font-medium">Promoters</a>
               <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium">Pricing</a>
               <a href="#about" className="text-gray-600 hover:text-gray-900 font-medium">About</a>
             </div>
@@ -145,6 +146,7 @@ function AppContent() {
               <div className="flex flex-col space-y-4">
                 <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium">Features</a>
                 <a href="#artists" className="text-gray-600 hover:text-gray-900 font-medium">Artists</a>
+                <a href="#promoters" className="text-gray-600 hover:text-gray-900 font-medium">Promoters</a>
                 <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium">Pricing</a>
                 <a href="#about" className="text-gray-600 hover:text-gray-900 font-medium">About</a>
                 {!user && (
@@ -213,8 +215,8 @@ function AppContent() {
                   variant="outline" 
                   className="px-8 py-4 text-lg border-2"
                 >
-                  <Search className="mr-2 h-5 w-5" />
-                  Find Artists
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Find a Promoter
                 </Button>
               </div>
               <div className="flex items-center gap-8 pt-4">
@@ -457,7 +459,7 @@ function AppContent() {
                 variant="outline" 
                 className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 text-lg"
               >
-                Find Artists
+                Find a Promoter
               </Button>
             </div>
           </div>
@@ -495,7 +497,7 @@ function AppContent() {
             <div className="space-y-4">
               <h4 className="text-lg font-semibold">For Organizers</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Browse Artists</a>
+                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Find Promoters</a>
                 <a href="#" className="block text-gray-400 hover:text-white transition-colors">Post Event</a>
                 <a href="#" className="block text-gray-400 hover:text-white transition-colors">Event Planning</a>
                 <a href="#" className="block text-gray-400 hover:text-white transition-colors">Pricing</a>
