@@ -5,7 +5,6 @@ import { UserMenu } from '@/components/auth/UserMenu';
 import { ArtistProfileSetup } from '@/components/profile/ArtistProfileSetup';
 import { ArtistProfile } from '@/components/profile/ArtistProfile';
 import { ArtUpload } from '@/components/profile/ArtUpload';
-import { ArtistSubscription } from '@/components/profile/ArtistSubscription';
 import { ArtistWheel } from '@/components/ArtistWheel';
 import { PricingPage } from '@/components/pricing/PricingPage';
 import { Toaster } from '@/components/ui/toaster';
@@ -48,7 +47,6 @@ function AppContent() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [profileSetupOpen, setProfileSetupOpen] = useState(false);
   const [artUploadOpen, setArtUploadOpen] = useState(false);
-  const [subscriptionOpen, setSubscriptionOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -150,7 +148,6 @@ function AppContent() {
                       setShowProfile(true)
                     }}
                     onArtClick={() => setArtUploadOpen(true)}
-                    onSubscriptionClick={() => setSubscriptionOpen(true)}
                   />
                 ) : (
                   <>
@@ -229,8 +226,6 @@ function AppContent() {
                 <UserMenu 
                   onProfileClick={() => setShowProfile(true)}
                   onArtClick={() => setArtUploadOpen(true)}
-                  onSubscriptionClick={() => setSubscriptionOpen(true)}
-                  onSubscriptionClick={() => setSubscriptionOpen(true)}
                 />
               ) : (
                 <>
@@ -670,14 +665,6 @@ function AppContent() {
       <ArtUpload
         isOpen={artUploadOpen}
         onClose={() => setArtUploadOpen(false)}
-      />
-      <ArtistSubscription
-        isOpen={subscriptionOpen}
-        onClose={() => setSubscriptionOpen(false)}
-      />
-      <ArtistSubscription
-        isOpen={subscriptionOpen}
-        onClose={() => setSubscriptionOpen(false)}
       />
       {showProfile && (
         <ArtUpload

@@ -10,15 +10,14 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useAuth } from '@/contexts/AuthContext'
-import { User, Settings, LogOut, Camera, CreditCard } from 'lucide-react'
+import { User, Settings, LogOut, Camera } from 'lucide-react'
 
 interface UserMenuProps {
   onProfileClick?: () => void
   onArtClick?: () => void
-  onSubscriptionClick?: () => void
 }
 
-export function UserMenu({ onProfileClick, onArtClick, onSubscriptionClick }: UserMenuProps) {
+export function UserMenu({ onProfileClick, onArtClick }: UserMenuProps) {
   const { user, signOut } = useAuth()
 
   if (!user) return null
@@ -53,10 +52,6 @@ export function UserMenu({ onProfileClick, onArtClick, onSubscriptionClick }: Us
         <DropdownMenuItem onClick={onArtClick}>
           <Camera className="mr-2 h-4 w-4" />
           <span>My Art</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={onSubscriptionClick}>
-          <CreditCard className="mr-2 h-4 w-4" />
-          <span>Subscription</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Settings className="mr-2 h-4 w-4" />
