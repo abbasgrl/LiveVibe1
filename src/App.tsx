@@ -563,6 +563,7 @@ function AppContent() {
       />
       <ArtistProfileSetup
         isOpen={profileSetupOpen}
+        existingProfile={null}
         onClose={() => setProfileSetupOpen(false)}
       />
       <Toaster />

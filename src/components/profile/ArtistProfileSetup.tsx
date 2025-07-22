@@ -16,6 +16,7 @@ import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette
 interface ArtistProfileSetupProps {
   isOpen: boolean
   onClose: () => void
+  existingProfile?: any
 }
 
 const VISUAL_ARTIST_CATEGORIES = [
@@ -44,7 +45,7 @@ const INSTRUMENTS = [
   'Electrophones (Synthesizer, electric guitar, theremin)'
 ]
 
-export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps) {
+export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistProfileSetupProps) {
   const { user } = useAuth()
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
@@ -52,27 +53,62 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
   
   // Form state
   const [formData, setFormData] = useState({
-    name: '',
-    phone_number: '',
-    city: '',
-    state: '',
-    country: '',
-    travel_distance: '',
-    profile_photo_url: '',
-    instagram: '',
-    tiktok: '',
-    pinterest: '',
-    youtube: '',
-    behance: '',
-    facebook: '',
-    linkedin: '',
-    spotify: '',
-    artist_type: '',
-    visual_artist_category: '',
-    performing_artist_type: '',
-    music_genres: [] as string[],
-    instruments: [] as string[]
+    name: existingProfile?.name || '',
+    phone_number: existingProfile?.phone_number || '',
+    city: existingProfile?.city || '',
+    state: existingProfile?.state || '',
+    country: existingProfile?.country || '',
+    travel_distance: existingProfile?.travel_distance?.toString() || '',
+    profile_photo_url: existingProfile?.profile_photo_url || '',
+    instagram: existingProfile?.instagram || '',
+    tiktok: existingProfile?.tiktok || '',
+    pinterest: existingProfile?.pinterest || '',
+    youtube: existingProfile?.youtube || '',
+    behance: existingProfile?.behance || '',
+    facebook: existingProfile?.facebook || '',
+    linkedin: existingProfile?.linkedin || '',
+    spotify: existingProfile?.spotify || '',
+    artist_type: existingProfile?.artist_type || '',
+    visual_artist_category: existingProfile?.visual_artist_category || '',
+    performing_artist_type: existingProfile?.performing_artist_type || '',
+    music_genres: existingProfile?.music_genres || [] as string[],
+    instruments: existingProfile?.instruments || [] as string[]
   })
+
+  // Update form data when existingProfile changes
+  React.useEffect(() => {
+    if (existingProfile) {
+      setFormData({
+        name: existingProfile.name || '',
+        phone_number: existingProfile.phone_number || '',
+        city: existingProfile.city || '',
+        state: existingProfile.state || '',
+        country: existingProfile.country || '',
+        travel_distance: existingProfile.travel_distance?.toString() || '',
+        profile_photo_url: existingProfile.profile_photo_url || '',
+        instagram: existingProfile.instagram || '',
+        tiktok: existingProfile.tiktok || '',
+        pinterest: existingProfile.pinterest || '',
+        youtube: existingProfile.youtube || '',
+        behance: existingProfile.behance || '',
+        facebook: existingProfile.facebook || '',
+        linkedin: existingProfile.linkedin || '',
+        spotify: existingProfile.spotify || '',
+        artist_type: existingProfile.artist_type || '',
+        visual_artist_category: existingProfile.visual_artist_category || '',
+        performing_artist_type: existingProfile.performing_artist_type || '',
+        music_genres: existingProfile.music_genres || [],
+        instruments: existingProfile.instruments || []
+      })
+    }
+  }, [existingProfile])
+
+  // Reset form when modal closes
+  React.useEffect(() => {
+    if (!isOpen) {
+      setStep(1)
+    }
+  }, [isOpen])
 
   const handleInputChange = (field: string, value: string | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -111,13 +147,13 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
 
       toast({
         title: "Success!",
-        description: "Your artist profile has been created successfully.",
+        description: existingProfile ? "Your artist profile has been updated successfully." : "Your artist profile has been created successfully.",
       })
       onClose()
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create profile",
+        description: error.message || (existingProfile ? "Failed to update profile" : "Failed to create profile"),
         variant: "destructive",
       })
     } finally {
@@ -134,7 +170,7 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <User className="h-5 w-5" />
-            Create Your Artist Profile
+            {existingProfile ? 'Edit Your Artist Profile' : 'Create Your Artist Profile'}
           </DialogTitle>
           <div className="flex items-center gap-2 mt-4">
             {[1, 2, 3, 4].map((i) => (
@@ -504,10 +540,10 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creating Profile...
+                    {existingProfile ? 'Updating Profile...' : 'Creating Profile...'}
                   </>
                 ) : (
-                  'Create Profile'
+                  {existingProfile ? 'Update Profile' : 'Create Profile'}
                 )}
               </Button>
             )}

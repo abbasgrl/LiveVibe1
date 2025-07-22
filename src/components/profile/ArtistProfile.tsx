@@ -152,12 +152,13 @@ export function ArtistProfile() {
               onClick={() => setEditModalOpen(true)}
               className="bg-blue-600 hover:bg-blue-700"
             >
-              Create Profile
+              Create Artist Profile
             </Button>
           </CardContent>
         </Card>
         <ArtistProfileSetup
           isOpen={editModalOpen}
+          existingProfile={null}
           onClose={() => {
             setEditModalOpen(false)
             fetchProfile()
@@ -396,6 +397,7 @@ export function ArtistProfile() {
 
       <ArtistProfileSetup
         isOpen={editModalOpen}
+        existingProfile={profile}
         onClose={() => {
           setEditModalOpen(false)
           fetchProfile()
