@@ -384,7 +384,7 @@ export function PricingPage() {
           <Card className="bg-white border-0 shadow-lg">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-bold text-gray-900 flex items-center justify-center gap-2">
-                <BarChart3 className="h-6 w-6 text-[hsl(var(--primary))]" />
+                <BarChart3 className="h-6 w-6 text-blue-600" />
                 Booking Commission Structure
               </CardTitle>
               <p className="text-gray-600">Transparent pricing for all bookings</p>
