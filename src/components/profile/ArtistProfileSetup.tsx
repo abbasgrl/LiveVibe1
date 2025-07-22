@@ -66,6 +66,7 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
     behance: '',
     facebook: '',
     linkedin: '',
+    spotify: '',
     artist_type: '',
     visual_artist_category: '',
     performing_artist_type: '',
@@ -309,6 +310,15 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                       value={formData.pinterest}
                       onChange={(e) => handleInputChange('pinterest', e.target.value)}
                       placeholder="Profile URL"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="spotify">Spotify</Label>
+                    <Input
+                      id="spotify"
+                      value={formData.spotify}
+                      onChange={(e) => handleInputChange('spotify', e.target.value)}
+                      placeholder="Artist profile URL"
                     />
                   </div>
                 </div>
