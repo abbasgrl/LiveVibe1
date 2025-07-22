@@ -600,7 +600,7 @@ function AppContent() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-gradient-to-r from-vibe-yellow to-vibe-orange text-vibe-purple font-bold hover:from-vibe-orange hover:to-vibe-yellow px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                className="bg-gradient-to-r from-vibe-yellow to-vibe-orange text-black font-bold hover:from-vibe-orange hover:to-vibe-yellow px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                 onClick={() => {
                   setAuthMode('signup');
                   setAuthModalOpen(true);
@@ -610,7 +610,7 @@ function AppContent() {
               </Button>
               <Button 
                 size="lg" 
-                className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 px-8 py-4 text-lg transition-all duration-300"
+                className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
               >
                 Find a Promoter
               </Button>
