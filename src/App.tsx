@@ -579,6 +579,12 @@ function AppContent() {
         isOpen={artUploadOpen}
         onClose={() => setArtUploadOpen(false)}
       />
+      {showProfile && (
+        <ArtUpload
+          isOpen={artUploadOpen}
+          onClose={() => setArtUploadOpen(false)}
+        />
+      )}
       <Toaster />
     </div>
   );

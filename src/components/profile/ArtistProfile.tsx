@@ -121,42 +121,14 @@ export function ArtistProfile() {
 
     setArtLoading(true)
     try {
-      // For now, using mock data since we don't have the art_pieces table yet
-      // In a real implementation, this would fetch from the database
-      const mockArtPieces: ArtPiece[] = [
-        {
-          id: '1',
-          title: 'Sunset Symphony',
-          description: 'A beautiful acoustic piece inspired by golden hour',
-          type: 'audio',
-          file_url: 'https://example.com/audio1.mp3',
-          file_name: 'sunset-symphony.mp3',
-          file_size: 5242880,
-          created_at: '2024-01-15T10:30:00Z'
-        },
-        {
-          id: '2',
-          title: 'Urban Landscape',
-          description: 'Digital art capturing city life',
-          type: 'image',
-          file_url: 'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?auto=compress&cs=tinysrgb&w=400',
-          file_name: 'urban-landscape.jpg',
-          file_size: 2097152,
-          created_at: '2024-01-10T14:20:00Z'
-        },
-        {
-          id: '3',
-          title: 'Live Performance',
-          description: 'Recording from my latest concert',
-          type: 'video',
-          file_url: 'https://example.com/video1.mp4',
-          file_name: 'live-performance.mp4',
-          file_size: 15728640,
-          created_at: '2024-01-05T19:45:00Z'
-        }
-      ]
-      
-      setArtPieces(mockArtPieces)
+      const { data, error } = await supabase
+        .from('art_pieces')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      setArtPieces(data || [])
     } catch (error: any) {
       toast({
         title: "Error",
@@ -165,6 +137,46 @@ export function ArtistProfile() {
       })
     } finally {
       setArtLoading(false)
+    }
+  }
+
+  const handleDeleteArtPiece = async (artPiece: ArtPiece) => {
+    if (!user) return
+
+    try {
+      // Delete from storage
+      const fileName = artPiece.file_url.split('/').pop()
+      if (fileName) {
+        const { error: storageError } = await supabase.storage
+          .from('art-pieces')
+          .remove([`${user.id}/${fileName}`])
+        
+        if (storageError) throw storageError
+      }
+
+      // Delete from database
+      const { error: dbError } = await supabase
+        .from('art_pieces')
+        .delete()
+        .eq('id', artPiece.id)
+        .eq('user_id', user.id)
+
+      if (dbError) throw dbError
+
+      // Remove from local state
+      setArtPieces(prev => prev.filter(piece => piece.id !== artPiece.id))
+      setSelectedArt(null) // Close modal if this piece was selected
+
+      toast({
+        title: "Success!",
+        description: "Art piece deleted successfully",
+      })
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete art piece",
+        variant: "destructive",
+      })
     }
   }
 
@@ -615,6 +627,82 @@ export function ArtistProfile() {
                 </Card>
               ))}
             </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {artPieces.map((piece) => (
+                <Card key={piece.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
+                  <div 
+                    className="aspect-square bg-gray-100 relative overflow-hidden"
+                    onClick={() => setSelectedArt(piece)}
+                  >
+                    {piece.type === 'image' ? (
+                      <img 
+                        src={piece.file_url} 
+                        alt={piece.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                        <div className="text-center">
+                          <div className="bg-white rounded-full p-4 mb-3 shadow-md">
+                            {getFileIcon(piece.type)}
+                          </div>
+                          <p className="text-sm font-medium text-gray-700">{piece.type.toUpperCase()}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {piece.type === 'audio' ? (
+                          <Button
+                            size="sm"
+                            className="bg-white/90 text-gray-900 hover:bg-white"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              toggleAudioPlay(piece.id)
+                            }}
+                          >
+                            {audioPlaying === piece.id ? (
+                              <Pause className="h-4 w-4" />
+                            ) : (
+                              <Play className="h-4 w-4" />
+                            )}
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            className="bg-white/90 text-gray-900 hover:bg-white"
+                          >
+                            <Eye className="h-4 w-4 mr-1" />
+                            View
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Type Badge */}
+                    <div className="absolute top-2 right-2">
+                      <Badge className="bg-white/90 text-gray-800 text-xs">
+                        {piece.type}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <CardContent className="p-4">
+                    <h4 className="font-medium text-gray-900 truncate mb-1">{piece.title}</h4>
+                    {piece.description && (
+                      <p className="text-sm text-gray-600 line-clamp-2 mb-2">{piece.description}</p>
+                    )}
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <span>{formatFileSize(piece.file_size)}</span>
+                      <span>{new Date(piece.created_at).toLocaleDateString()}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           )}
         </CardContent>
       </Card>
@@ -724,7 +812,11 @@ export function ArtistProfile() {
                     <Edit className="h-4 w-4 mr-2" />
                     Edit Details
                   </Button>
-                  <Button variant="outline" className="text-red-600 hover:text-red-700">
+                  <Button 
+                    variant="outline" 
+                    className="text-red-600 hover:text-red-700"
+                    onClick={() => handleDeleteArtPiece(selectedArt)}
+                  >
                     Delete
                   </Button>
                 </div>

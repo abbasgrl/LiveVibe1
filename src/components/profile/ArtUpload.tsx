@@ -67,9 +67,14 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
     
     setLoading(true)
     try {
-      // This would fetch from a hypothetical art_pieces table
-      // For now, we'll use mock data
-      setArtPieces([])
+      const { data, error } = await supabase
+        .from('art_pieces')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      setArtPieces(data || [])
     } catch (error: any) {
       toast({
         title: "Error",
@@ -158,8 +163,126 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
         .from('art-pieces')
         .getPublicUrl(fileName)
 
-      // Save metadata to database (would need to create art_pieces table)
-      const artPiece = {
+      // Save metadata to database
+      const { data: artPieceData, error: dbError } = await supabase
+        .from('art_pieces')
+        .insert({
+          user_id: user.id,
+          title: title.trim(),
+          description: description.trim(),
+          type: getFileType(selectedFile),
+          file_url: publicUrl,
+          file_name: selectedFile.name,
+          file_size: selectedFile.size
+        })
+        .select()
+        .single()
+
+      if (dbError) throw dbError
+
+      // Add to local state
+      if (artPieceData) {
+        setArtPieces(prev => [artPieceData, ...prev])
+      }
+
+      toast({
+        title: "Success!",
+        description: "Your art piece has been uploaded successfully",
+      })
+
+      // Reset form
+      setSelectedFile(null)
+      setTitle('')
+      setDescription('')
+      setPreviewUrl(null)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+
+    } catch (error: any) {
+      toast({
+        title: "Upload failed",
+        description: error.message || "Failed to upload your art piece",
+        variant: "destructive",
+      })
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleDeleteArtPiece = async (artPiece: ArtPiece) => {
+    if (!user) return
+
+    try {
+      // Delete from storage
+      const fileName = artPiece.file_url.split('/').pop()
+      if (fileName) {
+        const { error: storageError } = await supabase.storage
+          .from('art-pieces')
+          .remove([`${user.id}/${fileName}`])
+        
+        if (storageError) throw storageError
+      }
+
+      // Delete from database
+      const { error: dbError } = await supabase
+        .from('art_pieces')
+        .delete()
+        .eq('id', artPiece.id)
+        .eq('user_id', user.id)
+
+      if (dbError) throw dbError
+
+      // Remove from local state
+      setArtPieces(prev => prev.filter(piece => piece.id !== artPiece.id))
+
+      toast({
+        title: "Success!",
+        description: "Art piece deleted successfully",
+      })
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete art piece",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleUpdateArtPiece = async (artPiece: ArtPiece, newTitle: string, newDescription: string) => {
+    if (!user) return
+
+    try {
+      const { data, error } = await supabase
+        .from('art_pieces')
+        .update({
+          title: newTitle.trim(),
+          description: newDescription.trim()
+        })
+        .eq('id', artPiece.id)
+        .eq('user_id', user.id)
+        .select()
+        .single()
+
+      if (error) throw error
+
+      // Update local state
+      setArtPieces(prev => prev.map(piece => 
+        piece.id === artPiece.id ? data : piece
+      ))
+
+      toast({
+        title: "Success!",
+        description: "Art piece updated successfully",
+      })
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update art piece",
+        variant: "destructive",
+      })
+    }
+  }
         user_id: user.id,
         title: title.trim(),
         description: description.trim(),
@@ -419,7 +542,12 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
                           <Button variant="outline" size="sm">
                             <Edit className="h-3 w-3" />
                           </Button>
-                          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="text-red-600 hover:text-red-700"
+                            onClick={() => handleDeleteArtPiece(piece)}
+                          >
                             <Trash2 className="h-3 w-3" />
                           </Button>
                         </div>
