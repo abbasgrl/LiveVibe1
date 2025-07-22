@@ -433,15 +433,19 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
               <CardContent className="space-y-6">
                 <div className="space-y-4">
                   <Label>What genre(s) of music do you play professionally?</Label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {MUSIC_GENRES.map((genre) => (
-                      <div key={genre} className="flex items-center space-x-2">
+                      <div key={genre} className={`flex items-center space-x-2 p-3 rounded-lg border-2 transition-colors ${
+                        formData.music_genres.includes(genre)
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}>
                         <Checkbox
                           id={genre}
                           checked={formData.music_genres.includes(genre)}
                           onCheckedChange={(checked) => handleGenreChange(genre, checked as boolean)}
                         />
-                        <Label htmlFor={genre} className="text-sm">{genre}</Label>
+                        <Label htmlFor={genre} className="text-sm font-medium cursor-pointer flex-1">{genre}</Label>
                       </div>
                     ))}
                   </div>
@@ -450,7 +454,7 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                 {(formData.performing_artist_type === 'instrumentalist' || formData.performing_artist_type === 'both') && (
                   <div className="space-y-4">
                     <Label>What instrument(s) do you play professionally?</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-1 gap-3">
                       {INSTRUMENTS.map((instrument) => (
                         <div key={instrument} className={`flex items-center space-x-2 p-2 rounded-lg border transition-colors ${
                           formData.instruments.includes(instrument)
@@ -462,7 +466,7 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                             checked={formData.instruments.includes(instrument)}
                             onCheckedChange={(checked) => handleInstrumentChange(instrument, checked as boolean)}
                           />
-                          <Label htmlFor={instrument} className="text-sm">{instrument}</Label>
+                          <Label htmlFor={instrument} className="text-sm font-medium cursor-pointer flex-1">{instrument}</Label>
                         </div>
                       ))}
                     </div>
