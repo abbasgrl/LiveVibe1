@@ -11,7 +11,6 @@ import {
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useAuth } from '@/contexts/AuthContext'
 import { User, Settings, LogOut, Music } from 'lucide-react'
-import React from 'react'
 
 interface UserMenuProps {
   onProfileClick?: () => void
