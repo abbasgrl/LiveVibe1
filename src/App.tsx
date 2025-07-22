@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { UserMenu } from '@/components/auth/UserMenu';
+import { ArtistProfileSetup } from '@/components/profile/ArtistProfileSetup';
 import { ArtistWheel } from '@/components/ArtistWheel';
 import { Toaster } from '@/components/ui/toaster';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,6 +42,7 @@ import {
 function AppContent() {
   const [selectedTab, setSelectedTab] = useState('search');
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [profileSetupOpen, setProfileSetupOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, loading } = useAuth();
@@ -200,7 +202,7 @@ function AppContent() {
                   className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
                   onClick={() => {
                     if (user) {
-                      // Navigate to profile creation
+                      setProfileSetupOpen(true);
                     } else {
                       setAuthMode('signup');
                       setAuthModalOpen(true);
@@ -525,6 +527,10 @@ function AppContent() {
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         initialMode={authMode}
+      />
+      <ArtistProfileSetup
+        isOpen={profileSetupOpen}
+        onClose={() => setProfileSetupOpen(false)}
       />
       <Toaster />
     </div>
