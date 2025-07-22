@@ -313,22 +313,16 @@ function AppContent() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-vibe-purple via-vibe-magenta to-vibe-pink py-20 lg:py-32 relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-vibe-yellow rounded-full blur-xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 bg-vibe-orange rounded-full blur-xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-vibe-pink rounded-full blur-xl animate-pulse delay-500"></div>
-        </div>
+      <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-6">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                   Connect Artists with 
-                  <span className="text-vibe-yellow"> Perfect Events</span>
+                  <span className="text-blue-600"> Perfect Events</span>
                 </h1>
-                <p className="text-xl text-white/90 leading-relaxed">
+                <p className="text-xl text-gray-600 leading-relaxed">
                   Live Vibe is the premier platform connecting talented artists with event organizers. 
                   Discover, book, and manage live performances with ease.
                 </p>
@@ -336,11 +330,11 @@ function AppContent() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-vibe-yellow to-vibe-orange hover:from-vibe-orange hover:to-vibe-yellow text-vibe-purple font-bold px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
                   onClick={() => {
                     if (user) {
                       setProfileSetupOpen(true);
-                  className="bg-gradient-to-r from-vibe-purple to-vibe-magenta hover:from-vibe-magenta hover:to-vibe-pink text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                    } else {
                       setAuthMode('signup');
                       setAuthModalOpen(true);
                     }
@@ -351,7 +345,8 @@ function AppContent() {
                 </Button>
                 <Button 
                   size="lg" 
-                  className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 px-8 py-4 text-lg transition-all duration-300"
+                  variant="outline" 
+                  className="px-8 py-4 text-lg border-2"
                 >
                   <Calendar className="mr-2 h-5 w-5" />
                   Find a Promoter
@@ -359,16 +354,16 @@ function AppContent() {
               </div>
               <div className="flex items-center gap-8 pt-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-white">10K+</div>
-                  <div className="text-sm text-white/80">Active Artists</div>
+                  <div className="text-2xl font-bold text-gray-900">10K+</div>
+                  <div className="text-sm text-gray-600">Active Artists</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-white">50K+</div>
-                  <div className="text-sm text-white/80">Events Booked</div>
+                  <div className="text-2xl font-bold text-gray-900">50K+</div>
+                  <div className="text-sm text-gray-600">Events Booked</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-white">95%</div>
-                  <div className="text-sm text-white/80">Success Rate</div>
+                  <div className="text-2xl font-bold text-gray-900">95%</div>
+                  <div className="text-sm text-gray-600">Success Rate</div>
                 </div>
               </div>
             </div>
@@ -395,40 +390,40 @@ function AppContent() {
                 title: "Smart Matching", 
                 description: "AI-powered algorithm matches artists with perfect events based on genre, location, and budget",
                 icon: Zap,
-                color: "bg-gradient-to-br from-vibe-purple/10 to-vibe-magenta/10 text-vibe-purple border border-vibe-purple/20"
+                color: "bg-blue-100 text-blue-600"
               },
               { 
                 title: "Secure Booking", 
                 description: "Safe and secure booking system with escrow payments and contract management",
                 icon: Shield,
-                color: "bg-gradient-to-br from-vibe-magenta/10 to-vibe-pink/10 text-vibe-magenta border border-vibe-magenta/20"
+                color: "bg-green-100 text-green-600"
               },
               { 
                 title: "Global Reach", 
                 description: "Connect with artists and events worldwide through our international platform",
                 icon: Globe,
-                color: "bg-gradient-to-br from-vibe-pink/10 to-vibe-orange/10 text-vibe-pink border border-vibe-pink/20"
+                color: "bg-purple-100 text-purple-600"
               },
               { 
                 title: "Mobile First", 
                 description: "Manage bookings, communicate, and track events on-the-go with our mobile app",
                 icon: Smartphone,
-                color: "bg-gradient-to-br from-vibe-orange/10 to-vibe-yellow/10 text-vibe-orange border border-vibe-orange/20"
+                color: "bg-orange-100 text-orange-600"
               },
               { 
                 title: "Live Streaming", 
                 description: "Stream performances live to expand your audience and create hybrid events",
                 icon: Radio,
-                color: "bg-gradient-to-br from-vibe-yellow/10 to-vibe-purple/10 text-vibe-yellow border border-vibe-yellow/20"
+                color: "bg-red-100 text-red-600"
               },
               { 
                 title: "Analytics", 
                 description: "Detailed insights and analytics to help artists and organizers make data-driven decisions",
                 icon: Trophy,
-                color: "bg-gradient-to-br from-vibe-purple/10 to-vibe-pink/10 text-vibe-purple border border-vibe-purple/20"
+                color: "bg-teal-100 text-teal-600"
               }
             ].map((feature, idx) => (
-              <Card key={idx} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 bg-white/95 backdrop-blur-sm">
+              <Card key={idx} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <CardContent className="p-8 text-center space-y-4">
                   <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full ${feature.color} mb-4`}>
                     <feature.icon className="h-8 w-8" />
@@ -443,12 +438,7 @@ function AppContent() {
       </section>
 
       {/* Artist Showcase */}
-      <section id="artists" className="py-20 bg-gradient-to-br from-gray-50 to-white relative">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 right-20 w-64 h-64 bg-gradient-to-br from-vibe-purple to-vibe-magenta rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 left-20 w-48 h-48 bg-gradient-to-br from-vibe-orange to-vibe-yellow rounded-full blur-3xl"></div>
-        </div>
+      <section id="artists" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Featured Artists</h2>
@@ -459,24 +449,22 @@ function AppContent() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {artists.map((artist, idx) => (
-              <Card key={idx} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-105 bg-white/95 backdrop-blur-sm">
+              <Card key={idx} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
                 <div className="relative">
                   <img 
                     src={artist.image} 
                     alt={artist.name}
                     className="w-full h-48 object-cover"
                   />
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                   <div className="absolute top-4 right-4">
                     {artist.verified && (
-                      <Badge className="bg-gradient-to-r from-vibe-purple to-vibe-magenta text-white shadow-lg">
+                      <Badge className="bg-blue-600 hover:bg-blue-700 text-white">
                         Verified
                       </Badge>
                     )}
                   </div>
                   <div className="absolute top-4 left-4">
-                    <Badge className="bg-gradient-to-r from-vibe-yellow to-vibe-orange text-vibe-purple font-bold shadow-lg">
+                    <Badge variant="secondary" className="bg-white/90 text-gray-800">
                       {artist.price}
                     </Badge>
                   </div>
@@ -484,10 +472,10 @@ function AppContent() {
                 <CardContent className="p-6 space-y-4">
                   <div className="space-y-2">
                     <h3 className="text-xl font-bold text-gray-900">{artist.name}</h3>
-                    <p className="text-vibe-magenta font-medium">{artist.genre}</p>
+                    <p className="text-blue-600 font-medium">{artist.genre}</p>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
                       <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-vibe-yellow text-vibe-yellow" />
+                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                         <span className="font-medium">{artist.rating}</span>
                       </div>
                       <div className="flex items-center gap-1">
@@ -498,11 +486,11 @@ function AppContent() {
                   </div>
                   <div className="flex gap-2">
                     <Button 
-                      className="flex-1 bg-gradient-to-r from-vibe-purple to-vibe-magenta hover:from-vibe-magenta hover:to-vibe-pink text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                      className="flex-1 bg-blue-600 hover:bg-blue-700"
                     >
                       Book Now
                     </Button>
-                    <Button variant="outline" size="icon" className="border-vibe-pink text-vibe-pink hover:bg-vibe-pink hover:text-white">
+                    <Button variant="outline" size="icon">
                       <Heart className="h-4 w-4" />
                     </Button>
                   </div>
@@ -514,7 +502,8 @@ function AppContent() {
           <div className="text-center mt-12">
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-vibe-orange to-vibe-yellow text-vibe-purple font-bold border-2 border-vibe-orange hover:from-vibe-yellow hover:to-vibe-orange shadow-lg hover:shadow-xl transition-all duration-300"
+              variant="outline" 
+              className="border-2"
             >
               View All Artists
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -539,37 +528,33 @@ function AppContent() {
                 step: 1, 
                 title: "Create Profile", 
                 description: "Artists create detailed profiles showcasing their talent and availability",
-                icon: Users,
-                color: "from-vibe-purple to-vibe-magenta"
+                icon: Users
               },
               { 
                 step: 2, 
                 title: "Get Discovered", 
                 description: "Event organizers browse and discover artists that match their needs",
-                icon: Search,
-                color: "from-vibe-magenta to-vibe-pink"
+                icon: Search
               },
               { 
                 step: 3, 
                 title: "Book & Pay", 
                 description: "Secure booking with integrated payment processing and contracts",
-                icon: Calendar,
-                color: "from-vibe-pink to-vibe-orange"
+                icon: Calendar
               },
               { 
                 step: 4, 
                 title: "Perform & Review", 
                 description: "Successful events lead to reviews and repeat bookings",
-                icon: Star,
-                color: "from-vibe-orange to-vibe-yellow"
+                icon: Star
               }
             ].map((item, idx) => (
               <div key={idx} className="text-center space-y-4">
                 <div className="relative">
-                  <div className={`bg-gradient-to-br ${item.color} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg`}>
+                  <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <item.icon className="h-8 w-8 text-white" />
                   </div>
-                  <div className="absolute -top-2 -right-2 bg-white text-vibe-purple w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-lg border-2 border-vibe-purple">
+                  <div className="absolute -top-2 -right-2 bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
                     {item.step}
                   </div>
                 </div>
@@ -582,25 +567,19 @@ function AppContent() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-vibe-purple via-vibe-magenta to-vibe-pink relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-10 left-20 w-40 h-40 bg-vibe-yellow rounded-full blur-2xl animate-pulse"></div>
-          <div className="absolute bottom-10 right-20 w-32 h-32 bg-vibe-orange rounded-full blur-2xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 w-28 h-28 bg-white rounded-full blur-2xl animate-pulse delay-500"></div>
-        </div>
+      <section className="py-20 bg-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8">
             <h2 className="text-3xl md:text-4xl font-bold text-white">
               Ready to Get Started?
             </h2>
-            <p className="text-xl text-white/90 max-w-2xl mx-auto">
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto">
               Join thousands of artists and event organizers who trust Live Vibe for their booking needs
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-gradient-to-r from-vibe-yellow to-vibe-orange text-black font-bold hover:from-vibe-orange hover:to-vibe-yellow px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg"
                 onClick={() => {
                   setAuthMode('signup');
                   setAuthModalOpen(true);
@@ -610,7 +589,8 @@ function AppContent() {
               </Button>
               <Button 
                 size="lg" 
-                className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
+                variant="outline" 
+                className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 text-lg"
               >
                 Find a Promoter
               </Button>

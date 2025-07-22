@@ -100,7 +100,7 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
     <Card className="w-full max-w-md mx-auto shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
       <CardHeader className="space-y-1 text-center">
         <div className="flex items-center justify-center mb-4">
-          <div className="bg-gradient-to-r from-vibe-purple to-vibe-magenta w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+          <div className="bg-gradient-to-r from-purple-600 to-teal-500 w-12 h-12 rounded-full flex items-center justify-center">
             <User className="h-6 w-6 text-white" />
           </div>
         </div>
@@ -182,7 +182,7 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-vibe-purple to-vibe-magenta hover:from-vibe-magenta hover:to-vibe-pink h-12 rounded-xl text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+            className="w-full bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 h-12 rounded-xl text-lg font-medium"
           >
             {loading ? (
               <>
@@ -199,7 +199,7 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
             Already have an account?{' '}
             <button
               onClick={onToggleMode}
-              className="text-vibe-magenta hover:text-vibe-pink font-medium transition-colors duration-200"
+              className="text-purple-600 hover:text-purple-700 font-medium"
             >
               Sign in
             </button>

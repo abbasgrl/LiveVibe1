@@ -29,7 +29,7 @@ export function UserMenu({ onProfileClick, onArtClick }: UserMenuProps) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
-            <AvatarFallback className="bg-gradient-to-r from-vibe-purple to-vibe-magenta text-white">
+            <AvatarFallback className="bg-gradient-to-r from-purple-600 to-teal-500 text-white">
               {initials}
             </AvatarFallback>
           </Avatar>
