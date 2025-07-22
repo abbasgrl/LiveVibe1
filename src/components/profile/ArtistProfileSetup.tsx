@@ -388,34 +388,21 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                     <RadioGroup
                       value={formData.performing_artist_type}
                       onValueChange={(value) => handleInputChange('performing_artist_type', value)}
-                     className="space-y-3"
-                     className="space-y-3"
+                      className="space-y-3"
                     >
                       <div className={`flex items-center space-x-2 p-3 rounded-lg border-2 transition-colors ${
                         formData.performing_artist_type === 'singer' 
                           ? 'border-blue-500 bg-blue-50' 
                           : 'border-gray-200 hover:border-gray-300'
                       }`}>
-                      formData.artist_type === 'visual' 
-                        ? 'border-blue-500 bg-blue-50' 
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}>
                         <RadioGroupItem value="singer" id="singer-vocalist" />
                         <Label htmlFor="singer-vocalist">Singers/Vocalists: Use their voice to interpret and perform songs</Label>
                       </div>
-                      <div className={`flex items-center space-x-2 p-3 rounded-lg border-2 transition-colors ${
-                        formData.performing_artist_type === 'instrumentalist' 
-                          ? 'border-blue-500 bg-blue-50' 
-                          : 'border-gray-200 hover:border-gray-300'
-                      }`}>
+                      <div className="flex items-center space-x-2">
                         <RadioGroupItem value="instrumentalist" id="instrumentalist-musician" />
                         <Label htmlFor="instrumentalist-musician">Instrumentalists/Musicians: Play musical instruments (piano, guitar, violin, drums, etc.)</Label>
                       </div>
-                      <div className={`flex items-center space-x-2 p-3 rounded-lg border-2 transition-colors ${
-                        formData.performing_artist_type === 'both' 
-                          ? 'border-blue-500 bg-blue-50' 
-                          : 'border-gray-200 hover:border-gray-300'
-                      }`}>
+                      <div className="flex items-center space-x-2">
                         <RadioGroupItem value="both" id="singer-and-instrumentalist" />
                         <Label htmlFor="singer-and-instrumentalist">Both</Label>
                       </div>
@@ -455,17 +442,9 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                 {(formData.performing_artist_type === 'instrumentalist' || formData.performing_artist_type === 'both') && (
                   <div className="space-y-4">
                     <Label>What instrument(s) do you play professionally?</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {INSTRUMENTS.map((instrument) => (
-                        <div key={instrument} className={`flex items-center space-x-2 p-2 rounded-lg border transition-colors ${
-                          formData.instruments.includes(instrument)
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-gray-300'
-                        }`}>
-                          formData.music_genres.includes(genre)
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-gray-300'
-                        }`}>
+                        <div key={instrument} className="flex items-center space-x-2">
                           <Checkbox
                             id={instrument}
                             checked={formData.instruments.includes(instrument)}
@@ -475,11 +454,7 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                         </div>
                       ))}
                     </div>
-                    <div className={`flex items-center space-x-2 p-3 rounded-lg border-2 transition-colors ${
-                      formData.artist_type === 'performing' 
-                        ? 'border-blue-500 bg-blue-50' 
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}>
+                  </div>
                 )}
               </CardContent>
             </Card>
