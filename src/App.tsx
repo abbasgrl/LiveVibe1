@@ -5,7 +5,6 @@ import { UserMenu } from '@/components/auth/UserMenu';
 import { ArtistProfileSetup } from '@/components/profile/ArtistProfileSetup';
 import { ArtistProfile } from '@/components/profile/ArtistProfile';
 import { ArtUpload } from '@/components/profile/ArtUpload';
-import { PromoterProfileSetup } from '@/components/profile/PromoterProfileSetup';
 import { ArtistWheel } from '@/components/ArtistWheel';
 import { PricingPage } from '@/components/pricing/PricingPage';
 import { Toaster } from '@/components/ui/toaster';
@@ -47,7 +46,6 @@ function AppContent() {
   const [selectedTab, setSelectedTab] = useState('search');
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [profileSetupOpen, setProfileSetupOpen] = useState(false);
-  const [promoterSetupOpen, setPromoterSetupOpen] = useState(false);
   const [artUploadOpen, setArtUploadOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
@@ -352,17 +350,9 @@ function AppContent() {
                   size="lg" 
                   variant="outline" 
                   className="px-8 py-4 text-lg border-2"
-                  onClick={() => {
-                    if (user) {
-                      setPromoterSetupOpen(true);
-                    } else {
-                      setAuthMode('signup');
-                      setAuthModalOpen(true);
-                    }
-                  }}
                 >
                   <Calendar className="mr-2 h-5 w-5" />
-                  {user ? 'Create Promoter Profile' : 'Join as Promoter'}
+                  Find a Promoter
                 </Button>
               </div>
               <div className="flex items-center gap-8 pt-4">
@@ -604,16 +594,8 @@ function AppContent() {
                 size="lg" 
                 variant="outline" 
                 className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 text-lg"
-                onClick={() => {
-                  if (user) {
-                    setPromoterSetupOpen(true);
-                  } else {
-                    setAuthMode('signup');
-                    setAuthModalOpen(true);
-                  }
-                }}
               >
-                {user ? 'Create Promoter Profile' : 'Join as Promoter'}
+                Find a Promoter
               </Button>
             </div>
           </div>
@@ -684,11 +666,6 @@ function AppContent() {
         isOpen={profileSetupOpen}
         existingProfile={null}
         onClose={() => setProfileSetupOpen(false)}
-      />
-      <PromoterProfileSetup
-        isOpen={promoterSetupOpen}
-        existingProfile={null}
-        onClose={() => setPromoterSetupOpen(false)}
       />
       <ArtUpload
         isOpen={artUploadOpen}
