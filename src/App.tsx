@@ -6,6 +6,7 @@ import { ArtistProfileSetup } from '@/components/profile/ArtistProfileSetup';
 import { ArtistProfile } from '@/components/profile/ArtistProfile';
 import { ArtUpload } from '@/components/profile/ArtUpload';
 import { ArtistWheel } from '@/components/ArtistWheel';
+import { PricingPage } from '@/components/pricing/PricingPage';
 import { Toaster } from '@/components/ui/toaster';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -49,6 +50,7 @@ function AppContent() {
   const [showProfile, setShowProfile] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
   const { user, loading } = useAuth();
 
   const artists = [
@@ -116,6 +118,78 @@ function AppContent() {
     )
   }
 
+  // Show pricing page
+  if (showPricing) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => setShowPricing(false)}
+                  className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                >
+                  <img 
+                    src="/LIVE VIBE.png" 
+                    alt="Live Vibe Logo" 
+                    className="h-8 w-8 object-contain"
+                  />
+                  <span className="text-xl font-bold text-gray-900">
+                    Live Vibe
+                  </span>
+                </button>
+              </div>
+              <div className="flex items-center gap-4">
+                {user ? (
+                  <UserMenu 
+                    onProfileClick={() => {
+                      setShowPricing(false)
+                      setShowProfile(true)
+                    }}
+                    onArtClick={() => setArtUploadOpen(true)}
+                  />
+                ) : (
+                  <>
+                    <Button 
+                      variant="ghost" 
+                      onClick={() => {
+                        setAuthMode('signin');
+                        setAuthModalOpen(true);
+                      }}
+                    >
+                      Sign In
+                    </Button>
+                    <Button 
+                      className="bg-blue-600 hover:bg-blue-700 text-white"
+                      onClick={() => {
+                        setAuthMode('signup');
+                        setAuthModalOpen(true);
+                      }}
+                    >
+                      Get Started
+                    </Button>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </nav>
+        <PricingPage />
+        <AuthModal 
+          isOpen={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          initialMode={authMode}
+        />
+        <ArtUpload
+          isOpen={artUploadOpen}
+          onClose={() => setArtUploadOpen(false)}
+        />
+        <Toaster />
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -138,7 +212,12 @@ function AppContent() {
               <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium">Features</a>
               <a href="#artists" className="text-gray-600 hover:text-gray-900 font-medium">Artists</a>
               <a href="#promoters" className="text-gray-600 hover:text-gray-900 font-medium">Promoters</a>
-              <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium">Pricing</a>
+              <button 
+                onClick={() => setShowPricing(true)}
+                className="text-gray-600 hover:text-gray-900 font-medium"
+              >
+                Pricing
+              </button>
               <a href="#about" className="text-gray-600 hover:text-gray-900 font-medium">About</a>
             </div>
 
@@ -191,7 +270,15 @@ function AppContent() {
                 <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium">Features</a>
                 <a href="#artists" className="text-gray-600 hover:text-gray-900 font-medium">Artists</a>
                 <a href="#promoters" className="text-gray-600 hover:text-gray-900 font-medium">Promoters</a>
-                <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium">Pricing</a>
+                <button 
+                  onClick={() => {
+                    setShowPricing(true)
+                    setMobileMenuOpen(false)
+                  }}
+                  className="text-gray-600 hover:text-gray-900 font-medium text-left"
+                >
+                  Pricing
+                </button>
                 <a href="#about" className="text-gray-600 hover:text-gray-900 font-medium">About</a>
                 {!user && (
                   <div className="flex flex-col gap-2 pt-4 border-t border-gray-100">
