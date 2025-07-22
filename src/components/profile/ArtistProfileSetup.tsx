@@ -450,9 +450,13 @@ export function ArtistProfileSetup({ isOpen, onClose }: ArtistProfileSetupProps)
                 {(formData.performing_artist_type === 'instrumentalist' || formData.performing_artist_type === 'both') && (
                   <div className="space-y-4">
                     <Label>What instrument(s) do you play professionally?</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {INSTRUMENTS.map((instrument) => (
-                        <div key={instrument} className="flex items-center space-x-2">
+                        <div key={instrument} className={`flex items-center space-x-2 p-2 rounded-lg border transition-colors ${
+                          formData.instruments.includes(instrument)
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}>
                           <Checkbox
                             id={instrument}
                             checked={formData.instruments.includes(instrument)}
