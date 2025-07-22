@@ -53,9 +53,6 @@ function AppContent() {
   const [showPricing, setShowPricing] = useState(false);
   const { user, loading } = useAuth();
 
-  // Import PricingPage component
-  const { PricingPage } = require('@/components/pricing/PricingPage');
-
   const artists = [
     {
       name: "Luna Martinez",
