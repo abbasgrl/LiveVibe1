@@ -55,7 +55,6 @@ function AppContent() {
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
-  const [aiStudioOpen, setAiStudioOpen] = useState(false);
   const { user, loading } = useAuth();
 
   const artists = [
