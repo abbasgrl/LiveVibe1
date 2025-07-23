@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
 import { supabase } from '@/lib/supabase'
+import { KlingAPI } from '@/lib/kling-api'
 import { 
   Upload, 
   Music, 
@@ -390,24 +391,8 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
         description: "Your AI music video is being generated. This may take a few minutes.",
       })
 
-      // Simulate AI processing (in real implementation, this would be handled by backend)
-      setTimeout(async () => {
-        await supabase
-          .from('ai_projects')
-          .update({ 
-            status: 'completed',
-            output_video_url: 'https://example.com/generated-video.mp4',
-            completed_at: new Date().toISOString()
-          })
-          .eq('id', project.id)
-        
-        fetchProjects()
-        
-        toast({
-          title: "Video generated!",
-          description: "Your AI music video is ready for preview and upload to YouTube.",
-        })
-      }, 10000) // 10 seconds for demo
+      // Start Kling AI video generation
+      generateVideoWithKling(project)
 
     } catch (error: any) {
       toast({
@@ -417,6 +402,136 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
       })
     } finally {
       setCreating(false)
+    }
+  }
+
+  const generateVideoWithKling = async (project: AIProject) => {
+    try {
+      // Generate prompt from project data
+      const prompt = KlingAPI.generateVideoPrompt({
+        lyrics: project.lyrics,
+        mood: project.mood,
+        theme: project.theme,
+        style: project.style,
+        description: project.description
+      })
+
+      const negativePrompt = KlingAPI.generateNegativePrompt()
+
+      // Create Kling AI video generation task
+      const videoRequest = {
+        prompt,
+        negative_prompt: negativePrompt,
+        cfg_scale: 7.5,
+        mode: 'pro' as const,
+        aspect_ratio: '16:9' as const,
+        duration: 10 as const,
+        camera_control: {
+          type: 'horizontal' as const
+        }
+      }
+
+      const response = await KlingAPI.createVideoTask(videoRequest)
+
+      if (response.code !== 200) {
+        throw new Error(`Kling AI error: ${response.message}`)
+      }
+
+      const taskId = response.data.task_id
+
+      // Update project with task ID
+      await supabase
+        .from('ai_projects')
+        .update({ 
+          kling_task_id: taskId,
+          status: 'processing'
+        })
+        .eq('id', project.id)
+
+      // Start polling for completion
+      pollKlingTask(project.id, taskId)
+
+    } catch (error: any) {
+      console.error('Kling AI generation error:', error)
+      
+      // Update project status to failed
+      await supabase
+        .from('ai_projects')
+        .update({ 
+          status: 'failed',
+          error_message: error.message
+        })
+        .eq('id', project.id)
+
+      fetchProjects()
+
+      toast({
+        title: "Video generation failed",
+        description: error.message || "Failed to generate video with Kling AI",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const pollKlingTask = async (projectId: string, taskId: string) => {
+    try {
+      const result = await KlingAPI.pollTaskCompletion(taskId)
+
+      if (result.data.task_status === 'succeed' && result.data.task_result?.videos?.[0]) {
+        const videoUrl = result.data.task_result.videos[0].url
+
+        // Update project with completed video
+        await supabase
+          .from('ai_projects')
+          .update({ 
+            status: 'completed',
+            output_video_url: videoUrl,
+            completed_at: new Date().toISOString()
+          })
+          .eq('id', projectId)
+
+        fetchProjects()
+
+        toast({
+          title: "Video generated!",
+          description: "Your AI music video has been generated successfully with Kling AI!",
+        })
+      } else {
+        // Task failed
+        await supabase
+          .from('ai_projects')
+          .update({ 
+            status: 'failed',
+            error_message: result.data.task_status_msg || 'Video generation failed'
+          })
+          .eq('id', projectId)
+
+        fetchProjects()
+
+        toast({
+          title: "Video generation failed",
+          description: result.data.task_status_msg || "Video generation failed",
+          variant: "destructive",
+        })
+      }
+    } catch (error: any) {
+      console.error('Kling task polling error:', error)
+      
+      await supabase
+        .from('ai_projects')
+        .update({ 
+          status: 'failed',
+          error_message: error.message
+        })
+        .eq('id', projectId)
+
+      fetchProjects()
+
+      toast({
+        title: "Video generation failed",
+        description: error.message || "Failed to complete video generation",
+        variant: "destructive",
+      })
     }
   }
 
