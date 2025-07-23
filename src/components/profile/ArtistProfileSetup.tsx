@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
 import { supabase } from '@/lib/supabase'
-import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette, Crown, Star, Zap } from 'lucide-react'
+import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette, Crown, Star, Zap, X, Image } from 'lucide-react'
 
 interface ArtistProfileSetupProps {
   isOpen: boolean
@@ -107,7 +107,9 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
   const { user } = useAuth()
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
   const [step, setStep] = useState(1)
+  const photoInputRef = React.useRef<HTMLInputElement>(null)
   
   // Form state
   const [formData, setFormData] = useState({
@@ -187,6 +189,71 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
       setFormData(prev => ({ ...prev, instruments: [...prev.instruments, instrument] }))
     } else {
       setFormData(prev => ({ ...prev, instruments: prev.instruments.filter(i => i !== instrument) }))
+    }
+  }
+
+  const handlePhotoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file || !user) return
+
+    // Check file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid file type",
+        description: "Please select an image file",
+        variant: "destructive",
+      })
+      return
+    }
+
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Please select an image smaller than 5MB",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setUploadingPhoto(true)
+    try {
+      // Upload to Supabase Storage
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${user.id}/profile.${fileExt}`
+      
+      const { data, error } = await supabase.storage
+        .from('profile-photos')
+        .upload(fileName, file, { upsert: true })
+
+      if (error) throw error
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('profile-photos')
+        .getPublicUrl(fileName)
+
+      setFormData(prev => ({ ...prev, profile_photo_url: publicUrl }))
+      
+      toast({
+        title: "Success!",
+        description: "Profile photo uploaded successfully",
+      })
+    } catch (error: any) {
+      toast({
+        title: "Upload failed",
+        description: error.message || "Failed to upload profile photo",
+        variant: "destructive",
+      })
+    } finally {
+      setUploadingPhoto(false)
+    }
+  }
+
+  const removePhoto = () => {
+    setFormData(prev => ({ ...prev, profile_photo_url: '' }))
+    if (photoInputRef.current) {
+      photoInputRef.current.value = ''
     }
   }
 
@@ -367,12 +434,58 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
 
                 <div className="space-y-2">
                   <Label htmlFor="photo">Profile Photo URL</Label>
-                  <Input
-                    id="photo"
-                    value={formData.profile_photo_url}
-                    onChange={(e) => handleInputChange('profile_photo_url', e.target.value)}
-                    placeholder="https://example.com/photo.jpg"
-                  />
+                  <div className="space-y-3">
+                    {formData.profile_photo_url ? (
+                      <div className="flex items-center gap-4 p-4 border rounded-lg bg-gray-50">
+                        <img 
+                          src={formData.profile_photo_url} 
+                          alt="Profile preview" 
+                          className="w-16 h-16 rounded-full object-cover"
+                        />
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-900">Profile photo uploaded</p>
+                          <p className="text-sm text-gray-600">Your profile photo is ready</p>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={removePhoto}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                        <input
+                          ref={photoInputRef}
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePhotoUpload}
+                          className="hidden"
+                          id="photo-upload"
+                        />
+                        <label htmlFor="photo-upload" className="cursor-pointer">
+                          <Camera className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                          <p className="text-sm font-medium text-gray-700 mb-1">
+                            Upload Profile Photo
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            JPG, PNG up to 5MB
+                          </p>
+                        </label>
+                      </div>
+                    )}
+                    
+                    <div className="text-center text-sm text-gray-500">or</div>
+                    
+                    <Input
+                      id="photo-url"
+                      value={formData.profile_photo_url}
+                      onChange={(e) => handleInputChange('profile_photo_url', e.target.value)}
+                      placeholder="Enter photo URL"
+                    />
+                  </div>
                 </div>
               </CardContent>
             </Card>
