@@ -55,6 +55,7 @@ function AppContent() {
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
+  const [aiStudioOpen, setAiStudioOpen] = useState(false);
   const { user, loading } = useAuth();
 
   const artists = [
@@ -153,9 +154,10 @@ function AppContent() {
                         setShowProfile(true)
                       }}
                       onArtClick={() => setArtUploadOpen(true)}
-                      onAiStudioClick={() => setAiStudioOpen(true)}
-                      onAiStudioClick={() => setAiStudioOpen(true)}
-                      onAiStudioClick={() => setAiStudioOpen(true)}
+                      onAiStudioClick={() => {
+                        setShowPricing(false)
+                        setAiStudioOpen(true)
+                      }}
                     />
                   ) : (
                     <>
@@ -235,6 +237,8 @@ function AppContent() {
                 <UserMenu 
                   onProfileClick={() => setShowProfile(true)}
                   onArtClick={() => setArtUploadOpen(true)}
+                  onAiStudioClick={() => setAiStudioOpen(true)}
+                  onAiStudioClick={() => setAiStudioOpen(true)}
                 />
               ) : (
                 <>
@@ -700,12 +704,6 @@ function AppContent() {
         isOpen={aiStudioOpen}
         onClose={() => setAiStudioOpen(false)}
       />
-      {showProfile && (
-        <ArtUpload
-          isOpen={artUploadOpen}
-          onClose={() => setArtUploadOpen(false)}
-        />
-      )}
       <Toaster />
     </div>
   );
