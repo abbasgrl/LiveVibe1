@@ -9,6 +9,7 @@ import { PromoterProfileSetup } from '@/components/profile/PromoterProfileSetup'
 import { AIShowcaseStudio } from '@/components/ai-studio/AIShowcaseStudio';
 import { ArtistWheel } from '@/components/ArtistWheel';
 import { PricingPage } from '@/components/pricing/PricingPage';
+import { EventBookingSystem } from '@/components/booking/EventBookingSystem';
 import { Toaster } from '@/components/ui/toaster';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -52,6 +53,7 @@ function AppContent() {
   const [artUploadOpen, setArtUploadOpen] = useState(false);
   const [aiStudioOpen, setAiStudioOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [bookingSystemOpen, setBookingSystemOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
@@ -157,6 +159,10 @@ function AppContent() {
                         setShowPricing(false)
                         setAiStudioOpen(true)
                       }}
+                      onBookingClick={() => {
+                        setShowPricing(false)
+                        setBookingSystemOpen(true)
+                      }}
                     />
                   ) : (
                     <>
@@ -236,8 +242,9 @@ function AppContent() {
                 <UserMenu 
                   onProfileClick={() => setShowProfile(true)}
                   onArtClick={() => setArtUploadOpen(true)}
-                  onAiStudioClick={() => setAiStudioOpen(true)}
-                  onAiStudioClick={() => setAiStudioOpen(true)}
+                  onBookingClick={() => setBookingSystemOpen(true)}
+                  onBookingClick={() => setBookingSystemOpen(true)}
+                  onBookingClick={() => setBookingSystemOpen(true)}
                 />
               ) : (
                 <>
@@ -702,6 +709,10 @@ function AppContent() {
       <AIShowcaseStudio
         isOpen={aiStudioOpen}
         onClose={() => setAiStudioOpen(false)}
+      />
+      <EventBookingSystem
+        isOpen={bookingSystemOpen}
+        onClose={() => setBookingSystemOpen(false)}
       />
       <Toaster />
     </div>

@@ -10,15 +10,16 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useAuth } from '@/contexts/AuthContext'
-import { User, Settings, LogOut, Camera, Sparkles, Wand2 } from 'lucide-react'
+import { User, Settings, LogOut, Camera, Sparkles, Wand2, Calendar } from 'lucide-react'
 
 interface UserMenuProps {
   onProfileClick?: () => void
   onArtClick?: () => void
   onAiStudioClick?: () => void
+  onBookingClick?: () => void
 }
 
-export function UserMenu({ onProfileClick, onArtClick, onAiStudioClick }: UserMenuProps) {
+export function UserMenu({ onProfileClick, onArtClick, onAiStudioClick, onBookingClick }: UserMenuProps) {
   const { user, signOut } = useAuth()
 
   if (!user) return null
@@ -57,6 +58,10 @@ export function UserMenu({ onProfileClick, onArtClick, onAiStudioClick }: UserMe
         <DropdownMenuItem onClick={onAiStudioClick}>
           <Wand2 className="mr-2 h-4 w-4" />
           <span>AI Showcase Studio</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={onBookingClick}>
+          <Calendar className="mr-2 h-4 w-4" />
+          <span>Event Booking</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Settings className="mr-2 h-4 w-4" />
