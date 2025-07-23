@@ -7,6 +7,7 @@ import { ArtistProfile } from '@/components/profile/ArtistProfile';
 import { ArtUpload } from '@/components/profile/ArtUpload';
 import { PromoterProfileSetup } from '@/components/profile/PromoterProfileSetup';
 import { AIShowcaseStudio } from '@/components/ai-studio/AIShowcaseStudio';
+import { ArtistGallery } from '@/components/gallery/ArtistGallery';
 import { ArtistWheel } from '@/components/ArtistWheel';
 import { PricingPage } from '@/components/pricing/PricingPage';
 import { Toaster } from '@/components/ui/toaster';
@@ -53,6 +54,7 @@ function AppContent() {
   const [aiStudioOpen, setAiStudioOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [artistGalleryOpen, setArtistGalleryOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const { user, loading } = useAuth();
