@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { BookingModal } from "@/components/booking/BookingModal";
+import { BookingPage } from "@/components/booking/BookingPage";
+import { Toaster } from "@/components/ui/toaster";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +32,18 @@ import {
 
 function App() {
   const [selectedTab, setSelectedTab] = useState('search');
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [selectedArtist, setSelectedArtist] = useState<any>(null);
+  const [currentPage, setCurrentPage] = useState('home');
+
+  if (currentPage === 'booking') {
+    return (
+      <>
+        <BookingPage />
+        <Toaster />
+      </>
+    );
+  }
 
   const artists = [
     {
@@ -59,6 +74,11 @@ function App() {
       verified: false
     }
   ];
+
+  const handleBookArtist = (artist: any) => {
+    setSelectedArtist(artist);
+    setShowBookingModal(true);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
@@ -126,7 +146,7 @@ function App() {
                 size="lg" 
                 variant="outline" 
                 className="text-lg px-8 py-6 rounded-xl border-2 hover:bg-gray-50 transition-all duration-300"
-                onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/shryv0nldOZuWp1oC', '_blank')}
+                onClick={() => setCurrentPage('booking')}
               >
                 <Search className="mr-2 h-5 w-5" />
                 Book an Artist
@@ -357,9 +377,9 @@ function App() {
                     <div className="flex gap-2">
                       <Button 
                         className="flex-1 bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600 rounded-xl"
-                        onClick={() => window.open('https://airtable.com/appniFqOgWyezV5x7/shryv0nldOZuWp1oC', '_blank')}
+                        onClick={() => handleBookArtist(artist)}
                       >
-                        View Profile
+                        Book Now
                       </Button>
                       <Button variant="outline" size="icon" className="rounded-xl">
                         <Heart className="h-4 w-4" />
@@ -494,6 +514,20 @@ function App() {
           </div>
         </div>
       </footer>
+
+      <BookingModal
+        isOpen={showBookingModal}
+        onClose={() => {
+          setShowBookingModal(false);
+          setSelectedArtist(null);
+        }}
+        artistId={selectedArtist?.id}
+        artistName={selectedArtist?.name}
+        artistGenre={selectedArtist?.genre}
+        artistPrice={selectedArtist?.price}
+      />
+      
+      <Toaster />
     </div>
   );
 }
