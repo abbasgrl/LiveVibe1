@@ -625,12 +625,13 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               Previous
             </Button>
             
-            {step < 4 ? (
+            {step < 5 ? (
               <Button
                 onClick={nextStep}
                 disabled={
                   (step === 1 && (!formData.name || !formData.city || !formData.country)) ||
-                  (step === 3 && !formData.artist_type)
+                  (step === 3 && !formData.artist_type) ||
+                  (step === 4 && (formData.artist_type === 'performing' || formData.artist_type === 'both') && formData.music_genres.length === 0)
                 }
               >
                 Next
@@ -638,7 +639,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
             ) : (
               <Button
                 onClick={handleSubmit}
-                disabled={loading || !formData.artist_type}
+                disabled={loading || !formData.artist_type || !formData.subscription_plan}
               >
                 {loading ? (
                   <>
