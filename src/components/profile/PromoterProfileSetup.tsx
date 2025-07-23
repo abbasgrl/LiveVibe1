@@ -517,12 +517,12 @@ export function PromoterProfileSetup({ isOpen, onClose, existingProfile }: Promo
             ) : (
               <Button
                 onClick={handleSubmit}
-                disabled={loading || !formData.promoter_type || !formData.subscription_plan}
+                disabled={loading || uploadingPhoto || !formData.promoter_type || !formData.subscription_plan}
               >
-                {loading ? (
+                {loading || uploadingPhoto ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {existingProfile ? 'Updating Profile...' : 'Creating Profile...'}
+                    {uploadingPhoto ? 'Uploading Photo...' : existingProfile ? 'Updating Profile...' : 'Creating Profile...'}
                   </>
                 ) : (
                   existingProfile ? 'Update Profile' : 'Create Profile'

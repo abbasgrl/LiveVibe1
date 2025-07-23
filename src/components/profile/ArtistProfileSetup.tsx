@@ -753,12 +753,12 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
             ) : (
               <Button
                 onClick={handleSubmit}
-                disabled={loading || !formData.artist_type || !formData.subscription_plan}
+                disabled={loading || uploadingPhoto || !formData.artist_type || !formData.subscription_plan}
               >
-                {loading ? (
+                {loading || uploadingPhoto ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {existingProfile ? 'Updating Profile...' : 'Creating Profile...'}
+                    {uploadingPhoto ? 'Uploading Photo...' : existingProfile ? 'Updating Profile...' : 'Creating Profile...'}
                   </>
                 ) : (
                   existingProfile ? 'Update Profile' : 'Create Profile'
