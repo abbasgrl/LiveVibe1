@@ -695,6 +695,10 @@ function AppContent() {
         isOpen={artUploadOpen}
         onClose={() => setArtUploadOpen(false)}
       />
+      <AIShowcaseStudio
+        isOpen={aiStudioOpen}
+        onClose={() => setAiStudioOpen(false)}
+      />
       {showProfile && (
         <ArtUpload
           isOpen={artUploadOpen}

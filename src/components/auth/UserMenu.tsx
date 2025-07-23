@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useAuth } from '@/contexts/AuthContext'
-import { User, Settings, LogOut, Camera } from 'lucide-react'
+import { User, Settings, LogOut, Camera, Sparkles } from 'lucide-react'
 
 interface UserMenuProps {
   onProfileClick?: () => void
