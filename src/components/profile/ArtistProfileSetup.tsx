@@ -265,7 +265,8 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
     }
   }
 
-  const nextStep = () => setStep(prev => Math.min(prev + 1, 4))
+  const nextStep = () => setStep(prev => Math.min(prev + 1, 5))
+  const prevStep = () => setStep(prev => Math.max(prev - 1, 1))
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
