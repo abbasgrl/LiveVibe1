@@ -702,6 +702,10 @@ function AppContent() {
         isOpen={aiStudioOpen}
         onClose={() => setAiStudioOpen(false)}
       />
+      <ArtistGallery
+        isOpen={artistGalleryOpen}
+        onClose={() => setArtistGalleryOpen(false)}
+      />
       {showProfile && (
         <ArtUpload
           isOpen={artUploadOpen}
