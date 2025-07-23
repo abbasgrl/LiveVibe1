@@ -155,6 +155,7 @@ function AppContent() {
                       onArtClick={() => setArtUploadOpen(true)}
                       onAiStudioClick={() => setAiStudioOpen(true)}
                       onAiStudioClick={() => setAiStudioOpen(true)}
+                      onAiStudioClick={() => setAiStudioOpen(true)}
                     />
                   ) : (
                     <>
