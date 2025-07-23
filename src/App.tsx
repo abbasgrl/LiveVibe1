@@ -6,6 +6,7 @@ import { ArtistProfileSetup } from '@/components/profile/ArtistProfileSetup';
 import { ArtistProfile } from '@/components/profile/ArtistProfile';
 import { ArtUpload } from '@/components/profile/ArtUpload';
 import { PromoterProfileSetup } from '@/components/profile/PromoterProfileSetup';
+import { AIShowcaseStudio } from '@/components/ai-studio/AIShowcaseStudio';
 import { ArtistWheel } from '@/components/ArtistWheel';
 import { PricingPage } from '@/components/pricing/PricingPage';
 import { Toaster } from '@/components/ui/toaster';
@@ -49,6 +50,7 @@ function AppContent() {
   const [profileSetupOpen, setProfileSetupOpen] = useState(false);
   const [promoterSetupOpen, setPromoterSetupOpen] = useState(false);
   const [artUploadOpen, setArtUploadOpen] = useState(false);
+  const [aiStudioOpen, setAiStudioOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -151,6 +153,8 @@ function AppContent() {
                         setShowProfile(true)
                       }}
                       onArtClick={() => setArtUploadOpen(true)}
+                      onAiStudioClick={() => setAiStudioOpen(true)}
+                      onAiStudioClick={() => setAiStudioOpen(true)}
                     />
                   ) : (
                     <>
