@@ -59,6 +59,25 @@ function AppContent() {
   const [showPricing, setShowPricing] = useState(false);
   const { user, loading } = useAuth();
 
+  // Listen for auth modal close and profile show events
+  useEffect(() => {
+    const handleCloseAuthModal = () => {
+      setAuthModalOpen(false)
+    }
+    
+    const handleShowProfile = () => {
+      setShowProfile(true)
+    }
+    
+    window.addEventListener('closeAuthModal', handleCloseAuthModal)
+    window.addEventListener('showProfile', handleShowProfile)
+    
+    return () => {
+      window.removeEventListener('closeAuthModal', handleCloseAuthModal)
+      window.removeEventListener('showProfile', handleShowProfile)
+    }
+  }, [])
+
   const artists = [
     {
       name: "Luna Martinez",

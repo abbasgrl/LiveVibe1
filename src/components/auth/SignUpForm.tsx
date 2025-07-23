@@ -20,6 +20,13 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
   const { signUp } = useAuth()
   const { toast } = useToast()
 
+  // Get onClose function from parent component
+  const onClose = () => {
+    // This will be passed from the parent AuthModal
+    const event = new CustomEvent('closeAuthModal')
+    window.dispatchEvent(event)
+  }
+
   const handleSocialSignUp = async (provider: 'google' | 'github' | 'discord') => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
@@ -90,7 +97,11 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
         title: "Success!",
         description: "Account created successfully! You can now sign in.",
       })
-      onToggleMode()
+      // Close the auth modal and redirect to profile
+      onClose()
+      // Dispatch event to show profile page
+      const showProfileEvent = new CustomEvent('showProfile')
+      window.dispatchEvent(showProfileEvent)
     }
     
     setLoading(false)

@@ -33,6 +33,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSession(session)
       setUser(session?.user ?? null)
       setLoading(false)
+      
+      // If user just signed in, show their profile
+      if (_event === 'SIGNED_IN' && session?.user) {
+        setTimeout(() => {
+          const showProfileEvent = new CustomEvent('showProfile')
+          window.dispatchEvent(showProfileEvent)
+        }, 100)
+      }
     })
 
     return () => subscription.unsubscribe()
