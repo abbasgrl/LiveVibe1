@@ -8,10 +8,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
 import { supabase } from '@/lib/supabase'
-import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette } from 'lucide-react'
+import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette, Crown, Star, Zap } from 'lucide-react'
 
 interface ArtistProfileSetupProps {
   isOpen: boolean
@@ -45,6 +46,63 @@ const INSTRUMENTS = [
   'Electrophones (Synthesizer, electric guitar, theremin)'
 ]
 
+const ARTIST_SUBSCRIPTION_PLANS = [
+  {
+    id: 'artist_starter',
+    name: 'Vibe Discovery',
+    price: '$0/month',
+    description: 'For emerging artists exploring opportunities',
+    icon: Zap,
+    color: 'text-gray-600',
+    bgColor: 'bg-gray-100',
+    features: [
+      'Create Artist Profile',
+      'Upload portfolio (up to 10 pieces)',
+      'Basic profile visibility',
+      'Receive booking requests',
+      '1 AI showcase generation/month',
+      'Standard 10% commission'
+    ]
+  },
+  {
+    id: 'artist_pro',
+    name: 'Vibe Pro',
+    price: '$15/month',
+    description: 'For professional artists ready to grow',
+    icon: Star,
+    color: 'text-blue-600',
+    bgColor: 'bg-blue-100',
+    popular: true,
+    features: [
+      'All Discovery features',
+      'Unlimited portfolio uploads',
+      'Enhanced profile visibility',
+      'Advanced booking tools',
+      '10 AI showcase generations/month',
+      'Analytics dashboard',
+      'Priority support'
+    ]
+  },
+  {
+    id: 'artist_elite',
+    name: 'Vibe Elite',
+    price: '$35/month',
+    description: 'For established artists maximizing income',
+    icon: Crown,
+    color: 'text-purple-600',
+    bgColor: 'bg-purple-100',
+    features: [
+      'All Pro features',
+      'Reduced 7% commission rate',
+      'Unlimited AI showcase generations',
+      'Featured artist placement',
+      'Direct fan engagement tools',
+      'Custom branding options',
+      'Dedicated account manager'
+    ]
+  }
+]
+
 export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistProfileSetupProps) {
   const { user } = useAuth()
   const { toast } = useToast()
@@ -72,7 +130,8 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
     visual_artist_category: existingProfile?.visual_artist_category || '',
     performing_artist_type: existingProfile?.performing_artist_type || '',
     music_genres: existingProfile?.music_genres || [] as string[],
-    instruments: existingProfile?.instruments || [] as string[]
+    instruments: existingProfile?.instruments || [] as string[],
+    subscription_plan: existingProfile?.subscription_plan || ''
   })
 
   // Update form data when existingProfile changes
@@ -98,7 +157,8 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
         visual_artist_category: existingProfile.visual_artist_category || '',
         performing_artist_type: existingProfile.performing_artist_type || '',
         music_genres: existingProfile.music_genres || [],
-        instruments: existingProfile.instruments || []
+        instruments: existingProfile.instruments || [],
+        subscription_plan: existingProfile.subscription_plan || ''
       })
     }
   }, [existingProfile])
@@ -135,19 +195,63 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
 
     setLoading(true)
     try {
-      const { error } = await supabase
+      // First create/update the artist profile
+      const { error: profileError } = await supabase
         .from('artist_profiles')
         .upsert({
           user_id: user.id,
           ...formData,
-          travel_distance: formData.travel_distance ? parseInt(formData.travel_distance) : null
+          travel_distance: formData.travel_distance ? parseInt(formData.travel_distance) : null,
+          subscription_plan: formData.subscription_plan
         })
 
-      if (error) throw error
+      if (profileError) throw profileError
+
+      // If a subscription plan is selected, create/update the subscription
+      if (formData.subscription_plan) {
+        // Get the plan details
+        const { data: planData, error: planError } = await supabase
+          .from('subscription_plans')
+          .select('*')
+          .eq('name', formData.subscription_plan)
+          .eq('type', 'artist')
+          .single()
+
+        if (planError) {
+          console.warn('Could not find subscription plan:', planError)
+        } else if (planData) {
+          // Cancel existing subscription if any
+          await supabase
+            .from('user_subscriptions')
+            .update({ status: 'cancelled' })
+            .eq('user_id', user.id)
+            .eq('status', 'active')
+
+          // Create new subscription
+          const endDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days from now
+          
+          const { error: subscriptionError } = await supabase
+            .from('user_subscriptions')
+            .insert({
+              user_id: user.id,
+              plan_id: planData.id,
+              status: 'active',
+              billing_cycle: 'monthly',
+              current_period_start: new Date().toISOString(),
+              current_period_end: endDate.toISOString()
+            })
+
+          if (subscriptionError) {
+            console.warn('Could not create subscription:', subscriptionError)
+          }
+        }
+      }
 
       toast({
         title: "Success!",
-        description: existingProfile ? "Your artist profile has been updated successfully." : "Your artist profile has been created successfully.",
+        description: existingProfile 
+          ? "Your artist profile has been updated successfully." 
+          : `Your artist profile has been created successfully${formData.subscription_plan ? ' with your selected subscription plan' : ''}.`,
       })
       onClose()
     } catch (error: any) {
@@ -162,7 +266,6 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
   }
 
   const nextStep = () => setStep(prev => Math.min(prev + 1, 4))
-  const prevStep = () => setStep(prev => Math.max(prev - 1, 1))
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -173,7 +276,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
             {existingProfile ? 'Edit Your Artist Profile' : 'Create Your Artist Profile'}
           </DialogTitle>
           <div className="flex items-center gap-2 mt-4">
-            {[1, 2, 3, 4].map((i) => (
+            {[1, 2, 3, 4, 5].map((i) => (
               <div
                 key={i}
                 className={`h-2 flex-1 rounded-full ${
@@ -182,7 +285,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               />
             ))}
           </div>
-          <p className="text-sm text-gray-600">Step {step} of 4</p>
+          <p className="text-sm text-gray-600">Step {step} of 5</p>
         </DialogHeader>
 
         <div className="space-y-6">
