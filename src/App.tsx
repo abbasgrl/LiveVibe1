@@ -59,6 +59,13 @@ function AppContent() {
   const [showPricing, setShowPricing] = useState(false);
   const { user, loading } = useAuth();
 
+  // Auto-open AI Studio for demonstration
+  useEffect(() => {
+    if (user && !loading) {
+      setAiStudioOpen(true);
+    }
+  }, [user, loading]);
+
   // Listen for auth modal close and profile show events
   useEffect(() => {
     const handleCloseAuthModal = () => {
