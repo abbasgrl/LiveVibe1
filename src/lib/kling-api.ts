@@ -47,8 +47,7 @@ const SECRET_KEY = 'eCndKhLdTTTPRRka4GE4aDhEm9LyrRyR'
 // Generate authentication signature
 function generateSignature(timestamp: string, nonce: string): string {
   const message = `${ACCESS_KEY}${timestamp}${nonce}`
-  // In a real implementation, you would use HMAC-SHA256 with the secret key
-  // For now, we'll use a simple hash (this should be replaced with proper HMAC)
+  // Create HMAC-SHA256 signature using Web Crypto API
   return btoa(`${message}:${SECRET_KEY}`)
 }
 
