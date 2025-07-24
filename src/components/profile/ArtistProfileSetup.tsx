@@ -318,15 +318,15 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
         title: "Success!",
         description: existingProfile 
           ? "Your artist profile has been updated successfully." 
-          : "🎉 Welcome to Live Vibe! Your artist profile has been created successfully.",
+          : "🎉 Congratulations! Your artist profile is now live and ready to receive bookings!",
       })
       
       // Show success and next steps
       if (!existingProfile) {
         setTimeout(() => {
           toast({
-            title: "What's Next?",
-            description: "Upload your first art piece to start getting discovered by event organizers!",
+            title: "🚀 You're Almost Ready!",
+            description: "Upload your portfolio to start receiving event invitations from organizers worldwide!",
           })
         }, 2000)
       }
@@ -360,19 +360,19 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <User className="h-5 w-5" />
-            {existingProfile ? 'Edit Your Artist Profile' : 'Create Your Artist Profile'}
+            {existingProfile ? 'Edit Your Artist Profile' : 'Launch Your Artist Career'}
           </DialogTitle>
           <div className="flex items-center gap-2 mt-4">
             {[1, 2, 3, 4, 5].map((i) => (
               <div
                 key={i}
                 className={`h-2 flex-1 rounded-full ${
-                  i <= step ? 'bg-blue-600' : 'bg-gray-200'
+                  i <= step ? 'bg-gradient-to-r from-purple-600 to-blue-600' : 'bg-gray-200'
                 }`}
               />
             ))}
           </div>
-          <p className="text-sm text-gray-600">Step {step} of 5</p>
+          <p className="text-sm text-gray-600">Step {step} of 5 • {step === 1 ? 'Almost there!' : step === 5 ? 'Final step!' : 'Keep going!'}</p>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -382,10 +382,10 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5" />
-                  Tell Us About Yourself
+                  Let's Get You Discovered
                 </CardTitle>
                 <p className="text-sm text-gray-600">
-                  This information helps event organizers find and connect with you
+                  Event organizers use this info to find the perfect artist for their events. The more complete your profile, the more bookings you'll receive!
                 </p>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -519,10 +519,10 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Instagram className="h-5 w-5" />
-                  Connect Your Social Media
+                  Showcase Your Online Presence
                 </CardTitle>
                 <p className="text-sm text-gray-600">
-                  Link your social accounts to build trust and showcase your online presence
+                  Social media links build trust with organizers and show your professional reach. Add as many as you have!
                 </p>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -610,10 +610,10 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Palette className="h-5 w-5" />
-                  What Type of Artist Are You?
+                  Define Your Artistic Identity
                 </CardTitle>
                 <p className="text-sm text-gray-600">
-                  Help us categorize your talents so the right opportunities find you
+                  This helps us match you with the perfect events. Choose what best describes your artistic talents.
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -708,10 +708,10 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Music className="h-5 w-5" />
-                  Your Musical Expertise
+                  Show Off Your Musical Skills
                 </CardTitle>
                 <p className="text-sm text-gray-600">
-                  Select your genres and instruments to match with the perfect events
+                  The more genres and instruments you select, the more event opportunities you'll receive. Don't be modest!
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -779,7 +779,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
                   (step === 3 && !formData.artist_type) ||
                   (step === 4 && (formData.artist_type === 'performing' || formData.artist_type === 'both') && formData.music_genres.length === 0)
                 }
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
               >
                 Continue
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -798,7 +798,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
                 ) : (
                   <>
                     <Sparkles className="mr-2 h-4 w-4" />
-                    {existingProfile ? 'Update Profile' : 'Launch My Artist Profile'}
+                    {existingProfile ? 'Update Profile' : 'Launch My Artist Career 🚀'}
                   </>
                 )}
               </Button>

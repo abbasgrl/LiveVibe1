@@ -95,7 +95,7 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
     } else {
       toast({
         title: "Success!",
-        description: "Account created successfully! You can now sign in.",
+        description: "🎉 Welcome to Live Vibe! Let's set up your artist profile.",
       })
       // Close the auth modal and redirect to profile
       onClose()

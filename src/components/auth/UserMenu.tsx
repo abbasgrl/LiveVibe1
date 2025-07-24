@@ -53,7 +53,7 @@ export function UserMenu({ onProfileClick, onArtClick, onAiStudioClick, onBookin
         </DropdownMenuItem>
         <DropdownMenuItem onClick={onArtClick}>
           <Camera className="mr-2 h-4 w-4" />
-          <span>My Portfolio</span>
+          <span>Upload Portfolio</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={onAiStudioClick}>
           <Wand2 className="mr-2 h-4 w-4" />
@@ -61,7 +61,7 @@ export function UserMenu({ onProfileClick, onArtClick, onAiStudioClick, onBookin
         </DropdownMenuItem>
         <DropdownMenuItem onClick={onBookingClick}>
           <Calendar className="mr-2 h-4 w-4" />
-          <span>My Bookings</span>
+          <span>Event Bookings</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Settings className="mr-2 h-4 w-4" />

@@ -308,10 +308,10 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Upload className="h-5 w-5" />
-            Showcase Your Talent
+            Upload Your Portfolio
           </DialogTitle>
           <p className="text-sm text-gray-600 mt-2">
-            Upload your best work to attract event organizers and get booked for amazing opportunities
+            Showcase your best work to attract event organizers. Artists with complete portfolios receive 5x more booking requests!
           </p>
         </DialogHeader>
 
@@ -321,8 +321,8 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
             <CardContent className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold">Add New Artwork</h3>
-                  <p className="text-sm text-gray-600">Share your creativity with the world</p>
+                  <h3 className="text-lg font-semibold">Add to Your Portfolio</h3>
+                  <p className="text-sm text-gray-600">Every piece you add increases your booking potential</p>
                 </div>
                 <div className="bg-gradient-to-r from-purple-100 to-blue-100 p-3 rounded-full">
                   <Sparkles className="h-6 w-6 text-purple-600" />
@@ -343,10 +343,10 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
                   <label htmlFor="file-upload" className="cursor-pointer">
                     <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                     <p className="text-lg font-medium text-gray-700 mb-2">
-                      Click to upload your art
+                      Upload Your Best Work
                     </p>
                     <p className="text-sm text-gray-500">
-                      Images, Audio, Video, or Documents (Max 50MB)
+                      Photos, Audio, Videos, or Documents • Max 50MB • All formats supported
                     </p>
                   </label>
                 </div>
@@ -422,7 +422,7 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
                             ) : (
                               <>
                                 <Sparkles className="mr-2 h-4 w-4" />
-                                Add to My Collection
+                                Add to Portfolio
                               </>
                             )}
                           </Button>
@@ -439,7 +439,7 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold">Your Art Collection</h3>
+                <h3 className="text-lg font-semibold">Your Portfolio</h3>
                 <Badge variant="secondary">
                   {artPieces.length} piece{artPieces.length !== 1 ? 's' : ''}
                 </Badge>
@@ -448,23 +448,23 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
               {loading ? (
                 <div className="text-center py-8">
                   <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-gray-400" />
-                  <p className="text-gray-600">Loading your art collection...</p>
+                  <p className="text-gray-600">Loading your portfolio...</p>
                 </div>
               ) : artPieces.length === 0 ? (
                 <div className="text-center py-16 bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg border-2 border-dashed border-purple-200">
                   <div className="bg-white p-4 rounded-full w-fit mx-auto mb-4 shadow-lg">
                     <Camera className="h-12 w-12 text-purple-600" />
                   </div>
-                  <h4 className="text-xl font-bold text-gray-900 mb-2">Ready to Showcase Your Talent?</h4>
+                  <h4 className="text-xl font-bold text-gray-900 mb-2">Start Building Your Portfolio</h4>
                   <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                    Upload your first artwork and start building your professional portfolio. Event organizers are waiting to discover you!
+                    Upload your best work to attract event organizers. Artists with portfolios get booked 5x more often!
                   </p>
                   <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto mb-6">
                     <div className="text-center">
                       <div className="bg-blue-100 p-2 rounded-full w-fit mx-auto mb-1">
                         <Image className="h-4 w-4 text-blue-600" />
                       </div>
-                      <p className="text-xs text-gray-600">Images</p>
+                      <p className="text-xs text-gray-600">Photos</p>
                     </div>
                     <div className="text-center">
                       <div className="bg-green-100 p-2 rounded-full w-fit mx-auto mb-1">

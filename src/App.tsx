@@ -11,6 +11,7 @@ import { ArtistWheel } from '@/components/ArtistWheel';
 import { PricingPage } from '@/components/pricing/PricingPage';
 import { EventBookingSystem } from '@/components/booking/EventBookingSystem';
 import { Toaster } from '@/components/ui/toaster';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,13 +61,6 @@ function AppContent() {
   const [showArtistOnboarding, setShowArtistOnboarding] = useState(false);
   const { user, loading } = useAuth();
 
-  // Auto-open AI Studio for demonstration
-  useEffect(() => {
-    if (user && !loading) {
-      setAiStudioOpen(true);
-    }
-  }, [user, loading]);
-
   // Listen for auth modal close and profile show events
   useEffect(() => {
     const handleCloseAuthModal = () => {
@@ -101,10 +95,6 @@ function AppContent() {
     }
   };
 
-  const handleCompleteSignup = () => {
-    setShowArtistOnboarding(false);
-    setProfileSetupOpen(true);
-  };
   const artists = [
     {
       name: "Luna Martinez",
@@ -397,7 +387,7 @@ function AppContent() {
                   onClick={handleStartArtistJourney}
                 >
                   <Sparkles className="mr-2 h-5 w-5" />
-                  Start Your Artist Journey
+                  Join as Artist
                 </Button>
                 <Button 
                   size="lg" 
@@ -569,7 +559,7 @@ function AppContent() {
               onClick={handleStartArtistJourney}
             >
               <Users className="mr-2 h-5 w-5" />
-              Join These Amazing Artists
+              Become a Featured Artist
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
@@ -643,11 +633,11 @@ function AppContent() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg"
                 onClick={handleStartArtistJourney}
               >
                 <Sparkles className="mr-2 h-5 w-5" />
-                Start Creating Today
+                Launch Your Artist Career
               </Button>
               <Button 
                 size="lg" 
@@ -753,7 +743,7 @@ function AppContent() {
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle className="text-center text-2xl font-bold">
-                Welcome to Live Vibe! 🎨
+                Ready to Launch Your Artist Career? 🚀
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-6 py-4">
@@ -761,10 +751,10 @@ function AppContent() {
                 <div className="bg-gradient-to-r from-purple-100 to-blue-100 p-6 rounded-lg">
                   <Sparkles className="h-12 w-12 text-purple-600 mx-auto mb-3" />
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Ready to showcase your talent?
+                    Join 10,000+ Artists Getting Booked
                   </h3>
                   <p className="text-gray-600 text-sm">
-                    Join thousands of artists who are getting discovered and booked through Live Vibe
+                    Create your profile in 3 minutes and start receiving event invitations from organizers worldwide
                   </p>
                 </div>
                 
@@ -773,20 +763,29 @@ function AppContent() {
                     <div className="bg-blue-100 p-3 rounded-full w-fit mx-auto">
                       <User className="h-5 w-5 text-blue-600" />
                     </div>
-                    <p className="text-xs text-gray-600">Create Profile</p>
+                    <p className="text-xs font-medium text-gray-700">Setup Profile</p>
+                    <p className="text-xs text-gray-500">2 min</p>
                   </div>
                   <div className="space-y-2">
                     <div className="bg-green-100 p-3 rounded-full w-fit mx-auto">
                       <Upload className="h-5 w-5 text-green-600" />
                     </div>
-                    <p className="text-xs text-gray-600">Upload Art</p>
+                    <p className="text-xs font-medium text-gray-700">Upload Portfolio</p>
+                    <p className="text-xs text-gray-500">1 min</p>
                   </div>
                   <div className="space-y-2">
                     <div className="bg-purple-100 p-3 rounded-full w-fit mx-auto">
-                      <Star className="h-5 w-5 text-purple-600" />
+                      <Calendar className="h-5 w-5 text-purple-600" />
                     </div>
-                    <p className="text-xs text-gray-600">Get Booked</p>
+                    <p className="text-xs font-medium text-gray-700">Get Booked</p>
+                    <p className="text-xs text-gray-500">Same day</p>
                   </div>
+                </div>
+                
+                <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+                  <p className="text-sm text-green-800 font-medium">
+                    ✨ Free forever • No setup fees • Earn from day one
+                  </p>
                 </div>
               </div>
               
@@ -800,7 +799,7 @@ function AppContent() {
                   }}
                 >
                   <Sparkles className="mr-2 h-4 w-4" />
-                  Create Free Artist Account
+                  Start My Artist Journey - Free
                 </Button>
                 
                 <p className="text-center text-sm text-gray-600">
@@ -813,7 +812,7 @@ function AppContent() {
                     }}
                     className="text-blue-600 hover:text-blue-700 font-medium"
                   >
-                    Sign in
+                    Sign in here
                   </button>
                 </p>
               </div>
