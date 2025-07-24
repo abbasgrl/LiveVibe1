@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
 import { supabase } from '@/lib/supabase'
-import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette, Crown, Star, Zap, X, Image } from 'lucide-react'
+import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette, Crown, Star, Zap, X, Image, ChevronDown, ArrowRight } from 'lucide-react'
 
 interface ArtistProfileSetupProps {
   isOpen: boolean
