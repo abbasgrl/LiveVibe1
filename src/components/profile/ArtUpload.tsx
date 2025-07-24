@@ -308,15 +308,26 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Upload className="h-5 w-5" />
-            My Art Collection
+            Showcase Your Talent
           </DialogTitle>
+          <p className="text-sm text-gray-600 mt-2">
+            Upload your best work to attract event organizers and get booked for amazing opportunities
+          </p>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Upload Section */}
           <Card>
             <CardContent className="p-6 space-y-4">
-              <h3 className="text-lg font-semibold">Upload New Art Piece</h3>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold">Add New Artwork</h3>
+                  <p className="text-sm text-gray-600">Share your creativity with the world</p>
+                </div>
+                <div className="bg-gradient-to-r from-purple-100 to-blue-100 p-3 rounded-full">
+                  <Sparkles className="h-6 w-6 text-purple-600" />
+                </div>
+              </div>
               
               {/* File Upload */}
               <div className="space-y-4">
@@ -401,7 +412,7 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
                           <Button
                             onClick={handleUpload}
                             disabled={uploading || !title.trim()}
-                            className="w-full bg-blue-600 hover:bg-blue-700"
+                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
                           >
                             {uploading ? (
                               <>
@@ -410,8 +421,8 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
                               </>
                             ) : (
                               <>
-                                <Upload className="mr-2 h-4 w-4" />
-                                Upload Art Piece
+                                <Sparkles className="mr-2 h-4 w-4" />
+                                Add to My Collection
                               </>
                             )}
                           </Button>
@@ -440,10 +451,34 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
                   <p className="text-gray-600">Loading your art collection...</p>
                 </div>
               ) : artPieces.length === 0 ? (
-                <div className="text-center py-12">
-                  <Image className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                  <h4 className="text-lg font-medium text-gray-900 mb-2">No art pieces yet</h4>
-                  <p className="text-gray-600">Upload your first art piece to get started!</p>
+                <div className="text-center py-16 bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg border-2 border-dashed border-purple-200">
+                  <div className="bg-white p-4 rounded-full w-fit mx-auto mb-4 shadow-lg">
+                    <Camera className="h-12 w-12 text-purple-600" />
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-900 mb-2">Ready to Showcase Your Talent?</h4>
+                  <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                    Upload your first artwork and start building your professional portfolio. Event organizers are waiting to discover you!
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto mb-6">
+                    <div className="text-center">
+                      <div className="bg-blue-100 p-2 rounded-full w-fit mx-auto mb-1">
+                        <Image className="h-4 w-4 text-blue-600" />
+                      </div>
+                      <p className="text-xs text-gray-600">Images</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="bg-green-100 p-2 rounded-full w-fit mx-auto mb-1">
+                        <Music className="h-4 w-4 text-green-600" />
+                      </div>
+                      <p className="text-xs text-gray-600">Audio</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="bg-purple-100 p-2 rounded-full w-fit mx-auto mb-1">
+                        <Video className="h-4 w-4 text-purple-600" />
+                      </div>
+                      <p className="text-xs text-gray-600">Videos</p>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

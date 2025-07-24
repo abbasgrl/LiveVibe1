@@ -57,6 +57,7 @@ function AppContent() {
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
+  const [showArtistOnboarding, setShowArtistOnboarding] = useState(false);
   const { user, loading } = useAuth();
 
   // Auto-open AI Studio for demonstration
@@ -76,15 +77,34 @@ function AppContent() {
       setShowProfile(true)
     }
     
+    const handleStartProfileSetup = () => {
+      setProfileSetupOpen(true)
+    }
+    
     window.addEventListener('closeAuthModal', handleCloseAuthModal)
     window.addEventListener('showProfile', handleShowProfile)
+    window.addEventListener('startProfileSetup', handleStartProfileSetup)
     
     return () => {
       window.removeEventListener('closeAuthModal', handleCloseAuthModal)
       window.removeEventListener('showProfile', handleShowProfile)
+      window.removeEventListener('startProfileSetup', handleStartProfileSetup)
     }
   }, [])
 
+  // Handle artist onboarding flow
+  const handleStartArtistJourney = () => {
+    if (user) {
+      setProfileSetupOpen(true);
+    } else {
+      setShowArtistOnboarding(true);
+    }
+  };
+
+  const handleCompleteSignup = () => {
+    setShowArtistOnboarding(false);
+    setProfileSetupOpen(true);
+  };
   const artists = [
     {
       name: "Luna Martinez",
@@ -374,17 +394,10 @@ function AppContent() {
                 <Button 
                   size="lg" 
                   className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
-                  onClick={() => {
-                    if (user) {
-                      setProfileSetupOpen(true);
-                    } else {
-                      setAuthMode('signup');
-                      setAuthModalOpen(true);
-                    }
-                  }}
+                  onClick={handleStartArtistJourney}
                 >
-                  <Users className="mr-2 h-5 w-5" />
-                  {user ? 'Create Profile' : 'Join as Artist'}
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Start Your Artist Journey
                 </Button>
                 <Button 
                   size="lg" 
@@ -394,13 +407,12 @@ function AppContent() {
                     if (user) {
                       setPromoterSetupOpen(true);
                     } else {
-                      setAuthMode('signup');
-                      setAuthModalOpen(true);
+                      setShowPricing(true);
                     }
                   }}
                 >
                   <Calendar className="mr-2 h-5 w-5" />
-                  {user ? 'Create Promoter Profile' : 'Join as Promoter'}
+                  Find Talent
                 </Button>
               </div>
               <div className="flex items-center gap-8 pt-4">
@@ -553,10 +565,11 @@ function AppContent() {
           <div className="text-center mt-12">
             <Button 
               size="lg" 
-              variant="outline" 
-              className="border-2"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4"
+              onClick={handleStartArtistJourney}
             >
-              View All Artists
+              <Users className="mr-2 h-5 w-5" />
+              Join These Amazing Artists
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
@@ -631,27 +644,20 @@ function AppContent() {
               <Button 
                 size="lg" 
                 className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg"
-                onClick={() => {
-                  setAuthMode('signup');
-                  setAuthModalOpen(true);
-                }}
+                onClick={handleStartArtistJourney}
               >
-                Join as Artist
+                <Sparkles className="mr-2 h-5 w-5" />
+                Start Creating Today
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
                 className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 text-lg"
                 onClick={() => {
-                  if (user) {
-                    setPromoterSetupOpen(true);
-                  } else {
-                    setAuthMode('signup');
-                    setAuthModalOpen(true);
-                  }
+                  setShowPricing(true);
                 }}
               >
-                {user ? 'Create Promoter Profile' : 'Join as Promoter'}
+                Discover Artists
               </Button>
             </div>
           </div>
@@ -740,6 +746,82 @@ function AppContent() {
         isOpen={bookingSystemOpen}
         onClose={() => setBookingSystemOpen(false)}
       />
+      
+      {/* Artist Onboarding Modal */}
+      {showArtistOnboarding && (
+        <Dialog open={showArtistOnboarding} onOpenChange={setShowArtistOnboarding}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-center text-2xl font-bold">
+                Welcome to Live Vibe! 🎨
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6 py-4">
+              <div className="text-center space-y-4">
+                <div className="bg-gradient-to-r from-purple-100 to-blue-100 p-6 rounded-lg">
+                  <Sparkles className="h-12 w-12 text-purple-600 mx-auto mb-3" />
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Ready to showcase your talent?
+                  </h3>
+                  <p className="text-gray-600 text-sm">
+                    Join thousands of artists who are getting discovered and booked through Live Vibe
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div className="space-y-2">
+                    <div className="bg-blue-100 p-3 rounded-full w-fit mx-auto">
+                      <User className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <p className="text-xs text-gray-600">Create Profile</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="bg-green-100 p-3 rounded-full w-fit mx-auto">
+                      <Upload className="h-5 w-5 text-green-600" />
+                    </div>
+                    <p className="text-xs text-gray-600">Upload Art</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="bg-purple-100 p-3 rounded-full w-fit mx-auto">
+                      <Star className="h-5 w-5 text-purple-600" />
+                    </div>
+                    <p className="text-xs text-gray-600">Get Booked</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <Button 
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3"
+                  onClick={() => {
+                    setAuthMode('signup');
+                    setAuthModalOpen(true);
+                    setShowArtistOnboarding(false);
+                  }}
+                >
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Create Free Artist Account
+                </Button>
+                
+                <p className="text-center text-sm text-gray-600">
+                  Already have an account?{' '}
+                  <button
+                    onClick={() => {
+                      setAuthMode('signin');
+                      setAuthModalOpen(true);
+                      setShowArtistOnboarding(false);
+                    }}
+                    className="text-blue-600 hover:text-blue-700 font-medium"
+                  >
+                    Sign in
+                  </button>
+                </p>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+      
       <Toaster />
     </div>
   );

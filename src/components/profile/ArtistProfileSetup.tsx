@@ -318,9 +318,28 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
         title: "Success!",
         description: existingProfile 
           ? "Your artist profile has been updated successfully." 
-          : `Your artist profile has been created successfully${formData.subscription_plan ? ' with your selected subscription plan' : ''}.`,
+          : "🎉 Welcome to Live Vibe! Your artist profile has been created successfully.",
       })
+      
+      // Show success and next steps
+      if (!existingProfile) {
+        setTimeout(() => {
+          toast({
+            title: "What's Next?",
+            description: "Upload your first art piece to start getting discovered by event organizers!",
+          })
+        }, 2000)
+      }
+      
       onClose()
+      
+      // Redirect to profile page to see the created profile
+      if (!existingProfile) {
+        setTimeout(() => {
+          const showProfileEvent = new CustomEvent('showProfile')
+          window.dispatchEvent(showProfileEvent)
+        }, 500)
+      }
     } catch (error: any) {
       toast({
         title: "Error",
@@ -363,8 +382,11 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5" />
-                  Basic Information
+                  Tell Us About Yourself
                 </CardTitle>
+                <p className="text-sm text-gray-600">
+                  This information helps event organizers find and connect with you
+                </p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -497,8 +519,11 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Instagram className="h-5 w-5" />
-                  Social Media Profiles
+                  Connect Your Social Media
                 </CardTitle>
+                <p className="text-sm text-gray-600">
+                  Link your social accounts to build trust and showcase your online presence
+                </p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -585,8 +610,11 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Palette className="h-5 w-5" />
-                  Artist Type
+                  What Type of Artist Are You?
                 </CardTitle>
+                <p className="text-sm text-gray-600">
+                  Help us categorize your talents so the right opportunities find you
+                </p>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
@@ -680,8 +708,11 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Music className="h-5 w-5" />
-                  Music Details
+                  Your Musical Expertise
                 </CardTitle>
+                <p className="text-sm text-gray-600">
+                  Select your genres and instruments to match with the perfect events
+                </p>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
@@ -736,6 +767,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               onClick={prevStep}
               disabled={step === 1}
             >
+              <ChevronDown className="mr-2 h-4 w-4 rotate-90" />
               Previous
             </Button>
             
@@ -747,13 +779,16 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
                   (step === 3 && !formData.artist_type) ||
                   (step === 4 && (formData.artist_type === 'performing' || formData.artist_type === 'both') && formData.music_genres.length === 0)
                 }
+                className="bg-blue-600 hover:bg-blue-700"
               >
-                Next
+                Continue
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             ) : (
               <Button
                 onClick={handleSubmit}
                 disabled={loading || uploadingPhoto || !formData.artist_type || !formData.subscription_plan}
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
               >
                 {loading || uploadingPhoto ? (
                   <>
@@ -761,7 +796,10 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
                     {uploadingPhoto ? 'Uploading Photo...' : existingProfile ? 'Updating Profile...' : 'Creating Profile...'}
                   </>
                 ) : (
-                  existingProfile ? 'Update Profile' : 'Create Profile'
+                  <>
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    {existingProfile ? 'Update Profile' : 'Launch My Artist Profile'}
+                  </>
                 )}
               </Button>
             )}

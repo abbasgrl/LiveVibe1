@@ -99,9 +99,11 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
       })
       // Close the auth modal and redirect to profile
       onClose()
-      // Dispatch event to show profile page
-      const showProfileEvent = new CustomEvent('showProfile')
-      window.dispatchEvent(showProfileEvent)
+      // Trigger profile setup after successful signup
+      setTimeout(() => {
+        const profileSetupEvent = new CustomEvent('startProfileSetup')
+        window.dispatchEvent(profileSetupEvent)
+      }, 500)
     }
     
     setLoading(false)
