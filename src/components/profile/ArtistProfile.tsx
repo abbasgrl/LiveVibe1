@@ -32,7 +32,9 @@ import {
   Pause,
   Eye,
   Plus,
-  X
+  X,
+  Upload,
+  Sparkles
 } from 'lucide-react'
 
 interface ArtistProfileData {
@@ -82,6 +84,7 @@ export function ArtistProfile() {
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [selectedArt, setSelectedArt] = useState<ArtPiece | null>(null)
   const [audioPlaying, setAudioPlaying] = useState<string | null>(null)
+  const [artUploadOpen, setArtUploadOpen] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -447,7 +450,7 @@ export function ArtistProfile() {
               <div>
                 <h4 className="font-medium text-gray-900 mb-1">Performing Artist Type</h4>
                 <p className="text-gray-600 text-sm capitalize">
-                  Upload your first piece to showcase your talent and attract event organizers
+                  {profile.performing_artist_type}
                 </p>
               </div>
             )}
@@ -566,7 +569,11 @@ export function ArtistProfile() {
               <Badge variant="secondary">
                 {artPieces.length} piece{artPieces.length !== 1 ? 's' : ''}
               </Badge>
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+              <Button 
+                onClick={() => setArtUploadOpen(true)}
+                size="sm" 
+                className="bg-blue-600 hover:bg-blue-700"
+              >
                 <Plus className="h-4 w-4 mr-1" />
                 Add Art
               </Button>
@@ -589,11 +596,14 @@ export function ArtistProfile() {
               <Camera className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h4 className="text-lg font-medium text-gray-900 mb-2">No artwork yet</h4>
               <p className="text-gray-600 mb-4">
-                Upload your first piece to showcase your talent
+                Upload your first piece to showcase your talent and attract event organizers
               </p>
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button 
+                onClick={() => setArtUploadOpen(true)}
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+              >
                 <Plus className="h-4 w-4 mr-2" />
-                Upload Artwork
+                Upload Your First Piece
               </Button>
             </div>
           ) : (
@@ -698,12 +708,10 @@ export function ArtistProfile() {
                 <Button
                   variant="ghost"
                   size="sm"
-                <Button 
-                  onClick={() => setArtUploadOpen(true)}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                  onClick={() => handleDeleteArtPiece(selectedArt)}
+                  className="text-red-600 hover:text-red-700"
                 >
-                >
-                  Upload Your First Piece
+                  <X className="h-4 w-4" />
                 </Button>
               </div>
             </DialogHeader>
