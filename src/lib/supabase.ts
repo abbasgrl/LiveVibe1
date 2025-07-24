@@ -495,16 +495,7 @@ export const supabaseHelpers = {
     const { data: { user } } = await supabase.auth.getUser()
     return user
   },
-async signup(signInWithSpotify) {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'spotify',
-  })
-}
-  async signin(signInWithSpotify) {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'spotify',
-  })
-}
+
   // Artist profile helpers
   async getArtistProfile(userId: string) {
     return await supabase
