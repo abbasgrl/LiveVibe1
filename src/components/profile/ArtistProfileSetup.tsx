@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
 import { supabase } from '@/lib/supabase'
-import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette, Crown, Star, Zap, X, Image, ChevronDown, ArrowRight } from 'lucide-react'
+import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette, Crown, Star, Zap, X, Image, ChevronDown, ArrowRight, Sparkles } from 'lucide-react'
 
 interface ArtistProfileSetupProps {
   isOpen: boolean
@@ -756,6 +756,71 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
                     </div>
                   </div>
                 )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Step 5: Subscription Plan */}
+          {step === 5 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Crown className="h-5 w-5" />
+                  Choose Your Success Plan
+                </CardTitle>
+                <p className="text-sm text-gray-600">
+                  Start free and upgrade anytime. All plans include booking management and secure payments.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-4">
+                  <Label>Which plan fits your artistic goals? *</Label>
+                  <RadioGroup
+                    value={formData.subscription_plan}
+                    onValueChange={(value) => handleInputChange('subscription_plan', value)}
+                    className="space-y-4"
+                  >
+                    {ARTIST_SUBSCRIPTION_PLANS.map((plan) => {
+                      const IconComponent = plan.icon
+                      return (
+                        <div key={plan.id} className={`relative p-4 rounded-lg border-2 transition-colors ${
+                          formData.subscription_plan === plan.id 
+                            ? 'border-blue-500 bg-blue-50' 
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}>
+                          {plan.popular && (
+                            <div className="absolute -top-2 left-4">
+                              <Badge className="bg-blue-600 text-white">Most Popular</Badge>
+                            </div>
+                          )}
+                          <div className="flex items-start space-x-3">
+                            <RadioGroupItem value={plan.id} id={plan.id} className="mt-1" />
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3 mb-2">
+                                <div className={`p-2 rounded-full ${plan.bgColor}`}>
+                                  <IconComponent className={`h-4 w-4 ${plan.color}`} />
+                                </div>
+                                <div>
+                                  <Label htmlFor={plan.id} className="font-semibold text-gray-900">{plan.name}</Label>
+                                  <div className="text-lg font-bold text-gray-900">{plan.price}</div>
+                                </div>
+                              </div>
+                              <p className="text-sm text-gray-600 mb-3">{plan.description}</p>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
+                                {plan.features.map((feature, idx) => (
+                                  <div key={idx} className="flex items-center gap-2 text-xs text-gray-600">
+                                    <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                                    <span>{feature}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </RadioGroup>
+                </div>
               </CardContent>
             </Card>
           )}
