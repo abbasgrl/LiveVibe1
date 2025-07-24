@@ -23,7 +23,9 @@ import {
   Download,
   Trash2,
   Edit,
-  Loader2
+  Loader2,
+  Sparkles,
+  Camera
 } from 'lucide-react'
 
 interface ArtUploadProps {
