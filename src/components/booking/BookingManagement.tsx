@@ -44,6 +44,14 @@ interface Booking {
   artistGenre?: string;
 }
 
+interface Notification {
+  id: string;
+  read: boolean;
+  type: string;
+  message: string;
+  timestamp: Date;
+}
+
 const mockBookings: Booking[] = [
   {
     id: '1',
@@ -107,8 +115,33 @@ const mockBookings: Booking[] = [
   }
 ];
 
+const mockNotifications: Notification[] = [
+  {
+    id: '1',
+    read: false,
+    type: 'booking_request',
+    message: 'New booking request from Sarah Johnson',
+    timestamp: new Date()
+  },
+  {
+    id: '2',
+    read: false,
+    type: 'booking_confirmed',
+    message: 'Corporate Gala booking confirmed',
+    timestamp: new Date()
+  },
+  {
+    id: '3',
+    read: true,
+    type: 'payment_received',
+    message: 'Payment received for Wedding Reception',
+    timestamp: new Date()
+  }
+];
+
 export function BookingManagement() {
   const [bookings] = useState<Booking[]>(mockBookings);
+  const [notifications] = useState<Notification[]>(mockNotifications);
   const [selectedTab, setSelectedTab] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
