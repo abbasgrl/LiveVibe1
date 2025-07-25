@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { BookingNotifications } from './BookingNotifications';
+import { useToast } from "@/hooks/use-toast";
 import { 
   Calendar, 
   MapPin, 
@@ -16,7 +18,8 @@ import {
   XCircle,
   AlertCircle,
   Eye,
-  MessageSquare
+  MessageSquare,
+  Bell
 } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -108,6 +111,8 @@ export function BookingManagement() {
   const [bookings] = useState<Booking[]>(mockBookings);
   const [selectedTab, setSelectedTab] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [showNotifications, setShowNotifications] = useState(false);
+  const { toast } = useToast();
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -150,14 +155,40 @@ export function BookingManagement() {
 
   const counts = getBookingCounts();
 
+  const handleAcceptBooking = (bookingId: string) => {
+    toast({
+      title: "Booking Accepted",
+      description: "The booking has been confirmed and the client has been notified.",
+    });
+  };
+
+  const handleDeclineBooking = (bookingId: string) => {
+    toast({
+      title: "Booking Declined",
+      description: "The booking has been declined and the client has been notified.",
+      variant: "destructive",
+    });
+  };
   return (
-    <div className="space-y-6">
+    <>
+      <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Booking Management</h2>
           <p className="text-gray-600">Manage your event bookings and requests</p>
         </div>
         <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            onClick={() => setShowNotifications(true)}
+            className="relative"
+          >
+            <Bell className="mr-2 h-4 w-4" />
+            Notifications
+            <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center bg-red-500 text-white text-xs">
+              3
+            </Badge>
+          </Button>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
@@ -271,11 +302,20 @@ export function BookingManagement() {
                         </Button>
                         {booking.status === 'pending' && (
                           <>
-                            <Button size="sm" className="w-full bg-green-600 hover:bg-green-700">
+                            <Button 
+                              size="sm" 
+                              className="w-full bg-green-600 hover:bg-green-700"
+                              onClick={() => handleAcceptBooking(booking.id)}
+                            >
                               <CheckCircle className="mr-2 h-4 w-4" />
                               Accept
                             </Button>
-                            <Button size="sm" variant="destructive" className="w-full">
+                            <Button 
+                              size="sm" 
+                              variant="destructive" 
+                              className="w-full"
+                              onClick={() => handleDeclineBooking(booking.id)}
+                            >
                               <XCircle className="mr-2 h-4 w-4" />
                               Decline
                             </Button>
@@ -290,6 +330,12 @@ export function BookingManagement() {
           )}
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+
+      <BookingNotifications 
+        isOpen={showNotifications}
+        onClose={() => setShowNotifications(false)}
+      />
+    </>
   );
 }
