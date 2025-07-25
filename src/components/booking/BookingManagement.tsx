@@ -177,16 +177,16 @@ export function BookingManagement() {
           <h2 className="text-2xl font-bold text-gray-900">Booking Management</h2>
           <p className="text-gray-600">Manage your event bookings and requests</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-3">
           <Button 
             variant="outline" 
             onClick={() => setShowNotifications(true)}
-            className="relative"
+            className="relative bg-purple-50 border-purple-200 hover:bg-purple-100 text-purple-700"
           >
             <Bell className="mr-2 h-4 w-4" />
             Notifications
-            <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center bg-red-500 text-white text-xs">
-              3
+            <Badge className="absolute -top-2 -right-2 h-6 w-6 p-0 flex items-center justify-center bg-red-500 hover:bg-red-500 text-white text-xs font-bold animate-pulse">
+              {notifications.filter(n => !n.read).length}
             </Badge>
           </Button>
           <div className="relative">
@@ -195,7 +195,7 @@ export function BookingManagement() {
               placeholder="Search bookings..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 w-64"
+              className="pl-10 w-64 border-gray-300 focus:border-purple-400"
             />
           </div>
           <Button variant="outline">
