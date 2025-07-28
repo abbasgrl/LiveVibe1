@@ -411,8 +411,10 @@ function App() {
                         size="icon" 
                         className="rounded-xl"
                         onClick={() => handleViewArtistProfile(artist)}
+                       title="View Artist Profile"
                       >
                         <User className="h-4 w-4" />
+                        <span className="sr-only">👤</span>
                       </Button>
                     </div>
                   </CardContent>
