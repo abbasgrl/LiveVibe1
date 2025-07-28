@@ -591,28 +591,63 @@ function AppContent() {
                   </div>
                 </div>
                 <CardContent className="p-6 space-y-4">
-                  <div className="space-y-2">
+                  <div className="bg-purple-50 p-3 rounded-lg border border-purple-200">
+                    <p className="text-xs text-purple-700 font-medium">
+                      Create stunning AI videos to attract event organizers. Artists with AI-powered portfolios receive 10x more booking requests!
+                    </p>
+                  </div>
+                  <div>
                     <h3 className="text-xl font-bold text-gray-900">{artist.name}</h3>
                     <p className="text-blue-600 font-medium">{artist.genre}</p>
-                    <p className="text-xs text-purple-600 font-medium">
-                      <Wand2 className="h-3 w-3 inline mr-1" />
-                      5 AI videos created • 2.3M total views
-                    </p>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">{artist.rating}</span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <div className="bg-purple-100 p-2 rounded-full w-fit mx-auto mb-1">
+                        <Wand2 className="h-4 w-4 text-purple-600" />
                       </div>
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        <span>{artist.location}</span>
+                      <p className="text-xs text-gray-600">AI Videos</p>
+                    </div>
+                    <div>
+                      <div className="bg-blue-100 p-2 rounded-full w-fit mx-auto mb-1">
+                        <Film className="h-4 w-4 text-blue-600" />
                       </div>
-                      <div className="flex items-center gap-1">
-                        <DollarSign className="h-4 w-4" />
-                        <span>{artist.price}</span>
+                      <p className="text-xs text-gray-600">Showcases</p>
+                    </div>
+                    <div>
+                      <div className="bg-green-100 p-2 rounded-full w-fit mx-auto mb-1">
+                        <Share2 className="h-4 w-4 text-green-600" />
                       </div>
+                      <p className="text-xs text-gray-600">Social Media</p>
                     </div>
                   </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <span className="text-sm font-medium">{artist.rating}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-sm text-gray-600">
+                      <MapPin className="h-4 w-4" />
+                      <span>{artist.location}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-sm font-semibold text-green-600">
+                      <DollarSign className="h-4 w-4" />
+                      <span>{artist.price}</span>
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={() => {
+                      if (user) {
+                        setAiStudioOpen(true);
+                      } else {
+                        setAuthMode('signup');
+                        setAuthModalOpen(true);
+                      }
+                    }}
+                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 mb-4"
+                  >
+                    <Wand2 className="h-4 w-4 mr-2" />
+                    Create AI Videos Now
+                  </Button>
                   <div className="flex gap-2">
                     <Button 
                       className="flex-1 bg-blue-600 hover:bg-blue-700"
