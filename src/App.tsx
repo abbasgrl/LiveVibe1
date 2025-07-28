@@ -43,7 +43,16 @@ import {
   ChevronDown,
   Globe,
   Shield,
-  Smartphone
+  Smartphone,
+  Wand2,
+  Video,
+  Film,
+  Palette,
+  Bot,
+  Rocket,
+  TrendingUp,
+  Eye,
+  Share2
 } from 'lucide-react';
 
 function AppContent() {
@@ -212,13 +221,15 @@ function AppContent() {
                         Sign In
                       </Button>
                       <Button 
-                        className="bg-blue-600 hover:bg-blue-700 text-white"
-                        onClick={() => {
+                        className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+                        className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
                           setAuthMode('signup');
                           setAuthModalOpen(true);
                         }}
                       >
-                        Get Started
+                        <Wand2 className="mr-2 h-4 w-4" />
+                        <Wand2 className="mr-2 h-4 w-4" />
+                        Create AI Videos
                       </Button>
                     </>
                   )}
@@ -294,13 +305,14 @@ function AppContent() {
                     Sign In
                   </Button>
                   <Button 
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                    className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
                     onClick={() => {
                       setAuthMode('signup');
                       setAuthModalOpen(true);
                     }}
                   >
-                    Get Started
+                    <Wand2 className="mr-2 h-4 w-4" />
+                    Create AI Videos
                   </Button>
                 </>
               )}
@@ -372,22 +384,24 @@ function AppContent() {
             <div className="space-y-8">
               <div className="space-y-6">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                  Connect Artists with 
-                  <span className="text-blue-600"> Perfect Events</span>
+                  Create Stunning 
+                  <span className="text-blue-600"> AI Videos</span>
+                  <br />
+                  <span className="text-purple-600">Get Booked</span> for Events
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  Live Vibe is the premier platform connecting talented artists with event organizers. 
-                  Discover, book, and manage live performances with ease.
+                  Transform your music into professional videos with AI, then get discovered by event organizers worldwide. 
+                  Create, showcase, and earn from your talent all in one platform.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg"
                   onClick={handleStartArtistJourney}
                 >
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Join as Artist
+                  <Wand2 className="mr-2 h-5 w-5" />
+                  Create AI Videos Free
                 </Button>
                 <Button 
                   size="lg" 
@@ -395,28 +409,29 @@ function AppContent() {
                   className="px-8 py-4 text-lg border-2"
                   onClick={() => {
                     if (user) {
-                      setPromoterSetupOpen(true);
+                      setAiStudioOpen(true);
                     } else {
-                      setShowPricing(true);
+                      setAuthMode('signup');
+                      setAuthModalOpen(true);
                     }
                   }}
                 >
-                  <Calendar className="mr-2 h-5 w-5" />
-                  Find Talent
+                  <Video className="mr-2 h-5 w-5" />
+                  See AI Studio
                 </Button>
               </div>
               <div className="flex items-center gap-8 pt-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-900">10K+</div>
-                  <div className="text-sm text-gray-600">Active Artists</div>
-                </div>
-                <div className="text-center">
                   <div className="text-2xl font-bold text-gray-900">50K+</div>
-                  <div className="text-sm text-gray-600">Events Booked</div>
+                  <div className="text-sm text-gray-600">AI Videos Created</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-900">95%</div>
-                  <div className="text-sm text-gray-600">Success Rate</div>
+                  <div className="text-2xl font-bold text-gray-900">10K+</div>
+                  <div className="text-sm text-gray-600">Artists Earning</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-gray-900">2M+</div>
+                  <div className="text-sm text-gray-600">Video Views</div>
                 </div>
               </div>
             </div>
@@ -431,48 +446,48 @@ function AppContent() {
       <section id="features" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Why Choose Live Vibe?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">AI-Powered Artist Platform</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Everything you need to connect artists with perfect events
+              Create stunning videos with AI, get discovered by organizers, and build your career
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { 
-                title: "Smart Matching", 
-                description: "AI-powered algorithm matches artists with perfect events based on genre, location, and budget",
-                icon: Zap,
-                color: "bg-blue-100 text-blue-600"
-              },
-              { 
-                title: "Secure Booking", 
-                description: "Safe and secure booking system with escrow payments and contract management",
-                icon: Shield,
-                color: "bg-green-100 text-green-600"
-              },
-              { 
-                title: "Global Reach", 
-                description: "Connect with artists and events worldwide through our international platform",
-                icon: Globe,
+                title: "AI Video Creation", 
+                description: "Transform your music into professional videos using advanced AI. Create music videos, lyric videos, and visual content in minutes",
+                icon: Wand2,
                 color: "bg-purple-100 text-purple-600"
               },
               { 
-                title: "Mobile First", 
-                description: "Manage bookings, communicate, and track events on-the-go with our mobile app",
-                icon: Smartphone,
+                title: "Smart Artist Matching", 
+                description: "AI-powered algorithm connects you with perfect events based on your style, location, and availability",
+                icon: Bot,
+                color: "bg-blue-100 text-blue-600"
+              },
+              { 
+                title: "Instant Portfolio", 
+                description: "Upload your work and let AI enhance your portfolio with professional presentations and showcases",
+                icon: Rocket,
+                color: "bg-green-100 text-green-600"
+              },
+              { 
+                title: "Viral Content Tools", 
+                description: "Create shareable content optimized for social media with AI-generated thumbnails and clips",
+                icon: TrendingUp,
                 color: "bg-orange-100 text-orange-600"
               },
               { 
-                title: "Live Streaming", 
-                description: "Stream performances live to expand your audience and create hybrid events",
-                icon: Radio,
+                title: "YouTube Integration", 
+                description: "Automatically upload your AI videos to YouTube with SEO optimization and custom thumbnails",
+                icon: Film,
                 color: "bg-red-100 text-red-600"
               },
               { 
-                title: "Analytics", 
-                description: "Detailed insights and analytics to help artists and organizers make data-driven decisions",
-                icon: Trophy,
+                title: "Booking Analytics", 
+                description: "Track your video performance, booking requests, and earnings with detailed analytics dashboard",
+                icon: Eye,
                 color: "bg-teal-100 text-teal-600"
               }
             ].map((feature, idx) => (
@@ -494,10 +509,64 @@ function AppContent() {
       <section id="artists" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Featured Artists</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">AI-Powered Artist Success Stories</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover talented artists ready to make your event unforgettable
+              See how artists are using AI video creation to get more bookings and grow their careers
             </p>
+          </div>
+          
+          {/* AI Video Examples */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {[
+              {
+                title: "Luna's AI Music Video",
+                description: "Created a viral music video in 10 minutes, got 50K views, booked 12 events",
+                image: "https://images.pexels.com/photos/3756941/pexels-photo-3756941.jpeg?auto=compress&cs=tinysrgb&w=400",
+                stats: "50K views • 12 bookings • $15K earned"
+              },
+              {
+                title: "Marcus's Lyric Video",
+                description: "AI-generated lyric video led to record label interest and festival bookings",
+                image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400",
+                stats: "100K views • 8 bookings • $25K earned"
+              },
+              {
+                title: "Indie Collective's Visual",
+                description: "Abstract AI visuals perfectly matched their sound, tripled their booking rate",
+                image: "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=400",
+                stats: "75K views • 15 bookings • $20K earned"
+              }
+            ].map((example, idx) => (
+              <Card key={idx} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+                <div className="relative">
+                  <img 
+                    src={example.image} 
+                    alt={example.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                    <Button className="bg-white/90 text-gray-900 hover:bg-white">
+                      <Play className="h-4 w-4 mr-2" />
+                      Watch AI Video
+                    </Button>
+                  </div>
+                  <div className="absolute top-4 left-4">
+                    <Badge className="bg-purple-600 text-white">
+                      <Wand2 className="h-3 w-3 mr-1" />
+                      AI Created
+                    </Badge>
+                  </div>
+                </div>
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">{example.title}</h3>
+                  <p className="text-gray-600 text-sm mb-3">{example.description}</p>
+                  <div className="flex items-center gap-2 text-xs text-green-600 font-medium">
+                    <TrendingUp className="h-3 w-3" />
+                    {example.stats}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -517,31 +586,57 @@ function AppContent() {
                     )}
                   </div>
                   <div className="absolute top-4 left-4">
-                    <Badge variant="secondary" className="bg-white/90 text-gray-800">
-                      {artist.price}
+                    <Badge className="bg-purple-600 text-white">
+                      <Video className="h-3 w-3 mr-1" />
+                      AI Portfolio
                     </Badge>
                   </div>
                 </div>
                 <CardContent className="p-6 space-y-4">
-                  <div className="space-y-2">
+                    Create stunning AI videos to attract event organizers. Artists with AI-powered portfolios receive 10x more booking requests!
                     <h3 className="text-xl font-bold text-gray-900">{artist.name}</h3>
                     <p className="text-blue-600 font-medium">{artist.genre}</p>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <p className="text-xs text-purple-600 font-medium">
+                      <div className="bg-purple-100 p-2 rounded-full w-fit mx-auto mb-1">
+                        <Wand2 className="h-4 w-4 text-purple-600" />
+                    </p>
+                      <p className="text-xs text-gray-600">AI Videos</p>
                       <div className="flex items-center gap-1">
                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">{artist.rating}</span>
-                      </div>
+                      <div className="bg-blue-100 p-2 rounded-full w-fit mx-auto mb-1">
+                        <Film className="h-4 w-4 text-blue-600" />
                       <div className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
+                      <p className="text-xs text-gray-600">Showcases</p>
                         <span>{artist.location}</span>
                       </div>
+                      <div className="bg-green-100 p-2 rounded-full w-fit mx-auto mb-1">
+                        <Share2 className="h-4 w-4 text-green-600" />
+                        <span>{artist.price}</span>
+                      <p className="text-xs text-gray-600">Social Media</p>
                     </div>
                   </div>
+                  <Button 
+                    onClick={() => {
+                      if (user) {
+                        setAiStudioOpen(true);
+                      } else {
+                        setAuthMode('signup');
+                        setAuthModalOpen(true);
+                      }
+                    }}
+                    className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 mb-4"
+                  >
+                    <Wand2 className="h-4 w-4 mr-2" />
+                    Create AI Videos Now
+                  </Button>
                   <div className="flex gap-2">
                     <Button 
                       className="flex-1 bg-blue-600 hover:bg-blue-700"
                     >
                       Book Now
+                    </Button>
+                    <Button variant="outline" size="icon">
+                      <Video className="h-4 w-4" />
                     </Button>
                     <Button variant="outline" size="icon">
                       <Heart className="h-4 w-4" />
@@ -555,11 +650,11 @@ function AppContent() {
           <div className="text-center mt-12">
             <Button 
               size="lg" 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4"
+              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4"
               onClick={handleStartArtistJourney}
             >
-              <Users className="mr-2 h-5 w-5" />
-              Become a Featured Artist
+              <Wand2 className="mr-2 h-5 w-5" />
+              Create Your AI Videos Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
@@ -570,9 +665,9 @@ function AppContent() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">How It Works</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">From Music to Bookings in 4 Steps</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Simple steps to connect artists with events
+              Create AI videos, get discovered, and start earning from your talent
             </p>
           </div>
           
@@ -580,35 +675,35 @@ function AppContent() {
             {[
               { 
                 step: 1, 
-                title: "Create Profile", 
-                description: "Artists create detailed profiles showcasing their talent and availability",
-                icon: Users
+                title: "Upload Your Music", 
+                description: "Upload your audio tracks, lyrics, and any reference images or videos you want to include",
+                icon: Upload
               },
               { 
                 step: 2, 
-                title: "Get Discovered", 
-                description: "Event organizers browse and discover artists that match their needs",
-                icon: Search
+                title: "AI Creates Videos", 
+                description: "Our AI transforms your music into stunning professional videos with custom visuals and effects",
+                icon: Wand2
               },
               { 
                 step: 3, 
-                title: "Book & Pay", 
-                description: "Secure booking with integrated payment processing and contracts",
-                icon: Calendar
+                title: "Get Discovered", 
+                description: "Event organizers discover you through your AI-powered portfolio and video showcase",
+                icon: Eye
               },
               { 
                 step: 4, 
-                title: "Perform & Review", 
-                description: "Successful events lead to reviews and repeat bookings",
-                icon: Star
+                title: "Book & Earn", 
+                description: "Receive booking requests, negotiate terms, and get paid securely for your performances",
+                icon: DollarSign
               }
             ].map((item, idx) => (
               <div key={idx} className="text-center space-y-4">
                 <div className="relative">
-                  <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="bg-gradient-to-r from-purple-600 to-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <item.icon className="h-8 w-8 text-white" />
                   </div>
-                  <div className="absolute -top-2 -right-2 bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
+                  <div className="absolute -top-2 -right-2 bg-purple-100 text-purple-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
                     {item.step}
                   </div>
                 </div>
@@ -617,38 +712,140 @@ function AppContent() {
               </div>
             ))}
           </div>
+          
+          {/* AI Studio Preview */}
+          <div className="mt-20 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border-2 border-dashed border-purple-200">
+            <div className="text-center space-y-6">
+              <div className="bg-white p-6 rounded-full w-fit mx-auto shadow-lg">
+                <Wand2 className="h-16 w-16 text-purple-600" />
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900">Try Our AI Studio Now</h3>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Experience the magic of AI video creation. Upload your music and watch it transform into a professional video in minutes.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4"
+                  onClick={() => {
+                    if (user) {
+                      setAiStudioOpen(true);
+                    } else {
+                      setAuthMode('signup');
+                      setAuthModalOpen(true);
+                    }
+                  }}
+                >
+                  <Wand2 className="mr-2 h-5 w-5" />
+                  Start Creating Free
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="px-8 py-4 border-2"
+                  onClick={() => {
+                    // Scroll to features section
+                    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <Play className="mr-2 h-5 w-5" />
+                  Watch Demo
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-purple-600">10 min</div>
+                  <div className="text-sm text-gray-600">Average creation time</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">4K Quality</div>
+                  <div className="text-sm text-gray-600">Professional output</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600">Free</div>
+                  <div className="text-sm text-gray-600">First video included</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-gradient-to-r from-purple-600 to-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8">
             <h2 className="text-3xl md:text-4xl font-bold text-white">
-              Ready to Get Started?
+              Ready to Transform Your Music Career?
             </h2>
             <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-              Join thousands of artists and event organizers who trust Live Vibe for their booking needs
+              Join thousands of artists using AI to create stunning videos, get more bookings, and build successful careers
             </p>
+            
+            {/* Success Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-white">50K+</div>
+                <div className="text-blue-100">AI Videos Created</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-white">10K+</div>
+                <div className="text-blue-100">Artists Earning</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-white">$2.5M+</div>
+                <div className="text-blue-100">Total Artist Earnings</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-white">95%</div>
+                <div className="text-blue-100">Success Rate</div>
+              </div>
+            </div>
+            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg"
+                className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
                 onClick={handleStartArtistJourney}
               >
-                <Sparkles className="mr-2 h-5 w-5" />
-                Launch Your Artist Career
+                <Wand2 className="mr-2 h-5 w-5" />
+                Create AI Videos Free
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 text-lg"
+                className="border-white text-white hover:bg-white hover:text-purple-600 px-8 py-4 text-lg"
                 onClick={() => {
-                  setShowPricing(true);
+                  if (user) {
+                    setAiStudioOpen(true);
+                  } else {
+                    setAuthMode('signup');
+                    setAuthModalOpen(true);
+                  }
                 }}
               >
-                Discover Artists
+                <Video className="mr-2 h-5 w-5" />
+                Try AI Studio
               </Button>
+            </div>
+            
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl mx-auto">
+              <div className="flex items-center justify-center gap-4 text-white">
+                <div className="flex items-center gap-2">
+                  <Wand2 className="h-5 w-5" />
+                  <span className="font-medium">AI Video Creation</span>
+                </div>
+                <div className="w-1 h-1 bg-white rounded-full"></div>
+                <div className="flex items-center gap-2">
+                  <Users className="h-5 w-5" />
+                  <span className="font-medium">Event Bookings</span>
+                </div>
+                <div className="w-1 h-1 bg-white rounded-full"></div>
+                <div className="flex items-center gap-2">
+                  <DollarSign className="h-5 w-5" />
+                  <span className="font-medium">Secure Payments</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -675,9 +872,9 @@ function AppContent() {
             <div className="space-y-4">
               <h4 className="text-lg font-semibold">For Artists</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Create Profile</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Find Gigs</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Artist Resources</a>
+                <a href="#" className="block text-gray-400 hover:text-white transition-colors">AI Video Studio</a>
+                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Create Portfolio</a>
+                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Get Bookings</a>
                 <a href="#" className="block text-gray-400 hover:text-white transition-colors">Success Stories</a>
               </div>
             </div>
@@ -685,7 +882,7 @@ function AppContent() {
             <div className="space-y-4">
               <h4 className="text-lg font-semibold">For Organizers</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Find Promoters</a>
+                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Find Artists</a>
                 <a href="#" className="block text-gray-400 hover:text-white transition-colors">Post Event</a>
                 <a href="#" className="block text-gray-400 hover:text-white transition-colors">Event Planning</a>
                 <a href="#" className="block text-gray-400 hover:text-white transition-colors">Pricing</a>
@@ -693,12 +890,12 @@ function AppContent() {
             </div>
             
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold">Support</h4>
+              <h4 className="text-lg font-semibold">AI Features</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Help Center</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Contact Us</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Terms of Service</a>
-                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Music Videos</a>
+                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Lyric Videos</a>
+                <a href="#" className="block text-gray-400 hover:text-white transition-colors">Visual Content</a>
+                <a href="#" className="block text-gray-400 hover:text-white transition-colors">YouTube Upload</a>
               </div>
             </div>
           </div>
