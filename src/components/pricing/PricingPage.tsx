@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
 import { supabase } from '@/lib/supabase'
+import { SubscriptionPayment } from '@/components/payments/SubscriptionPayment'
 import { 
   Check, 
   Star, 
@@ -54,7 +55,7 @@ export function PricingPage() {
   const [subscribing, setSubscribing] = useState<string | null>(null)
   const [selectedTab, setSelectedTab] = useState<'artist' | 'organizer'>('artist')
   const [isYearly, setIsYearly] = useState(false)
-  const [confirmModalOpen, setConfirmModalOpen] = useState(false)
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(null)
 
   useEffect(() => {
@@ -116,62 +117,16 @@ export function PricingPage() {
       return
     }
 
+    // Open payment modal instead of confirmation
     setSelectedPlan(plan)
-    setConfirmModalOpen(true)
+    setPaymentModalOpen(true)
   }
 
-  const confirmSubscription = async () => {
-    if (!selectedPlan || !user) return
-
-    setSubscribing(selectedPlan.id)
-    try {
-      // Cancel existing subscription if any
-      if (userSubscription) {
-        await supabase
-          .from('user_subscriptions')
-          .update({ status: 'cancelled' })
-          .eq('id', userSubscription.id)
-      }
-
-      // Create new subscription
-      const endDate = isYearly 
-        ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
-        : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-
-      const { data, error } = await supabase
-        .from('user_subscriptions')
-        .insert({
-          user_id: user.id,
-          plan_id: selectedPlan.id,
-          status: 'active',
-          billing_cycle: isYearly ? 'yearly' : 'monthly',
-          current_period_start: new Date().toISOString(),
-          current_period_end: endDate.toISOString()
-        })
-        .select(`
-          *,
-          plan:subscription_plans(*)
-        `)
-        .single()
-
-      if (error) throw error
-
-      setUserSubscription(data)
-      setConfirmModalOpen(false)
-      
-      toast({
-        title: "Success!",
-        description: `Successfully subscribed to ${selectedPlan.name}`,
-      })
-    } catch (error: any) {
-      toast({
-        title: "Subscription failed",
-        description: error.message || "Failed to process subscription",
-        variant: "destructive",
-      })
-    } finally {
-      setSubscribing(null)
-    }
+  const handleSubscriptionSuccess = () => {
+    // Refresh user subscription data
+    fetchUserSubscription()
+    setPaymentModalOpen(false)
+    setSelectedPlan(null)
   }
 
   const formatPrice = (cents: number) => {
@@ -442,64 +397,16 @@ export function PricingPage() {
         </div>
       </div>
 
-      {/* Confirmation Modal */}
-      <Dialog open={confirmModalOpen} onOpenChange={setConfirmModalOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Confirm Subscription</DialogTitle>
-          </DialogHeader>
-          {selectedPlan && (
-            <div className="space-y-4">
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <h3 className="font-semibold text-gray-900">{selectedPlan.name}</h3>
-                <div className="text-2xl font-bold text-gray-900 mt-2">
-                  ${formatPrice(isYearly ? selectedPlan.price_yearly / 12 : selectedPlan.price_monthly)}/month
-                </div>
-                {isYearly && selectedPlan.price_yearly > 0 && (
-                  <p className="text-sm text-gray-500 mt-1">
-                    Billed ${formatPrice(selectedPlan.price_yearly)} yearly
-                  </p>
-                )}
-              </div>
-              
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span>Billing Cycle:</span>
-                  <span className="font-medium capitalize">{isYearly ? 'Yearly' : 'Monthly'}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Commission Rate:</span>
-                  <span className="font-medium">{(selectedPlan.commission_rate * 100).toFixed(0)}%</span>
-                </div>
-              </div>
-              
-              <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  onClick={() => setConfirmModalOpen(false)}
-                  className="flex-1"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={confirmSubscription}
-                  disabled={!!subscribing}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700"
-                >
-                  {subscribing ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    'Confirm'
-                  )}
-                </Button>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+      {/* Payment Modal */}
+      <SubscriptionPayment
+        isOpen={paymentModalOpen}
+        onClose={() => {
+          setPaymentModalOpen(false)
+          setSelectedPlan(null)
+        }}
+        selectedPlan={selectedPlan}
+        onSubscriptionSuccess={handleSubscriptionSuccess}
+      />
     </div>
   )
 }
