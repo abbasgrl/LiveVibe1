@@ -1097,7 +1097,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
             ) : (
               <Button
                 onClick={handleSubmit}
-                disabled={loading || uploadingPhoto || !formData.artist_type || !formData.subscription_plan}
+                disabled={loading || !formData.artist_type || !formData.subscription_plan}
                 className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
               >
                 {loading || uploadingPhoto ? (
