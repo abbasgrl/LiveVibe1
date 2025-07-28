@@ -7,6 +7,7 @@ import { PaymentTracking } from './PaymentTracking';
 import { AvailabilityCalendar } from './AvailabilityCalendar';
 import { BookingAnalytics } from './BookingAnalytics';
 import { ContractManagement } from './ContractManagement';
+import { NotificationSettings } from './NotificationSettings';
 import { Calendar, Settings, Bell, DollarSign, BarChart3, FileText } from 'lucide-react';
 
 export function BookingPage() {
@@ -69,7 +70,9 @@ export function BookingPage() {
           </TabsContent>
 
           <TabsContent value="notifications">
-            <NotificationSettings />
+            <div className="bg-white rounded-lg p-6">
+              <NotificationSettings />
+            </div>
           </TabsContent>
 
           <TabsContent value="analytics">

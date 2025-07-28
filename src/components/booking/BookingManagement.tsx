@@ -222,13 +222,15 @@ export function BookingManagement() {
           <Button 
             variant="outline" 
             onClick={() => setShowNotifications(true)}
-            className="relative bg-purple-50 border-purple-200 hover:bg-purple-100 text-purple-700"
+            className="relative"
           >
             <Bell className="mr-2 h-4 w-4" />
             Notifications
-            <Badge className="absolute -top-2 -right-2 h-6 w-6 p-0 flex items-center justify-center bg-red-500 hover:bg-red-500 text-white text-xs font-bold animate-pulse">
-              {notifications.filter(n => !n.read).length}
-            </Badge>
+            {notifications.filter(n => !n.read).length > 0 && (
+              <Badge className="absolute -top-2 -right-2 h-6 w-6 p-0 flex items-center justify-center bg-red-500 hover:bg-red-500 text-white text-xs font-bold animate-pulse">
+                {notifications.filter(n => !n.read).length}
+              </Badge>
+            )}
           </Button>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -373,7 +375,7 @@ export function BookingManagement() {
                               size="sm" 
                               variant="destructive" 
                               className="w-full"
-                              onClick={() => handleDeclineBooking(booking.id)}
+                            className="w-full bg-green-600 hover:bg-green-700"
                             >
                               <XCircle className="mr-2 h-4 w-4" />
                               Decline
