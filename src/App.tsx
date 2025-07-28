@@ -409,7 +409,7 @@ function App() {
                       <Button 
                         variant="outline" 
                         size="icon" 
-                        className="rounded-xl"
+                        className="rounded-xl border-2 border-purple-300 hover:border-purple-500 hover:bg-purple-50 transition-all duration-200"
                         onClick={() => handleViewArtistProfile(artist)}
                        title="View Artist Profile"
                       >
