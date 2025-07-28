@@ -5,7 +5,8 @@ import { BookingManagement } from './BookingManagement';
 import { NotificationSettings } from './NotificationSettings';
 import { PaymentTracking } from './PaymentTracking';
 import { AvailabilityCalendar } from './AvailabilityCalendar';
-import { Calendar, Settings, Bell, DollarSign } from 'lucide-react';
+import { BookingAnalytics } from './BookingAnalytics';
+import { Calendar, Settings, Bell, DollarSign, BarChart3 } from 'lucide-react';
 
 export function BookingPage() {
   const [activeTab, setActiveTab] = useState('book');
@@ -19,7 +20,7 @@ export function BookingPage() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full max-w-3xl grid-cols-5">
+          <TabsList className="grid w-full max-w-4xl grid-cols-6">
             <TabsTrigger value="book" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               Book Artist
@@ -39,6 +40,10 @@ export function BookingPage() {
             <TabsTrigger value="notifications" className="flex items-center gap-2">
               <Bell className="h-4 w-4" />
               Notifications
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Analytics
             </TabsTrigger>
           </TabsList>
 
@@ -60,6 +65,10 @@ export function BookingPage() {
 
           <TabsContent value="notifications">
             <NotificationSettings />
+          </TabsContent>
+
+          <TabsContent value="analytics">
+            <BookingAnalytics />
           </TabsContent>
         </Tabs>
       </div>
