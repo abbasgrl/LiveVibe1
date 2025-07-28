@@ -1,8 +1,18 @@
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { AuthModal } from "@/components/auth/AuthModal";
+import { UserMenu } from "@/components/auth/UserMenu";
+import { ArtistProfile } from "@/components/profile/ArtistProfile";
+import { ArtUpload } from "@/components/profile/ArtUpload";
+import { EventBookingSystem } from "@/components/booking/EventBookingSystem";
+import { AIShowcaseStudio } from "@/components/ai-studio/AIShowcaseStudio";
+import { PricingPage } from "@/components/pricing/PricingPage";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { Toaster } from "@/components/ui/sonner";
 import { 
   Music, 
   Users, 
@@ -24,11 +34,40 @@ import {
   Radio,
   Clock,
   DollarSign,
-  User
+  User,
+  Menu,
+  X,
+  Wand2,
+  Bot,
+  Rocket,
+  TrendingUp,
+  Film,
+  Eye,
+  Video,
+  Share2
 } from 'lucide-react';
 
 function AppContent() {
+  const { user } = useAuth();
   const [selectedTab, setSelectedTab] = useState('search');
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [showProfile, setShowProfile] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
+  const [artUploadOpen, setArtUploadOpen] = useState(false);
+  const [bookingSystemOpen, setBookingSystemOpen] = useState(false);
+  const [aiStudioOpen, setAiStudioOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleStartArtistJourney = () => {
+    if (user) {
+      setShowProfile(true);
+    } else {
+      setAuthMode('signup');
+      setAuthModalOpen(true);
+    }
+  };
+
   const artists = [
     {
       name: "Luna Martinez",
