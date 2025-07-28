@@ -108,19 +108,12 @@ export function PricingPage() {
   }
 
   const handleSubscribe = async (plan: SubscriptionPlan) => {
-    if (!user) {
-      // Store selected plan in localStorage for after signup
-      localStorage.setItem('selectedPlan', JSON.stringify(plan))
-      
-      // Trigger signup modal
-      const signupEvent = new CustomEvent('openSignupModal')
-      window.dispatchEvent(signupEvent)
-      return
-    }
-
-    // For logged in users, open payment modal
-    setSelectedPlan(plan)
-    setPaymentModalOpen(true)
+    // Store selected plan in localStorage for after signup
+    localStorage.setItem('selectedPlan', JSON.stringify(plan))
+    
+    // Always trigger signup modal regardless of auth status
+    const signupEvent = new CustomEvent('openSignupModal')
+    window.dispatchEvent(signupEvent)
   }
 
   const handleSubscriptionSuccess = () => {
