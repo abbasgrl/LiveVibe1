@@ -309,6 +309,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
   const [step, setStep] = useState(1)
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [createdPlan, setCreatedPlan] = useState<any>(null)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
   const photoInputRef = React.useRef<HTMLInputElement>(null)
   
   // Form state
