@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { ArtistProfile } from "@/components/profile/ArtistProfile";
@@ -769,19 +770,23 @@ function AppContent() {
         mode={authMode}
       />
       
-      {showProfile && (
-        <ArtistProfile 
-          isOpen={showProfile}
-          onClose={() => setShowProfile(false)}
-        />
-      )}
+      <Dialog open={showProfile} onOpenChange={setShowProfile}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="sr-only">Artist Profile</DialogTitle>
+          </DialogHeader>
+          <ArtistProfile />
+        </DialogContent>
+      </Dialog>
       
-      {showPricing && (
-        <PricingPage 
-          isOpen={showPricing}
-          onClose={() => setShowPricing(false)}
-        />
-      )}
+      <Dialog open={showPricing} onOpenChange={setShowPricing}>
+        <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="sr-only">Pricing</DialogTitle>
+          </DialogHeader>
+          <PricingPage />
+        </DialogContent>
+      </Dialog>
       
       {artUploadOpen && (
         <ArtUpload 
