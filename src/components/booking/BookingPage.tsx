@@ -6,7 +6,8 @@ import { NotificationSettings } from './NotificationSettings';
 import { PaymentTracking } from './PaymentTracking';
 import { AvailabilityCalendar } from './AvailabilityCalendar';
 import { BookingAnalytics } from './BookingAnalytics';
-import { Calendar, Settings, Bell, DollarSign, BarChart3 } from 'lucide-react';
+import { ContractManagement } from './ContractManagement';
+import { Calendar, Settings, Bell, DollarSign, BarChart3, FileText } from 'lucide-react';
 
 export function BookingPage() {
   const [activeTab, setActiveTab] = useState('book');
@@ -20,7 +21,7 @@ export function BookingPage() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full max-w-4xl grid-cols-6">
+          <TabsList className="grid w-full max-w-5xl grid-cols-7">
             <TabsTrigger value="book" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               Book Artist
@@ -44,6 +45,10 @@ export function BookingPage() {
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
               Analytics
+            </TabsTrigger>
+            <TabsTrigger value="contracts" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Contracts
             </TabsTrigger>
           </TabsList>
 
@@ -69,6 +74,10 @@ export function BookingPage() {
 
           <TabsContent value="analytics">
             <BookingAnalytics />
+          </TabsContent>
+
+          <TabsContent value="contracts">
+            <ContractManagement />
           </TabsContent>
         </Tabs>
       </div>
