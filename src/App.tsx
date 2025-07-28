@@ -28,7 +28,8 @@ import {
   Sparkles,
   Radio,
   Clock,
-  DollarSign
+  DollarSign,
+  User
 } from 'lucide-react';
 
 function App() {
