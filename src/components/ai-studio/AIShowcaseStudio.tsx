@@ -158,9 +158,9 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
         .select('*')
         .eq('user_id', user.id)
         .eq('month_year', currentMonth)
-        .single()
+        .maybeSingle()
 
-      if (error && error.code !== 'PGRST116') throw error
+      if (error) throw error
       
       if (data) {
         setGenerationsUsed(data.generations_used)
