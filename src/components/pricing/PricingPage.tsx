@@ -109,11 +109,11 @@ export function PricingPage() {
 
   const handleSubscribe = async (plan: SubscriptionPlan) => {
     if (!user) {
-      toast({
-        title: "Sign in required",
-        description: "Please sign in to subscribe to a plan",
-        variant: "destructive",
-      })
+      // Store selected plan in localStorage for after signup
+      localStorage.setItem('selectedPlan', JSON.stringify(plan))
+      
+      // Redirect to sign up page
+      window.location.href = '/?signup=true'
       return
     }
 

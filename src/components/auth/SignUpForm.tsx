@@ -97,6 +97,18 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
         title: "Success!",
         description: "🎉 Welcome to Live Vibe! Let's set up your artist profile.",
       })
+      
+      // Check if user came from pricing page
+      const selectedPlan = localStorage.getItem('selectedPlan')
+      if (selectedPlan) {
+        localStorage.removeItem('selectedPlan')
+        // Show pricing page after profile setup
+        setTimeout(() => {
+          const showPricingEvent = new CustomEvent('showPricingAfterSignup')
+          window.dispatchEvent(showPricingEvent)
+        }, 1000)
+      }
+      
       // Close the auth modal and redirect to profile
       onClose()
       // Trigger profile setup after successful signup

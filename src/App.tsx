@@ -71,6 +71,17 @@ function AppContent() {
   const [showArtistOnboarding, setShowArtistOnboarding] = useState(false);
   const { user, loading } = useAuth();
 
+  // Check for signup parameter on load
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    if (urlParams.get('signup') === 'true') {
+      setAuthMode('signup')
+      setAuthModalOpen(true)
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname)
+    }
+  }, [])
+
   // Listen for auth modal close and profile show events
   useEffect(() => {
     const handleCloseAuthModal = () => {
@@ -85,14 +96,20 @@ function AppContent() {
       setProfileSetupOpen(true);
     };
     
+    const handleShowPricingAfterSignup = () => {
+      setShowPricing(true);
+    };
+    
     window.addEventListener('closeAuthModal', handleCloseAuthModal);
     window.addEventListener('showProfile', handleShowProfile);
     window.addEventListener('startProfileSetup', handleStartProfileSetup);
+    window.addEventListener('showPricingAfterSignup', handleShowPricingAfterSignup);
     
     return () => {
       window.removeEventListener('closeAuthModal', handleCloseAuthModal);
       window.removeEventListener('showProfile', handleShowProfile);
       window.removeEventListener('startProfileSetup', handleStartProfileSetup);
+      window.removeEventListener('showPricingAfterSignup', handleShowPricingAfterSignup);
     };
   }, []);
 
