@@ -148,8 +148,8 @@ function App() {
                 className="text-lg px-8 py-6 rounded-xl border-2 hover:bg-gray-50 transition-all duration-300"
                 onClick={() => setCurrentPage('booking')}
               >
-                <Search className="mr-2 h-5 w-5" />
-                Browse Artists
+                <Calendar className="mr-2 h-5 w-5" />
+                Booking Dashboard
               </Button>
             </div>
           </div>
@@ -306,11 +306,11 @@ function App() {
               <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 h-12 rounded-xl">
                 <TabsTrigger value="search" className="rounded-lg text-base">
                   <Search className="mr-2 h-4 w-4" />
-                  Search Artists
+                  Find Artists
                 </TabsTrigger>
                 <TabsTrigger value="book" className="rounded-lg text-base">
                   <Calendar className="mr-2 h-4 w-4" />
-                  Book Now
+                  Quick Book
                 </TabsTrigger>
               </TabsList>
               
