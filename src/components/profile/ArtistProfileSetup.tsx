@@ -12,12 +12,210 @@ import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
 import { supabase } from '@/lib/supabase'
-import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette, Crown, Star, Zap, X, Image, ChevronDown, ArrowRight, Sparkles } from 'lucide-react'
+import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette, Crown, Star, Zap, X, Image, ChevronDown, ArrowRight, Sparkles, Users } from 'lucide-react'
 
 interface ArtistProfileSetupProps {
   isOpen: boolean
   onClose: () => void
   existingProfile?: any
+}
+
+interface SubscriptionConfirmationProps {
+  isOpen: boolean
+  onClose: () => void
+  onUpgrade: (planId: string) => void
+  selectedPlan: any
+}
+
+function SubscriptionConfirmationModal({ isOpen, onClose, onUpgrade, selectedPlan }: SubscriptionConfirmationProps) {
+  const [upgrading, setUpgrading] = useState(false)
+
+  const handleUpgrade = async (planId: string) => {
+    setUpgrading(true)
+    await onUpgrade(planId)
+    setUpgrading(false)
+  }
+
+  const paidPlans = ARTIST_SUBSCRIPTION_PLANS.filter(plan => plan.id !== 'artist_starter')
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle className="text-center text-2xl font-bold">
+            🎉 Welcome to Live Vibe!
+          </DialogTitle>
+        </DialogHeader>
+        
+        <div className="space-y-6 py-4">
+          {/* Success Message */}
+          <div className="text-center space-y-4">
+            <div className="bg-gradient-to-r from-green-100 to-blue-100 p-6 rounded-lg">
+              <div className="bg-white p-4 rounded-full w-fit mx-auto mb-4 shadow-lg">
+                <Sparkles className="h-12 w-12 text-green-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Your {selectedPlan?.name} Account is Ready!
+              </h3>
+              <p className="text-gray-600">
+                You can now start uploading your portfolio and receiving booking requests from event organizers worldwide.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
+              <div className="text-center">
+                <div className="bg-blue-100 p-3 rounded-full w-fit mx-auto mb-2">
+                  <Upload className="h-5 w-5 text-blue-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-700">Upload Portfolio</p>
+                <p className="text-xs text-gray-500">Show your work</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-green-100 p-3 rounded-full w-fit mx-auto mb-2">
+                  <Users className="h-5 w-5 text-green-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-700">Get Discovered</p>
+                <p className="text-xs text-gray-500">By organizers</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-purple-100 p-3 rounded-full w-fit mx-auto mb-2">
+                  <Star className="h-5 w-5 text-purple-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-700">Start Earning</p>
+                <p className="text-xs text-gray-500">From bookings</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Upgrade Options */}
+          {selectedPlan?.id === 'artist_starter' && (
+            <div className="space-y-4">
+              <div className="text-center">
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                  🚀 Ready to Supercharge Your Career?
+                </h4>
+                <p className="text-gray-600 text-sm">
+                  Upgrade now and get more bookings, AI generations, and premium features
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {paidPlans.map((plan) => {
+                  const IconComponent = plan.icon
+                  return (
+                    <Card key={plan.id} className={`border-2 hover:shadow-lg transition-all cursor-pointer ${
+                      plan.popular ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+                    }`}>
+                      <CardContent className="p-4">
+                        {plan.popular && (
+                          <div className="text-center mb-2">
+                            <Badge className="bg-blue-600 text-white text-xs">Most Popular</Badge>
+                          </div>
+                        )}
+                        <div className="text-center space-y-3">
+                          <div className={`p-3 rounded-full w-fit mx-auto ${plan.bgColor}`}>
+                            <IconComponent className={`h-6 w-6 ${plan.color}`} />
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-gray-900">{plan.name}</h5>
+                            <div className="text-lg font-bold text-gray-900">{plan.price}</div>
+                            <p className="text-xs text-gray-600 mt-1">{plan.description}</p>
+                          </div>
+                          <div className="space-y-1">
+                            {plan.features.slice(0, 3).map((feature, idx) => (
+                              <div key={idx} className="flex items-center gap-2 text-xs text-gray-600">
+                                <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                                <span>{feature}</span>
+                              </div>
+                            ))}
+                            {plan.features.length > 3 && (
+                              <p className="text-xs text-gray-500">+{plan.features.length - 3} more features</p>
+                            )}
+                          </div>
+                          <Button
+                            onClick={() => handleUpgrade(plan.id)}
+                            disabled={upgrading}
+                            className={`w-full ${
+                              plan.popular 
+                                ? 'bg-blue-600 hover:bg-blue-700' 
+                                : 'bg-gray-600 hover:bg-gray-700'
+                            }`}
+                          >
+                            {upgrading ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Upgrading...
+                              </>
+                            ) : (
+                              <>
+                                <Crown className="mr-2 h-4 w-4" />
+                                Upgrade Now
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )
+                })}
+              </div>
+              
+              <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <Zap className="h-4 w-4 text-yellow-600" />
+                  <span className="font-medium text-yellow-800">Limited Time Offer</span>
+                </div>
+                <p className="text-sm text-yellow-700">
+                  Upgrade within 24 hours and get your first month 50% off! 
+                  Plus, unlock unlimited AI showcase generations.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="flex gap-3">
+            {selectedPlan?.id === 'artist_starter' ? (
+              <>
+                <Button
+                  variant="outline"
+                  onClick={onClose}
+                  className="flex-1"
+                >
+                  Continue with Free Plan
+                </Button>
+                <Button
+                  onClick={() => handleUpgrade('artist_pro')}
+                  disabled={upgrading}
+                  className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                >
+                  {upgrading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Upgrading...
+                    </>
+                  ) : (
+                    <>
+                      <Star className="mr-2 h-4 w-4" />
+                      Upgrade to Pro
+                    </>
+                  )}
+                </Button>
+              </>
+            ) : (
+              <Button
+                onClick={onClose}
+                className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+              >
+                <Sparkles className="mr-2 h-4 w-4" />
+                Start Building Your Portfolio
+              </Button>
+            )}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 const VISUAL_ARTIST_CATEGORIES = [
@@ -109,6 +307,8 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
   const [loading, setLoading] = useState(false)
   const [uploadingPhoto, setUploadingPhoto] = useState(false)
   const [step, setStep] = useState(1)
+  const [showConfirmation, setShowConfirmation] = useState(false)
+  const [createdPlan, setCreatedPlan] = useState<any>(null)
   const photoInputRef = React.useRef<HTMLInputElement>(null)
   
   // Form state
@@ -257,6 +457,49 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
     }
   }
 
+  const handleUpgrade = async (planId: string) => {
+    if (!user) return
+
+    try {
+      // Get the new plan details
+      const { data: planData, error: planError } = await supabase
+        .from('subscription_plans')
+        .select('*')
+        .eq('id', planId)
+        .single()
+
+      if (planError) throw planError
+
+      // Update the subscription
+      const endDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      
+      const { error: subscriptionError } = await supabase
+        .from('user_subscriptions')
+        .update({
+          plan_id: planId,
+          current_period_end: endDate.toISOString()
+        })
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+
+      if (subscriptionError) throw subscriptionError
+
+      toast({
+        title: "Upgraded successfully!",
+        description: `Welcome to ${planData.name}! Your new features are now active.`,
+      })
+
+      setShowConfirmation(false)
+      onClose()
+    } catch (error: any) {
+      toast({
+        title: "Upgrade failed",
+        description: error.message || "Failed to upgrade subscription",
+        variant: "destructive",
+      })
+    }
+  }
+
   const handleSubmit = async () => {
     if (!user) return
 
@@ -314,24 +557,26 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
         }
       }
 
+      // Find the selected plan for confirmation modal
+      const selectedPlan = ARTIST_SUBSCRIPTION_PLANS.find(plan => 
+        plan.name.toLowerCase().replace(' ', '_') === formData.subscription_plan ||
+        plan.id === formData.subscription_plan
+      )
+      setCreatedPlan(selectedPlan)
+
       toast({
         title: "Success!",
         description: existingProfile 
           ? "Your artist profile has been updated successfully." 
-          : "🎉 Congratulations! Your artist profile is now live and ready to receive bookings!",
+          : "Your artist profile has been created successfully!",
       })
       
-      // Show success and next steps
       if (!existingProfile) {
-        setTimeout(() => {
-          toast({
-            title: "🚀 You're Almost Ready!",
-            description: "Upload your portfolio to start receiving event invitations from organizers worldwide!",
-          })
-        }, 2000)
+        // Show confirmation modal instead of closing immediately
+        setShowConfirmation(true)
+      } else {
+        onClose()
       }
-      
-      onClose()
       
       // Redirect to profile page to see the created profile
       if (!existingProfile) {
@@ -871,6 +1116,13 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
           </div>
         </div>
       </DialogContent>
+      
+      <SubscriptionConfirmationModal
+        isOpen={showConfirmation}
+        onClose={() => { setShowConfirmation(false); onClose(); }}
+        onUpgrade={handleUpgrade}
+        selectedPlan={createdPlan}
+      />
     </Dialog>
   )
 }
