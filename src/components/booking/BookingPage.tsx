@@ -7,7 +7,6 @@ import { PaymentTracking } from './PaymentTracking';
 import { AvailabilityCalendar } from './AvailabilityCalendar';
 import { BookingAnalytics } from './BookingAnalytics';
 import { ContractManagement } from './ContractManagement';
-import { NotificationSettings } from './NotificationSettings';
 import { Calendar, Settings, Bell, DollarSign, BarChart3, FileText } from 'lucide-react';
 
 export function BookingPage() {
