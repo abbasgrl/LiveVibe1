@@ -149,7 +149,7 @@ function App() {
                 onClick={() => setCurrentPage('booking')}
               >
                 <Search className="mr-2 h-5 w-5" />
-                Book an Artist
+                Browse Artists
               </Button>
             </div>
           </div>
