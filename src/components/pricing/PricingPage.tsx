@@ -112,12 +112,13 @@ export function PricingPage() {
       // Store selected plan in localStorage for after signup
       localStorage.setItem('selectedPlan', JSON.stringify(plan))
       
-      // Redirect to sign up page
-      window.location.href = '/?signup=true'
+      // Trigger signup modal instead of redirect
+      const signupEvent = new CustomEvent('openSignupModal')
+      window.dispatchEvent(signupEvent)
       return
     }
 
-    // Open payment modal instead of confirmation
+    // For logged in users, open payment modal
     setSelectedPlan(plan)
     setPaymentModalOpen(true)
   }

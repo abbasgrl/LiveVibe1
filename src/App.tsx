@@ -100,16 +100,23 @@ function AppContent() {
       setShowPricing(true);
     };
     
+    const handleOpenSignupModal = () => {
+      setAuthMode('signup');
+      setAuthModalOpen(true);
+    };
+    
     window.addEventListener('closeAuthModal', handleCloseAuthModal);
     window.addEventListener('showProfile', handleShowProfile);
     window.addEventListener('startProfileSetup', handleStartProfileSetup);
     window.addEventListener('showPricingAfterSignup', handleShowPricingAfterSignup);
+    window.addEventListener('openSignupModal', handleOpenSignupModal);
     
     return () => {
       window.removeEventListener('closeAuthModal', handleCloseAuthModal);
       window.removeEventListener('showProfile', handleShowProfile);
       window.removeEventListener('startProfileSetup', handleStartProfileSetup);
       window.removeEventListener('showPricingAfterSignup', handleShowPricingAfterSignup);
+      window.removeEventListener('openSignupModal', handleOpenSignupModal);
     };
   }, []);
 
