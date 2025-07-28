@@ -278,7 +278,6 @@ function AppContent() {
                 </div>
               </div>
             </div>
-            </div>
           </div>
         </div>
       </section>
@@ -532,8 +531,37 @@ function AppContent() {
               Create AI videos, get discovered, and start earning from your talent
             </p>
           </div>
-    
-                </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                title: "Upload Your Music",
+                description: "Upload your tracks and let our AI analyze the mood, tempo, and style",
+                icon: Upload,
+                color: "bg-purple-100 text-purple-600"
+              },
+              {
+                title: "AI Creates Videos",
+                description: "Our AI generates stunning visuals that perfectly match your music",
+                icon: Wand2,
+                color: "bg-blue-100 text-blue-600"
+              },
+              {
+                title: "Get Discovered",
+                description: "Event organizers find you through our smart matching algorithm",
+                icon: Eye,
+                color: "bg-green-100 text-green-600"
+              },
+              {
+                title: "Earn from Bookings",
+                description: "Secure bookings and get paid through our platform",
+                icon: DollarSign,
+                color: "bg-orange-100 text-orange-600"
+              }
+            ].map((item, idx) => (
+              <div key={idx} className="text-center space-y-4">
+                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full ${item.color} mb-4`}>
+                  <item.icon className="h-8 w-8" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900">{item.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{item.description}</p>
@@ -585,6 +613,15 @@ function AppContent() {
                   <div className="text-2xl font-bold text-purple-600">10 min</div>
                   <div className="text-sm text-gray-600">Average creation time</div>
                 </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">4K</div>
+                  <div className="text-sm text-gray-600">Video quality</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600">Free</div>
+                  <div className="text-sm text-gray-600">First 3 videos</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -724,6 +761,48 @@ function AppContent() {
           </div>
         </div>
       </footer>
+
+      {/* Modals */}
+      <AuthModal 
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        mode={authMode}
+      />
+      
+      {showProfile && (
+        <ArtistProfile 
+          isOpen={showProfile}
+          onClose={() => setShowProfile(false)}
+        />
+      )}
+      
+      {showPricing && (
+        <PricingPage 
+          isOpen={showPricing}
+          onClose={() => setShowPricing(false)}
+        />
+      )}
+      
+      {artUploadOpen && (
+        <ArtUpload 
+          isOpen={artUploadOpen}
+          onClose={() => setArtUploadOpen(false)}
+        />
+      )}
+      
+      {bookingSystemOpen && (
+        <EventBookingSystem 
+          isOpen={bookingSystemOpen}
+          onClose={() => setBookingSystemOpen(false)}
+        />
+      )}
+      
+      {aiStudioOpen && (
+        <AIShowcaseStudio 
+          isOpen={aiStudioOpen}
+          onClose={() => setAiStudioOpen(false)}
+        />
+      )}
    
       <Toaster />
     </div>
