@@ -118,10 +118,9 @@ export function PricingPage() {
       return
     }
 
-    // For logged in users, also redirect to signup to upgrade
-    localStorage.setItem('selectedPlan', JSON.stringify(plan))
-    const signupEvent = new CustomEvent('openSignupModal')
-    window.dispatchEvent(signupEvent)
+    // For logged in users, open payment modal
+    setSelectedPlan(plan)
+    setPaymentModalOpen(true)
   }
 
   const handleSubscriptionSuccess = () => {
