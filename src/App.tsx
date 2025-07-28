@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BookingModal } from "@/components/booking/BookingModal";
 import { BookingPage } from "@/components/booking/BookingPage";
+import { ArtistDashboard } from "@/components/artist/ArtistDashboard";
 import { Toaster } from "@/components/ui/toaster";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,11 +36,24 @@ function App() {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState('home');
+  const [selectedArtistId, setSelectedArtistId] = useState<string | null>(null);
 
   if (currentPage === 'booking') {
     return (
       <>
         <BookingPage />
+        <Toaster />
+      </>
+    );
+  }
+
+  if (currentPage === 'artist-dashboard') {
+    return (
+      <>
+        <ArtistDashboard 
+          artistId={selectedArtistId || undefined}
+          onClose={() => setCurrentPage('home')}
+        />
         <Toaster />
       </>
     );
@@ -78,6 +92,11 @@ function App() {
   const handleBookArtist = (artist: any) => {
     setSelectedArtist(artist);
     setShowBookingModal(true);
+  };
+
+  const handleViewArtistProfile = (artist: any) => {
+    setSelectedArtistId(artist.id || '1');
+    setCurrentPage('artist-dashboard');
   };
 
   return (
@@ -361,7 +380,12 @@ function App() {
                   </div>
                   <CardContent className="p-6 space-y-4">
                     <div className="space-y-2">
-                      <h3 className="font-bold text-xl text-gray-900">{artist.name}</h3>
+                      <h3 
+                        className="font-bold text-xl text-gray-900 cursor-pointer hover:text-purple-600 transition-colors"
+                        onClick={() => handleViewArtistProfile(artist)}
+                      >
+                        {artist.name}
+                      </h3>
                       <p className="text-purple-600 font-medium">{artist.genre}</p>
                       <div className="flex items-center gap-4 text-sm text-gray-600">
                         <div className="flex items-center gap-1">
@@ -381,8 +405,13 @@ function App() {
                       >
                         Book Now
                       </Button>
-                      <Button variant="outline" size="icon" className="rounded-xl">
-                        <Heart className="h-4 w-4" />
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        className="rounded-xl"
+                        onClick={() => handleViewArtistProfile(artist)}
+                      >
+                        <User className="h-4 w-4" />
                       </Button>
                     </div>
                   </CardContent>
