@@ -52,7 +52,8 @@ import {
   Rocket,
   TrendingUp,
   Eye,
-  Share2
+  Share2,
+  User
 } from 'lucide-react';
 
 function AppContent() {
@@ -73,27 +74,27 @@ function AppContent() {
   // Listen for auth modal close and profile show events
   useEffect(() => {
     const handleCloseAuthModal = () => {
-      setAuthModalOpen(false)
-    }
+      setAuthModalOpen(false);
+    };
     
     const handleShowProfile = () => {
-      setShowProfile(true)
-    }
+      setShowProfile(true);
+    };
     
     const handleStartProfileSetup = () => {
-      setProfileSetupOpen(true)
-    }
+      setProfileSetupOpen(true);
+    };
     
-    window.addEventListener('closeAuthModal', handleCloseAuthModal)
-    window.addEventListener('showProfile', handleShowProfile)
-    window.addEventListener('startProfileSetup', handleStartProfileSetup)
+    window.addEventListener('closeAuthModal', handleCloseAuthModal);
+    window.addEventListener('showProfile', handleShowProfile);
+    window.addEventListener('startProfileSetup', handleStartProfileSetup);
     
     return () => {
-      window.removeEventListener('closeAuthModal', handleCloseAuthModal)
-      window.removeEventListener('showProfile', handleShowProfile)
-      window.removeEventListener('startProfileSetup', handleStartProfileSetup)
-    }
-  }, [])
+      window.removeEventListener('closeAuthModal', handleCloseAuthModal);
+      window.removeEventListener('showProfile', handleShowProfile);
+      window.removeEventListener('startProfileSetup', handleStartProfileSetup);
+    };
+  }, []);
 
   // Handle artist onboarding flow
   const handleStartArtistJourney = () => {
@@ -166,7 +167,7 @@ function AppContent() {
           onClose={() => setArtUploadOpen(false)}
         />
       </div>
-    )
+    );
   }
 
   // Show pricing page
@@ -196,17 +197,17 @@ function AppContent() {
                   {user ? (
                     <UserMenu 
                       onProfileClick={() => {
-                        setShowPricing(false)
-                        setShowProfile(true)
+                        setShowPricing(false);
+                        setShowProfile(true);
                       }}
                       onArtClick={() => setArtUploadOpen(true)}
                       onAiStudioClick={() => {
-                        setShowPricing(false)
-                        setAiStudioOpen(true)
+                        setShowPricing(false);
+                        setAiStudioOpen(true);
                       }}
                       onBookingClick={() => {
-                        setShowPricing(false)
-                        setBookingSystemOpen(true)
+                        setShowPricing(false);
+                        setBookingSystemOpen(true);
                       }}
                     />
                   ) : (
@@ -222,12 +223,11 @@ function AppContent() {
                       </Button>
                       <Button 
                         className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
-                        className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+                        onClick={() => {
                           setAuthMode('signup');
                           setAuthModalOpen(true);
                         }}
                       >
-                        <Wand2 className="mr-2 h-4 w-4" />
                         <Wand2 className="mr-2 h-4 w-4" />
                         Create AI Videos
                       </Button>
@@ -250,7 +250,7 @@ function AppContent() {
         />
         <Toaster />
       </>
-    )
+    );
   }
 
   return (
@@ -289,8 +289,6 @@ function AppContent() {
                 <UserMenu 
                   onProfileClick={() => setShowProfile(true)}
                   onArtClick={() => setArtUploadOpen(true)}
-                  onBookingClick={() => setBookingSystemOpen(true)}
-                  onBookingClick={() => setBookingSystemOpen(true)}
                   onBookingClick={() => setBookingSystemOpen(true)}
                 />
               ) : (
@@ -339,8 +337,8 @@ function AppContent() {
                 <a href="#promoters" className="text-gray-600 hover:text-gray-900 font-medium">Promoters</a>
                 <button 
                   onClick={() => {
-                    setShowPricing(true)
-                    setMobileMenuOpen(false)
+                    setShowPricing(true);
+                    setMobileMenuOpen(false);
                   }}
                   className="text-gray-600 hover:text-gray-900 font-medium text-left"
                 >
@@ -593,42 +591,28 @@ function AppContent() {
                   </div>
                 </div>
                 <CardContent className="p-6 space-y-4">
-                    Create stunning AI videos to attract event organizers. Artists with AI-powered portfolios receive 10x more booking requests!
+                  <div className="space-y-2">
                     <h3 className="text-xl font-bold text-gray-900">{artist.name}</h3>
                     <p className="text-blue-600 font-medium">{artist.genre}</p>
                     <p className="text-xs text-purple-600 font-medium">
-                      <div className="bg-purple-100 p-2 rounded-full w-fit mx-auto mb-1">
-                        <Wand2 className="h-4 w-4 text-purple-600" />
+                      <Wand2 className="h-3 w-3 inline mr-1" />
+                      5 AI videos created • 2.3M total views
                     </p>
-                      <p className="text-xs text-gray-600">AI Videos</p>
+                    <div className="flex items-center gap-4 text-sm text-gray-600">
                       <div className="flex items-center gap-1">
                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <div className="bg-blue-100 p-2 rounded-full w-fit mx-auto mb-1">
-                        <Film className="h-4 w-4 text-blue-600" />
+                        <span className="font-medium">{artist.rating}</span>
+                      </div>
                       <div className="flex items-center gap-1">
-                      <p className="text-xs text-gray-600">Showcases</p>
+                        <MapPin className="h-4 w-4" />
                         <span>{artist.location}</span>
                       </div>
-                      <div className="bg-green-100 p-2 rounded-full w-fit mx-auto mb-1">
-                        <Share2 className="h-4 w-4 text-green-600" />
+                      <div className="flex items-center gap-1">
+                        <DollarSign className="h-4 w-4" />
                         <span>{artist.price}</span>
-                      <p className="text-xs text-gray-600">Social Media</p>
+                      </div>
                     </div>
                   </div>
-                  <Button 
-                    onClick={() => {
-                      if (user) {
-                        setAiStudioOpen(true);
-                      } else {
-                        setAuthMode('signup');
-                        setAuthModalOpen(true);
-                      }
-                    }}
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 mb-4"
-                  >
-                    <Wand2 className="h-4 w-4 mr-2" />
-                    Create AI Videos Now
-                  </Button>
                   <div className="flex gap-2">
                     <Button 
                       className="flex-1 bg-blue-600 hover:bg-blue-700"
