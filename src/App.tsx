@@ -210,7 +210,7 @@ function AppContent() {
                     <img 
                       src="/LIVE VIBE.png" 
                       alt="Live Vibe Logo" 
-                      className="h-8 w-8 object-contain"
+                      className="h-12 w-12 object-contain"
                     />
                     <span className="text-xl font-bold text-gray-900">
                       Live Vibe
@@ -287,7 +287,7 @@ function AppContent() {
               <img 
                 src="/LIVE VIBE.png" 
                 alt="Live Vibe Logo" 
-                className="h-8 w-8 object-contain"
+                className="h-12 w-12 object-contain"
               />
               <span className="text-xl font-bold text-gray-900">
                 Live Vibe
