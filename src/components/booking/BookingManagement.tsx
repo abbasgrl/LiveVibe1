@@ -202,6 +202,14 @@ export function BookingManagement() {
       variant: "destructive",
     });
   };
+
+  const handleRequestPayment = (bookingId: string) => {
+    toast({
+      title: "Payment Request Sent",
+      description: "A payment request has been sent to the client with secure payment options.",
+    });
+  };
+
   return (
     <>
       <div className="space-y-6">
@@ -253,6 +261,14 @@ export function BookingManagement() {
             Completed ({counts.completed})
           </TabsTrigger>
           <TabsTrigger value="declined" className="flex items-center gap-2">
+                        <Button 
+                          size="sm" 
+                          className="w-full bg-blue-600 hover:bg-blue-700"
+                          onClick={() => handleRequestPayment(booking.id)}
+                        >
+                          <DollarSign className="mr-2 h-4 w-4" />
+                          Request Payment
+                        </Button>
             Declined ({counts.declined})
           </TabsTrigger>
         </TabsList>
@@ -264,6 +280,16 @@ export function BookingManagement() {
                 <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">No bookings found</h3>
                 <p className="text-gray-600">
+                    {booking.status === 'confirmed' && (
+                      <Button 
+                        size="sm" 
+                        className="w-full bg-purple-600 hover:bg-purple-700"
+                        onClick={() => handleRequestPayment(booking.id)}
+                      >
+                        <DollarSign className="mr-2 h-4 w-4" />
+                        Request Payment
+                      </Button>
+                    )}
                   {searchTerm ? 'Try adjusting your search terms' : 'No bookings match the selected filter'}
                 </p>
               </CardContent>

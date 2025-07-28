@@ -3,7 +3,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookingForm } from './BookingForm';
 import { BookingManagement } from './BookingManagement';
 import { NotificationSettings } from './NotificationSettings';
-import { Calendar, Settings, Bell } from 'lucide-react';
+import { PaymentTracking } from './PaymentTracking';
+import { Calendar, Settings, Bell, DollarSign } from 'lucide-react';
 
 export function BookingPage() {
   const [activeTab, setActiveTab] = useState('book');
@@ -17,7 +18,7 @@ export function BookingPage() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full max-w-lg grid-cols-3">
+          <TabsList className="grid w-full max-w-2xl grid-cols-4">
             <TabsTrigger value="book" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               Book Artist
@@ -25,6 +26,10 @@ export function BookingPage() {
             <TabsTrigger value="manage" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
               Manage Bookings
+            </TabsTrigger>
+            <TabsTrigger value="payments" className="flex items-center gap-2">
+              <DollarSign className="h-4 w-4" />
+              Payments
             </TabsTrigger>
             <TabsTrigger value="notifications" className="flex items-center gap-2">
               <Bell className="h-4 w-4" />
@@ -38,6 +43,10 @@ export function BookingPage() {
 
           <TabsContent value="manage">
             <BookingManagement />
+          </TabsContent>
+
+          <TabsContent value="payments">
+            <PaymentTracking />
           </TabsContent>
 
           <TabsContent value="notifications">
