@@ -11,7 +11,7 @@ import { Progress } from '@/components/ui/progress'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase'
+import { enhancedSupabase } from '@/lib/supabase'
 import { KlingAPI } from '@/lib/kling-api'
 import { 
   Upload, 
@@ -128,7 +128,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
 
     setLoading(true)
     try {
-      const { data, error } = await supabase
+      const { data, error } = await enhancedSupabase
         .from('ai_projects')
         .select('*')
         .eq('user_id', user.id)
@@ -153,7 +153,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
     try {
       const currentMonth = new Date().toISOString().slice(0, 7) // YYYY-MM format
       
-      const { data, error } = await supabase
+      const { data, error } = await enhancedSupabase
         .from('ai_generations_usage')
         .select('*')
         .eq('user_id', user.id)
@@ -167,7 +167,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
         setGenerationLimit(data.plan_limit)
       } else {
         // Create initial usage record
-        const { data: newUsage, error: insertError } = await supabase
+        const { data: newUsage, error: insertError } = await enhancedSupabase
           .from('ai_generations_usage')
           .insert({
             user_id: user.id,
@@ -191,13 +191,13 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
     const fileExt = file.name.split('.').pop()
     const fileName = `${user!.id}/${type}/${Date.now()}.${fileExt}`
     
-    const { data, error } = await supabase.storage
+    const { data, error } = await enhancedSupabase.storage
       .from('ai-studio-files')
       .upload(fileName, file)
 
     if (error) throw error
 
-    const { data: { publicUrl } } = supabase.storage
+    const { data: { publicUrl } } = enhancedSupabase.storage
       .from('ai-studio-files')
       .getPublicUrl(fileName)
 
@@ -323,7 +323,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
       }
 
       // Create project record
-      const { data: project, error } = await supabase
+      const { data: project, error } = await enhancedSupabase
         .from('ai_projects')
         .insert({
           user_id: user.id,
@@ -356,7 +356,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
 
       // Update usage stats
       const currentMonth = new Date().toISOString().slice(0, 7)
-      await supabase
+      await enhancedSupabase
         .from('ai_generations_usage')
         .upsert({
           user_id: user.id,
@@ -443,7 +443,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
       console.log('Kling AI task created with ID:', taskId)
 
       // Update project with task ID
-      await supabase
+      await enhancedSupabase
         .from('ai_projects')
         .update({ 
           kling_task_id: taskId,
@@ -460,7 +460,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
       console.error('Kling AI generation error:', error)
       
       // Update project status to failed
-      await supabase
+      await enhancedSupabase
         .from('ai_projects')
         .update({ 
           status: 'failed',
@@ -488,7 +488,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
         console.log('Kling AI video generation completed:', videoUrl)
 
         // Update project with completed video
-        await supabase
+        await enhancedSupabase
           .from('ai_projects')
           .update({ 
             status: 'completed',
@@ -506,7 +506,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
       } else {
         // Task failed
         console.error('Kling AI task failed:', result.data.task_status_msg)
-        await supabase
+        await enhancedSupabase
           .from('ai_projects')
           .update({ 
             status: 'failed',
@@ -525,7 +525,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
     } catch (error: any) {
       console.error('Kling task polling error:', error)
       
-      await supabase
+      await enhancedSupabase
         .from('ai_projects')
         .update({ 
           status: 'failed',
@@ -546,7 +546,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
   const uploadToYouTube = async (project: AIProject) => {
     try {
       // Update status to uploading
-      await supabase
+      await enhancedSupabase
         .from('ai_projects')
         .update({ youtube_upload_status: 'uploading' })
         .eq('id', project.id)
@@ -555,7 +555,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
       setTimeout(async () => {
         const mockVideoId = `mock_${Date.now()}`
         
-        await supabase
+        await enhancedSupabase
           .from('ai_projects')
           .update({ 
             youtube_upload_status: 'completed',
@@ -586,7 +586,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
 
   const deleteProject = async (projectId: string) => {
     try {
-      const { error } = await supabase
+      const { error } = await enhancedSupabase
         .from('ai_projects')
         .delete()
         .eq('id', projectId)

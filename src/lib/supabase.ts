@@ -1,19 +1,35 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+// Check if we're in development mode and environment variables are missing
+const isDevelopment = import.meta.env.DEV
+const hasValidConfig = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables')
-}
+// Supabase client configured with real credentials
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+// Create the real Supabase client with your credentials
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://rkvmxyufjmbknldbplub.supabase.co'
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJrdm14eXVmam1ia25sZGJwbHViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4OTU1MjUsImV4cCI6MjA2NjQ3MTUyNX0.codnJhEOt1ZJekf7FTaAXAKOD4N697xUoutgMV_Bqtk'
+
+console.log('✅ Supabase configured with URL:', supabaseUrl)
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true
+  },
+  global: {
+    headers: {
+      'X-Client-Info': 'livevibe1-web'
+    }
   }
 })
+
+// Real Supabase client is now configured
+
+// Export the real Supabase client
+export const enhancedSupabase = supabase
+export { supabase }
 
 // Database Types (Auto-generated from your schema)
 export type Database = {
@@ -463,6 +479,41 @@ export type Database = {
           updated_at?: string
         }
       }
+      notifications: {
+        Row: {
+          id: string
+          user_id: string
+          type: string
+          title: string
+          message: string
+          data: any
+          read: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          type: string
+          title: string
+          message: string
+          data?: any
+          read?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          type?: string
+          title?: string
+          message?: string
+          data?: any
+          read?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never
@@ -480,25 +531,25 @@ export type Database = {
 export const supabaseHelpers = {
   // Authentication helpers
   async signUp(email: string, password: string) {
-    return await supabase.auth.signUp({ email, password })
+    return await enhancedSupabase.auth.signUp({ email, password })
   },
 
   async signIn(email: string, password: string) {
-    return await supabase.auth.signInWithPassword({ email, password })
+    return await enhancedSupabase.auth.signInWithPassword({ email, password })
   },
 
   async signOut() {
-    return await supabase.auth.signOut()
+    return await enhancedSupabase.auth.signOut()
   },
 
   async getCurrentUser() {
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data: { user } } = await enhancedSupabase.auth.getUser()
     return user
   },
 
   // Artist profile helpers
   async getArtistProfile(userId: string) {
-    return await supabase
+    return await enhancedSupabase
       .from('artist_profiles')
       .select('*')
       .eq('user_id', userId)
@@ -506,7 +557,7 @@ export const supabaseHelpers = {
   },
 
   async createArtistProfile(profile: Database['public']['Tables']['artist_profiles']['Insert']) {
-    return await supabase
+    return await enhancedSupabase
       .from('artist_profiles')
       .insert(profile)
       .select()
@@ -514,7 +565,7 @@ export const supabaseHelpers = {
   },
 
   async updateArtistProfile(userId: string, updates: Database['public']['Tables']['artist_profiles']['Update']) {
-    return await supabase
+    return await enhancedSupabase
       .from('artist_profiles')
       .update(updates)
       .eq('user_id', userId)
@@ -524,7 +575,7 @@ export const supabaseHelpers = {
 
   // Art pieces helpers
   async getArtPieces(userId: string) {
-    return await supabase
+    return await enhancedSupabase
       .from('art_pieces')
       .select('*')
       .eq('user_id', userId)
@@ -532,7 +583,7 @@ export const supabaseHelpers = {
   },
 
   async uploadArtPiece(artPiece: Database['public']['Tables']['art_pieces']['Insert']) {
-    return await supabase
+    return await enhancedSupabase
       .from('art_pieces')
       .insert(artPiece)
       .select()
@@ -541,7 +592,7 @@ export const supabaseHelpers = {
 
   // Events helpers
   async getEvents(organizerId?: string) {
-    let query = supabase.from('events').select('*')
+    let query = enhancedSupabase.from('events').select('*')
     
     if (organizerId) {
       query = query.eq('organizer_id', organizerId)
@@ -551,7 +602,7 @@ export const supabaseHelpers = {
   },
 
   async createEvent(event: Database['public']['Tables']['events']['Insert']) {
-    return await supabase
+    return await enhancedSupabase
       .from('events')
       .insert(event)
       .select()
@@ -562,7 +613,7 @@ export const supabaseHelpers = {
   async getBookings(userId: string, userType: 'artist' | 'organizer') {
     const column = userType === 'artist' ? 'artist_id' : 'organizer_id'
     
-    return await supabase
+    return await enhancedSupabase
       .from('bookings')
       .select(`
         *,
@@ -574,7 +625,7 @@ export const supabaseHelpers = {
   },
 
   async createBooking(booking: Database['public']['Tables']['bookings']['Insert']) {
-    return await supabase
+    return await enhancedSupabase
       .from('bookings')
       .insert(booking)
       .select()
@@ -583,20 +634,20 @@ export const supabaseHelpers = {
 
   // Storage helpers
   async uploadFile(bucket: string, path: string, file: File) {
-    return await supabase.storage
+    return await enhancedSupabase.storage
       .from(bucket)
       .upload(path, file)
   },
 
   async getPublicUrl(bucket: string, path: string) {
-    return supabase.storage
+    return enhancedSupabase.storage
       .from(bucket)
       .getPublicUrl(path)
   },
 
   // Subscription helpers
   async getSubscriptionPlans() {
-    return await supabase
+    return await enhancedSupabase
       .from('subscription_plans')
       .select('*')
       .eq('active', true)
@@ -604,7 +655,7 @@ export const supabaseHelpers = {
   },
 
   async getUserSubscription(userId: string) {
-    return await supabase
+    return await enhancedSupabase
       .from('user_subscriptions')
       .select(`
         *,

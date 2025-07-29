@@ -23,9 +23,9 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
           {mode === 'signin' ? 'Sign In' : 'Sign Up'}
         </DialogTitle>
         {mode === 'signin' ? (
-          <SignInForm onToggleMode={toggleMode} />
+          <SignInForm onToggleMode={toggleMode}  />
         ) : (
-          <SignUpForm onToggleMode={toggleMode} />
+          <SignUpForm onToggleMode={toggleMode}  />
         )}
       </DialogContent>
     </Dialog>

@@ -8,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase'
+import { enhancedSupabase } from '@/lib/supabase'
 import { 
   Upload, 
   Image, 
@@ -69,7 +69,7 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
     
     setLoading(true)
     try {
-      const { data, error } = await supabase
+      const { data, error } = await enhancedSupabase
         .from('art_pieces')
         .select('*')
         .eq('user_id', user.id)
@@ -154,19 +154,19 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
       const fileExt = selectedFile.name.split('.').pop()
       const fileName = `${user.id}/${Date.now()}.${fileExt}`
       
-      const { data: uploadData, error: uploadError } = await supabase.storage
+              const { data: uploadData, error: uploadError } = await enhancedSupabase.storage
         .from('art-pieces')
         .upload(fileName, selectedFile)
 
       if (uploadError) throw uploadError
 
       // Get public URL
-      const { data: { publicUrl } } = supabase.storage
+              const { data: { publicUrl } } = enhancedSupabase.storage
         .from('art-pieces')
         .getPublicUrl(fileName)
 
       // Save metadata to database
-      const { data: artPieceData, error: dbError } = await supabase
+      const { data: artPieceData, error: dbError } = await enhancedSupabase
         .from('art_pieces')
         .insert({
           user_id: user.id,
@@ -219,7 +219,7 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
       // Delete from storage
       const fileName = artPiece.file_url.split('/').pop()
       if (fileName) {
-        const { error: storageError } = await supabase.storage
+        const { error: storageError } = await enhancedSupabase.storage
           .from('art-pieces')
           .remove([`${user.id}/${fileName}`])
         
@@ -227,7 +227,7 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
       }
 
       // Delete from database
-      const { error: dbError } = await supabase
+      const { error: dbError } = await enhancedSupabase
         .from('art_pieces')
         .delete()
         .eq('id', artPiece.id)
@@ -255,7 +255,7 @@ export function ArtUpload({ isOpen, onClose }: ArtUploadProps) {
     if (!user) return
 
     try {
-      const { data, error } = await supabase
+      const { data, error } = await enhancedSupabase
         .from('art_pieces')
         .update({
           title: newTitle.trim(),

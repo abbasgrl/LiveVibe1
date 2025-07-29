@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase'
+import { enhancedSupabase } from '@/lib/supabase'
 import { Loader2, Upload, User, MapPin, Phone, Camera, Instagram, Music, Palette, Crown, Star, Zap, X, Image, ChevronDown, ArrowRight, Sparkles, Users } from 'lucide-react'
 
 interface ArtistProfileSetupProps {
@@ -422,14 +422,14 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
       const fileExt = file.name.split('.').pop()
       const fileName = `${user.id}/profile.${fileExt}`
       
-      const { data, error } = await supabase.storage
+      const { data, error } = await enhancedSupabase.storage
         .from('profile-photos')
         .upload(fileName, file, { upsert: true })
 
       if (error) throw error
 
       // Get public URL
-      const { data: { publicUrl } } = supabase.storage
+              const { data: { publicUrl } } = enhancedSupabase.storage
         .from('profile-photos')
         .getPublicUrl(fileName)
 
@@ -462,7 +462,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
 
     try {
       // Get the new plan details
-      const { data: planData, error: planError } = await supabase
+                const { data: planData, error: planError } = await enhancedSupabase
         .from('subscription_plans')
         .select('*')
         .eq('id', planId)
@@ -473,7 +473,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
       // Update the subscription
       const endDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
       
-      const { error: subscriptionError } = await supabase
+      const { error: subscriptionError } = await enhancedSupabase
         .from('user_subscriptions')
         .update({
           plan_id: planId,
@@ -506,7 +506,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
     setLoading(true)
     try {
       // First create/update the artist profile
-      const { error: profileError } = await supabase
+              const { error: profileError } = await enhancedSupabase
         .from('artist_profiles')
         .upsert({
           user_id: user.id,
@@ -520,7 +520,7 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
       // If a subscription plan is selected, create/update the subscription
       if (formData.subscription_plan) {
         // Get the plan details
-        const { data: planData, error: planError } = await supabase
+        const { data: planData, error: planError } = await enhancedSupabase
           .from('subscription_plans')
           .select('*')
           .eq('name', formData.subscription_plan)
@@ -530,17 +530,17 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
         if (planError) {
           console.warn('Could not find subscription plan:', planError)
         } else if (planData) {
-          // Cancel existing subscription if any
-          await supabase
+          // Remove any previous active subscription
+          const { error: subscriptionError } = await enhancedSupabase
             .from('user_subscriptions')
-            .update({ status: 'cancelled' })
+            .delete()
             .eq('user_id', user.id)
             .eq('status', 'active')
 
           // Create new subscription
           const endDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days from now
           
-          const { error: subscriptionError } = await supabase
+          const { error: subscriptionError2 } = await enhancedSupabase
             .from('user_subscriptions')
             .insert({
               user_id: user.id,
@@ -551,8 +551,8 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
               current_period_end: endDate.toISOString()
             })
 
-          if (subscriptionError) {
-            console.warn('Could not create subscription:', subscriptionError)
+          if (subscriptionError2) {
+            console.warn('Could not create subscription:', subscriptionError2)
           }
         }
       }

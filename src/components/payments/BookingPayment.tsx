@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { SquarePaymentForm } from './SquarePaymentForm'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase'
+import { enhancedSupabase } from '@/lib/supabase'
 import { Calendar, MapPin, Music, DollarSign, ArrowLeft, Clock, Users } from 'lucide-react'
 
 interface BookingPaymentProps {
@@ -39,7 +39,7 @@ export function BookingPayment({
     setProcessing(true)
     try {
       // Update booking status to paid
-      const { error: bookingError } = await supabase
+      const { error: bookingError } = await enhancedSupabase
         .from('bookings')
         .update({
           payment_status: 'paid',
@@ -51,7 +51,7 @@ export function BookingPayment({
       if (bookingError) throw bookingError
 
       // Store payment record
-      await supabase
+      await enhancedSupabase
         .from('payment_records')
         .insert({
           user_id: user.id,
@@ -66,7 +66,7 @@ export function BookingPayment({
         })
 
       // Create notification for artist (optional)
-      await supabase
+      await enhancedSupabase
         .from('notifications')
         .insert({
           user_id: booking.artist_id,

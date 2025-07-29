@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { SquarePaymentForm } from './SquarePaymentForm'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase'
+import { enhancedSupabase } from '@/lib/supabase'
 import { squarePayments } from '@/lib/square-payments'
 import { Crown, Star, Zap, Check, ArrowLeft } from 'lucide-react'
 
@@ -84,7 +84,7 @@ export function SubscriptionPayment({
       }
 
       // Update user subscription in Supabase
-      const { error: subscriptionError } = await supabase
+      const { error: subscriptionError } = await enhancedSupabase
         .from('user_subscriptions')
         .upsert({
           user_id: user.id,
@@ -98,7 +98,7 @@ export function SubscriptionPayment({
       if (subscriptionError) throw subscriptionError
 
       // Store payment record (optional - for tracking)
-      await supabase
+              await enhancedSupabase
         .from('payment_records')
         .insert({
           user_id: user.id,

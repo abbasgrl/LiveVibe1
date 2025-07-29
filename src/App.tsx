@@ -53,7 +53,8 @@ import {
   TrendingUp,
   Eye,
   Share2,
-  User
+  User,
+  Check
 } from 'lucide-react';
 
 function AppContent() {
@@ -69,7 +70,7 @@ function AppContent() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [showArtistOnboarding, setShowArtistOnboarding] = useState(false);
-  const { user, loading } = useAuth();
+  const { user, loading, signIn } = useAuth();
 
   // Check for signup parameter on load
   useEffect(() => {
@@ -85,22 +86,27 @@ function AppContent() {
   // Listen for auth modal close and profile show events
   useEffect(() => {
     const handleCloseAuthModal = () => {
+      console.log('App: Closing auth modal')
       setAuthModalOpen(false);
     };
     
     const handleShowProfile = () => {
+      console.log('App: Showing profile')
       setShowProfile(true);
     };
     
     const handleStartProfileSetup = () => {
+      console.log('App: Starting profile setup')
       setProfileSetupOpen(true);
     };
     
     const handleShowPricingAfterSignup = () => {
+      console.log('App: Showing pricing after signup')
       setShowPricing(true);
     };
     
     const handleOpenSignupModal = () => {
+      console.log('App: Opening signup modal')
       setAuthMode('signup');
       setAuthModalOpen(true);
     };
@@ -159,131 +165,29 @@ function AppContent() {
     }
   ];
 
-  // Show profile page if user is viewing their profile
-  if (showProfile && user) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center gap-3">
-                <button 
-                  onClick={() => setShowProfile(false)}
-                  className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-                >
-                  <img 
-                    src="/LIVE VIBE.png" 
-                    alt="Live Vibe Logo" 
-                    className="h-8 w-8 object-contain"
-                  />
-                  <span className="text-xl font-bold text-gray-900">
-                    Live Vibe
-                  </span>
-                </button>
-              </div>
-              <UserMenu />
-            </div>
-          </div>
-        </nav>
-        <ArtistProfile />
-        <ArtUpload
-          isOpen={artUploadOpen}
-          onClose={() => setArtUploadOpen(false)}
-        />
-      </div>
-    );
-  }
-
-  // Show pricing page
-  if (showPricing) {
-    return (
-      <>
-        <div className="min-h-screen bg-gray-50">
-          <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between items-center h-16">
-                <div className="flex items-center gap-3">
-                  <button 
-                    onClick={() => setShowPricing(false)}
-                    className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-                  >
-                    <img 
-                      src="/LIVE VIBE.png" 
-                      alt="Live Vibe Logo" 
-                      className="h-12 w-12 object-contain"
-                    />
-                    <span className="text-xl font-bold text-gray-900">
-                      Live Vibe
-                    </span>
-                  </button>
-                </div>
-                <div className="flex items-center gap-4">
-                  {user ? (
-                    <UserMenu 
-                      onProfileClick={() => {
-                        setShowPricing(false);
-                        setShowProfile(true);
-                      }}
-                      onArtClick={() => setArtUploadOpen(true)}
-                      onAiStudioClick={() => {
-                        setShowPricing(false);
-                        setAiStudioOpen(true);
-                      }}
-                      onBookingClick={() => {
-                        setShowPricing(false);
-                        setBookingSystemOpen(true);
-                      }}
-                    />
-                  ) : (
-                    <>
-                      <Button 
-                        variant="ghost" 
-                        onClick={() => {
-                          setAuthMode('signin');
-                          setAuthModalOpen(true);
-                        }}
-                      >
-                        Sign In
-                      </Button>
-                      <Button 
-                        className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
-                        onClick={() => {
-                          setAuthMode('signup');
-                          setAuthModalOpen(true);
-                        }}
-                      >
-                        <Wand2 className="mr-2 h-4 w-4" />
-                        Create AI Videos
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </nav>
-        </div>
-        <PricingPage />
-        <AuthModal 
-          isOpen={authModalOpen}
-          onClose={() => setAuthModalOpen(false)}
-          initialMode={authMode}
-        />
-        <ArtUpload
-          isOpen={artUploadOpen}
-          onClose={() => setArtUploadOpen(false)}
-        />
-        <Toaster />
-      </>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-3">
+            <div 
+              className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={() => {
+                // Scroll to top and reset any modal states
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setAuthModalOpen(false);
+                setProfileSetupOpen(false);
+                setPromoterSetupOpen(false);
+                setArtUploadOpen(false);
+                setAiStudioOpen(false);
+                setShowProfile(false);
+                setBookingSystemOpen(false);
+                setShowPricing(false);
+                setShowArtistOnboarding(false);
+                setMobileMenuOpen(false);
+              }}
+            >
               <img 
                 src="/LIVE VIBE.png" 
                 alt="Live Vibe Logo" 
@@ -336,6 +240,7 @@ function AppContent() {
                     <Wand2 className="mr-2 h-4 w-4" />
                     Create AI Videos
                   </Button>
+
                 </>
               )}
             </div>
@@ -493,24 +398,6 @@ function AppContent() {
                 description: "Upload your work and let AI enhance your portfolio with professional presentations and showcases",
                 icon: Rocket,
                 color: "bg-green-100 text-green-600"
-              },
-              { 
-                title: "Viral Content Tools", 
-                description: "Create shareable content optimized for social media with AI-generated thumbnails and clips",
-                icon: TrendingUp,
-                color: "bg-orange-100 text-orange-600"
-              },
-              { 
-                title: "YouTube Integration", 
-                description: "Automatically upload your AI videos to YouTube with SEO optimization and custom thumbnails",
-                icon: Film,
-                color: "bg-red-100 text-red-600"
-              },
-              { 
-                title: "Booking Analytics", 
-                description: "Track your video performance, booking requests, and earnings with detailed analytics dashboard",
-                icon: Eye,
-                color: "bg-teal-100 text-teal-600"
               }
             ].map((feature, idx) => (
               <Card key={idx} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -527,68 +414,14 @@ function AppContent() {
         </div>
       </section>
 
-      {/* Artist Showcase */}
+      {/* Artists Section */}
       <section id="artists" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">AI-Powered Artist Success Stories</h2>
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Featured Artists</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              See how artists are using AI video creation to get more bookings and grow their careers
+              Discover talented artists using AI to create stunning videos and get more bookings
             </p>
-          </div>
-          
-          {/* AI Video Examples */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            {[
-              {
-                title: "Luna's AI Music Video",
-                description: "Created a viral music video in 10 minutes, got 50K views, booked 12 events",
-                image: "https://images.pexels.com/photos/3756941/pexels-photo-3756941.jpeg?auto=compress&cs=tinysrgb&w=400",
-                stats: "50K views • 12 bookings • $15K earned"
-              },
-              {
-                title: "Marcus's Lyric Video",
-                description: "AI-generated lyric video led to record label interest and festival bookings",
-                image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400",
-                stats: "100K views • 8 bookings • $25K earned"
-              },
-              {
-                title: "Indie Collective's Visual",
-                description: "Abstract AI visuals perfectly matched their sound, tripled their booking rate",
-                image: "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=400",
-                stats: "75K views • 15 bookings • $20K earned"
-              }
-            ].map((example, idx) => (
-              <Card key={idx} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
-                <div className="relative">
-                  <img 
-                    src={example.image} 
-                    alt={example.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                    <Button className="bg-white/90 text-gray-900 hover:bg-white">
-                      <Play className="h-4 w-4 mr-2" />
-                      Watch AI Video
-                    </Button>
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-purple-600 text-white">
-                      <Wand2 className="h-3 w-3 mr-1" />
-                      AI Created
-                    </Badge>
-                  </div>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{example.title}</h3>
-                  <p className="text-gray-600 text-sm mb-3">{example.description}</p>
-                  <div className="flex items-center gap-2 text-xs text-green-600 font-medium">
-                    <TrendingUp className="h-3 w-3" />
-                    {example.stats}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -615,34 +448,9 @@ function AppContent() {
                   </div>
                 </div>
                 <CardContent className="p-6 space-y-4">
-                  <div className="bg-purple-50 p-3 rounded-lg border border-purple-200">
-                    <p className="text-xs text-purple-700 font-medium">
-                      Create stunning AI videos to attract event organizers. Artists with AI-powered portfolios receive 10x more booking requests!
-                    </p>
-                  </div>
                   <div>
                     <h3 className="text-xl font-bold text-gray-900">{artist.name}</h3>
                     <p className="text-blue-600 font-medium">{artist.genre}</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div>
-                      <div className="bg-purple-100 p-2 rounded-full w-fit mx-auto mb-1">
-                        <Wand2 className="h-4 w-4 text-purple-600" />
-                      </div>
-                      <p className="text-xs text-gray-600">AI Videos</p>
-                    </div>
-                    <div>
-                      <div className="bg-blue-100 p-2 rounded-full w-fit mx-auto mb-1">
-                        <Film className="h-4 w-4 text-blue-600" />
-                      </div>
-                      <p className="text-xs text-gray-600">Showcases</p>
-                    </div>
-                    <div>
-                      <div className="bg-green-100 p-2 rounded-full w-fit mx-auto mb-1">
-                        <Share2 className="h-4 w-4 text-green-600" />
-                      </div>
-                      <p className="text-xs text-gray-600">Social Media</p>
-                    </div>
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center gap-1">
@@ -659,23 +467,13 @@ function AppContent() {
                     </div>
                   </div>
                   <Button 
-                    onClick={() => {
-                      if (user) {
-                        setAiStudioOpen(true);
-                      } else {
-                        setAuthMode('signup');
-                        setAuthModalOpen(true);
-                      }
-                    }}
                     className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 mb-4"
                   >
                     <Wand2 className="h-4 w-4 mr-2" />
                     Create AI Videos Now
                   </Button>
                   <div className="flex gap-2">
-                    <Button 
-                      className="flex-1 bg-blue-600 hover:bg-blue-700"
-                    >
+                    <Button className="flex-1 bg-blue-600 hover:bg-blue-700">
                       Book Now
                     </Button>
                     <Button variant="outline" size="icon">
@@ -694,7 +492,6 @@ function AppContent() {
             <Button 
               size="lg" 
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4"
-              onClick={handleStartArtistJourney}
             >
               <Wand2 className="mr-2 h-5 w-5" />
               Create Your AI Videos Now
@@ -704,111 +501,105 @@ function AppContent() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-20 bg-white">
+      {/* Promoters Section */}
+      <section id="promoters" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">From Music to Bookings in 4 Steps</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">For Event Organizers</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Create AI videos, get discovered, and start earning from your talent
+              Find the perfect artists for your events with AI-powered matching and booking tools
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { 
-                step: 1, 
-                title: "Upload Your Music", 
-                description: "Upload your audio tracks, lyrics, and any reference images or videos you want to include",
-                icon: Upload
+                title: "AI Artist Matching", 
+                description: "Our AI algorithm finds the perfect artists for your event based on genre, budget, and availability",
+                icon: Bot,
+                color: "bg-blue-100 text-blue-600"
               },
               { 
-                step: 2, 
-                title: "AI Creates Videos", 
-                description: "Our AI transforms your music into stunning professional videos with custom visuals and effects",
-                icon: Wand2
+                title: "Easy Booking System", 
+                description: "Streamlined booking process with secure payments and contract management",
+                icon: Calendar,
+                color: "bg-green-100 text-green-600"
               },
               { 
-                step: 3, 
-                title: "Get Discovered", 
-                description: "Event organizers discover you through your AI-powered portfolio and video showcase",
-                icon: Eye
-              },
-              { 
-                step: 4, 
-                title: "Book & Earn", 
-                description: "Receive booking requests, negotiate terms, and get paid securely for your performances",
-                icon: DollarSign
+                title: "Event Management", 
+                description: "Complete event management tools including scheduling, communication, and analytics",
+                icon: Users,
+                color: "bg-purple-100 text-purple-600"
               }
-            ].map((item, idx) => (
-              <div key={idx} className="text-center space-y-4">
-                <div className="relative">
-                  <div className="bg-gradient-to-r from-purple-600 to-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <item.icon className="h-8 w-8 text-white" />
+            ].map((feature, idx) => (
+              <Card key={idx} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <CardContent className="p-8 text-center space-y-4">
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full ${feature.color} mb-4`}>
+                    <feature.icon className="h-8 w-8" />
                   </div>
-                  <div className="absolute -top-2 -right-2 bg-purple-100 text-purple-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
-                    {item.step}
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">{item.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{item.description}</p>
-              </div>
+                  <h3 className="text-xl font-semibold text-gray-900">{feature.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
           
-          {/* AI Studio Preview */}
-          <div className="mt-20 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border-2 border-dashed border-purple-200">
-            <div className="text-center space-y-6">
-              <div className="bg-white p-6 rounded-full w-fit mx-auto shadow-lg">
-                <Wand2 className="h-16 w-16 text-purple-600" />
+          <div className="text-center mt-12">
+                <Button 
+                  size="lg" 
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4"
+            >
+              <Users className="mr-2 h-5 w-5" />
+              Find Artists for Your Event
+                </Button>
               </div>
-              <h3 className="text-3xl font-bold text-gray-900">Try Our AI Studio Now</h3>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Experience the magic of AI video creation. Upload your music and watch it transform into a professional video in minutes.
+                </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">About Live Vibe</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Connecting artists with perfect events worldwide through AI-powered technology
+            </p>
+                </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-gray-900">Our Mission</h3>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                Live Vibe is revolutionizing the music industry by combining AI technology with human creativity. 
+                We help artists create stunning videos, build their portfolios, and connect with event organizers worldwide.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4"
-                  onClick={() => {
-                    if (user) {
-                      setAiStudioOpen(true);
-                    } else {
-                      setAuthMode('signup');
-                      setAuthModalOpen(true);
-                    }
-                  }}
-                >
-                  <Wand2 className="mr-2 h-5 w-5" />
-                  Start Creating Free
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="px-8 py-4 border-2"
-                  onClick={() => {
-                    // Scroll to features section
-                    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  <Play className="mr-2 h-5 w-5" />
-                  Watch Demo
-                </Button>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="bg-green-100 p-2 rounded-full">
+                    <Check className="h-5 w-5 text-green-600" />
+                </div>
+                  <span className="text-gray-700">AI-powered video creation</span>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">10 min</div>
-                  <div className="text-sm text-gray-600">Average creation time</div>
+                <div className="flex items-center gap-3">
+                  <div className="bg-green-100 p-2 rounded-full">
+                    <Check className="h-5 w-5 text-green-600" />
+            </div>
+                  <span className="text-gray-700">Global artist discovery</span>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">4K Quality</div>
-                  <div className="text-sm text-gray-600">Professional output</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">Free</div>
-                  <div className="text-sm text-gray-600">First video included</div>
+                <div className="flex items-center gap-3">
+                  <div className="bg-green-100 p-2 rounded-full">
+                    <Check className="h-5 w-5 text-green-600" />
+                  </div>
+                  <span className="text-gray-700">Secure booking system</span>
                 </div>
               </div>
+            </div>
+            <div className="relative">
+              <img 
+                src="https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                alt="Live Vibe Team"
+                className="rounded-2xl shadow-2xl"
+              />
             </div>
           </div>
         </div>
@@ -824,26 +615,6 @@ function AppContent() {
             <p className="text-xl text-blue-100 max-w-2xl mx-auto">
               Join thousands of artists using AI to create stunning videos, get more bookings, and build successful careers
             </p>
-            
-            {/* Success Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white">50K+</div>
-                <div className="text-blue-100">AI Videos Created</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white">10K+</div>
-                <div className="text-blue-100">Artists Earning</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white">$2.5M+</div>
-                <div className="text-blue-100">Total Artist Earnings</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white">95%</div>
-                <div className="text-blue-100">Success Rate</div>
-              </div>
-            </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
@@ -871,25 +642,6 @@ function AppContent() {
                 Try AI Studio
               </Button>
             </div>
-            
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl mx-auto">
-              <div className="flex items-center justify-center gap-4 text-white">
-                <div className="flex items-center gap-2">
-                  <Wand2 className="h-5 w-5" />
-                  <span className="font-medium">AI Video Creation</span>
-                </div>
-                <div className="w-1 h-1 bg-white rounded-full"></div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-5 w-5" />
-                  <span className="font-medium">Event Bookings</span>
-                </div>
-                <div className="w-1 h-1 bg-white rounded-full"></div>
-                <div className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
-                  <span className="font-medium">Secure Payments</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -899,7 +651,23 @@ function AppContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
-              <div className="flex items-center gap-3">
+              <div 
+                className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => {
+                  // Scroll to top and reset any modal states
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setAuthModalOpen(false);
+                  setProfileSetupOpen(false);
+                  setPromoterSetupOpen(false);
+                  setArtUploadOpen(false);
+                  setAiStudioOpen(false);
+                  setShowProfile(false);
+                  setBookingSystemOpen(false);
+                  setShowPricing(false);
+                  setShowArtistOnboarding(false);
+                  setMobileMenuOpen(false);
+                }}
+              >
                 <img 
                   src="/LIVE VIBE.png" 
                   alt="Live Vibe Logo" 
@@ -949,6 +717,115 @@ function AppContent() {
         </div>
       </footer>
 
+      {/* Pricing Page Modal */}
+      {showPricing && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900">Pricing Plans</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowPricing(false)}
+                >
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                  {
+                    name: "Starter",
+                    price: "$9",
+                    period: "month",
+                    description: "Perfect for new artists",
+                    features: [
+                      "5 AI video generations per month",
+                      "Basic artist profile",
+                      "Event discovery",
+                      "Email support"
+                    ],
+                    popular: false,
+                    color: "border-gray-200"
+                  },
+                  {
+                    name: "Pro",
+                    price: "$29",
+                    period: "month",
+                    description: "For growing artists",
+                    features: [
+                      "25 AI video generations per month",
+                      "Advanced profile customization",
+                      "Priority event matching",
+                      "Analytics dashboard",
+                      "Priority support"
+                    ],
+                    popular: true,
+                    color: "border-purple-500"
+                  },
+                  {
+                    name: "Elite",
+                    price: "$99",
+                    period: "month",
+                    description: "For professional artists",
+                    features: [
+                      "Unlimited AI video generations",
+                      "Premium profile placement",
+                      "Direct booking requests",
+                      "Advanced analytics",
+                      "Dedicated support",
+                      "Custom integrations"
+                    ],
+                    popular: false,
+                    color: "border-gray-200"
+                  }
+                ].map((plan, idx) => (
+                  <Card key={idx} className={`border-2 ${plan.color} ${plan.popular ? 'ring-2 ring-purple-500' : ''}`}>
+                    <CardHeader className="text-center">
+                      {plan.popular && (
+                        <Badge className="w-fit mx-auto mb-2 bg-purple-600">Most Popular</Badge>
+                      )}
+                      <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
+                      <div className="text-3xl font-bold text-gray-900">
+                        {plan.price}<span className="text-lg text-gray-500">/{plan.period}</span>
+                      </div>
+                      <p className="text-gray-600">{plan.description}</p>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <ul className="space-y-3">
+                        {plan.features.map((feature, featureIdx) => (
+                          <li key={featureIdx} className="flex items-center gap-3">
+                            <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
+                            <span className="text-sm text-gray-700">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <Button 
+                        className={`w-full ${plan.popular ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-900 hover:bg-gray-800'}`}
+                        onClick={() => {
+                          if (user) {
+                            // Handle subscription
+                            setShowPricing(false);
+                          } else {
+                            setAuthMode('signup');
+                            setAuthModalOpen(true);
+                            setShowPricing(false);
+                          }
+                        }}
+                      >
+                        {plan.popular ? 'Get Started' : 'Choose Plan'}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <AuthModal 
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
@@ -977,88 +854,27 @@ function AppContent() {
         onClose={() => setBookingSystemOpen(false)}
       />
       
-      {/* Artist Onboarding Modal */}
-      {showArtistOnboarding && (
-        <Dialog open={showArtistOnboarding} onOpenChange={setShowArtistOnboarding}>
-          <DialogContent className="max-w-md">
-            <DialogHeader>
-              <DialogTitle className="text-center text-2xl font-bold">
-                Ready to Launch Your Artist Career? 🚀
-              </DialogTitle>
-            </DialogHeader>
-            <div className="space-y-6 py-4">
-              <div className="text-center space-y-4">
-                <div className="bg-gradient-to-r from-purple-100 to-blue-100 p-6 rounded-lg">
-                  <Sparkles className="h-12 w-12 text-purple-600 mx-auto mb-3" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Join 10,000+ Artists Getting Booked
-                  </h3>
-                  <p className="text-gray-600 text-sm">
-                    Create your profile in 3 minutes and start receiving event invitations from organizers worldwide
-                  </p>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-4 text-center">
-                  <div className="space-y-2">
-                    <div className="bg-blue-100 p-3 rounded-full w-fit mx-auto">
-                      <User className="h-5 w-5 text-blue-600" />
-                    </div>
-                    <p className="text-xs font-medium text-gray-700">Setup Profile</p>
-                    <p className="text-xs text-gray-500">2 min</p>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="bg-green-100 p-3 rounded-full w-fit mx-auto">
-                      <Upload className="h-5 w-5 text-green-600" />
-                    </div>
-                    <p className="text-xs font-medium text-gray-700">Upload Portfolio</p>
-                    <p className="text-xs text-gray-500">1 min</p>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="bg-purple-100 p-3 rounded-full w-fit mx-auto">
-                      <Calendar className="h-5 w-5 text-purple-600" />
-                    </div>
-                    <p className="text-xs font-medium text-gray-700">Get Booked</p>
-                    <p className="text-xs text-gray-500">Same day</p>
-                  </div>
-                </div>
-                
-                <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-                  <p className="text-sm text-green-800 font-medium">
-                    ✨ Free forever • No setup fees • Earn from day one
-                  </p>
-                </div>
-              </div>
-              
-              <div className="space-y-3">
-                <Button 
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3"
-                  onClick={() => {
-                    setAuthMode('signup');
-                    setAuthModalOpen(true);
-                    setShowArtistOnboarding(false);
-                  }}
+      {/* Artist Profile Modal */}
+      {showProfile && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900">Artist Profile</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowProfile(false)}
                 >
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Start My Artist Journey - Free
+                  <X className="h-5 w-5" />
                 </Button>
-                
-                <p className="text-center text-sm text-gray-600">
-                  Already have an account?{' '}
-                  <button
-                    onClick={() => {
-                      setAuthMode('signin');
-                      setAuthModalOpen(true);
-                      setShowArtistOnboarding(false);
-                    }}
-                    className="text-blue-600 hover:text-blue-700 font-medium"
-                  >
-                    Sign in here
-                  </button>
-                </p>
               </div>
             </div>
-          </DialogContent>
-        </Dialog>
+            <div className="p-6">
+              <ArtistProfile />
+            </div>
+          </div>
+        </div>
       )}
       
       <Toaster />

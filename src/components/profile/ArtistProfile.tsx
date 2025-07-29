@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase'
+import { enhancedSupabase } from '@/lib/supabase'
 import { ArtistProfileSetup } from './ArtistProfileSetup'
 import { 
   User, 
@@ -97,7 +97,7 @@ export function ArtistProfile() {
     if (!user) return
 
     try {
-      const { data, error } = await supabase
+      const { data, error } = await enhancedSupabase
         .from('artist_profiles')
         .select('*')
         .eq('user_id', user.id)
@@ -124,7 +124,7 @@ export function ArtistProfile() {
 
     setArtLoading(true)
     try {
-      const { data, error } = await supabase
+      const { data, error } = await enhancedSupabase
         .from('art_pieces')
         .select('*')
         .eq('user_id', user.id)
@@ -150,7 +150,7 @@ export function ArtistProfile() {
       // Delete from storage
       const fileName = artPiece.file_url.split('/').pop()
       if (fileName) {
-        const { error: storageError } = await supabase.storage
+        const { error: storageError } = await enhancedSupabase.storage
           .from('art-pieces')
           .remove([`${user.id}/${fileName}`])
         
@@ -158,7 +158,7 @@ export function ArtistProfile() {
       }
 
       // Delete from database
-      const { error: dbError } = await supabase
+      const { error: dbError } = await enhancedSupabase
         .from('art_pieces')
         .delete()
         .eq('id', artPiece.id)

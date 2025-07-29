@@ -5,14 +5,15 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { Loader2, Mail, Lock, User, Github } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
+import { Loader2, Mail, Lock, User, Github, Music } from 'lucide-react'
+import { enhancedSupabase } from '@/lib/supabase'
 
 interface SignUpFormProps {
   onToggleMode: () => void
+  onClose: () => void
 }
 
-export function SignUpForm({ onToggleMode }: SignUpFormProps) {
+export function SignUpForm({ onToggleMode, onClose }: SignUpFormProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -20,33 +21,37 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
   const { signUp } = useAuth()
   const { toast } = useToast()
 
-  // Get onClose function from parent component
-  const onClose = () => {
-    // This will be passed from the parent AuthModal
-    const event = new CustomEvent('closeAuthModal')
-    window.dispatchEvent(event)
-  }
 
-  const handleSocialSignUp = async (provider: 'google' | 'github' | 'discord') => {
+
+  const handleSocialSignUp = async (provider: 'spotify') => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      console.log('Attempting Spotify OAuth sign up...')
+      const { error } = await enhancedSupabase.auth.signInWithOAuth({
         provider: 'spotify',
         options: {
-          redirectTo: window.location.origin
+          redirectTo: 'https://rkvmxyufjmbknldbplub.supabase.co/auth/v1/callback',
+          scopes: 'user-read-email user-read-private'
         }
       })
       
       if (error) {
+        console.error('Spotify OAuth error:', error)
         toast({
-          title: "Error",
-          description: error.message,
+          title: "Spotify Login Error",
+          description: error.message || "Failed to connect with Spotify",
           variant: "destructive",
+        })
+      } else {
+        toast({
+          title: "Connecting to Spotify...",
+          description: "Redirecting to Spotify for authentication",
         })
       }
     } catch (error) {
+      console.error('Spotify OAuth failed:', error)
       toast({
-        title: "Error",
-        description: "Failed to sign up with social provider",
+        title: "Connection Error",
+        description: "Failed to connect with Spotify. Please try again.",
         variant: "destructive",
       })
     }
@@ -75,7 +80,11 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
 
     setLoading(true)
     
+    console.log('Attempting to sign up with:', { email, password })
+    
     const { error } = await signUp(email, password)
+    
+    console.log('Sign up result:', { error })
     
     if (error) {
       if (error.message.includes('User already registered') || error.message.includes('user_already_exists')) {
@@ -196,6 +205,28 @@ export function SignUpForm({ onToggleMode }: SignUpFormProps) {
             )}
           </Button>
         </form>
+        
+        {/* Divider */}
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-gray-300" />
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="bg-white px-2 text-gray-500">Or continue with</span>
+          </div>
+        </div>
+        
+        {/* Spotify Login Button */}
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => handleSocialSignUp('spotify')}
+          className="w-full h-12 rounded-xl border-2 border-green-500 text-green-600 hover:bg-green-50 hover:border-green-600 transition-colors"
+        >
+          <Music className="mr-2 h-5 w-5" />
+          Continue with Spotify
+        </Button>
+        
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{' '}

@@ -9,7 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase'
+import { enhancedSupabase } from '@/lib/supabase'
 import { Calendar, MapPin, DollarSign, Users, Clock, Music, Loader2 } from 'lucide-react'
 
 interface EventCreatorProps {
@@ -87,7 +87,7 @@ export function EventCreator({ isOpen, onClose, onEventCreated }: EventCreatorPr
         ? `${formData.event_date}T${formData.event_time}:00`
         : `${formData.event_date}T12:00:00`
 
-      const { error } = await supabase
+      const { error } = await enhancedSupabase
         .from('events')
         .insert({
           organizer_id: user.id,

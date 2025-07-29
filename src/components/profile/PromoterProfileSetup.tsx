@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase'
+import { enhancedSupabase } from '@/lib/supabase'
 import { 
   Loader2, 
   User, 
@@ -155,7 +155,7 @@ export function PromoterProfileSetup({ isOpen, onClose, existingProfile }: Promo
 
     setLoading(true)
     try {
-      const { error } = await supabase
+              const { error } = await enhancedSupabase
         .from('promoter_profiles')
         .upsert({
           user_id: user.id,

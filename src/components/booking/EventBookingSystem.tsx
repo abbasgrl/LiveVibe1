@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Textarea } from '@/components/ui/textarea'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase'
+import { enhancedSupabase } from '@/lib/supabase'
 import { EventCreator } from './EventCreator'
 import { 
   Search, 
@@ -146,7 +146,7 @@ export function EventBookingSystem({ isOpen, onClose }: EventBookingSystemProps)
   const searchArtists = async () => {
     setLoading(true)
     try {
-      let query = supabase
+      let query = enhancedSupabase
         .from('artist_profiles')
         .select(`
           *,
@@ -197,7 +197,7 @@ export function EventBookingSystem({ isOpen, onClose }: EventBookingSystemProps)
     
     setLoading(true)
     try {
-      const { data, error } = await supabase
+      const { data, error } = await enhancedSupabase
         .from('events')
         .select('*')
         .eq('organizer_id', user.id)
@@ -221,7 +221,7 @@ export function EventBookingSystem({ isOpen, onClose }: EventBookingSystemProps)
     
     setLoading(true)
     try {
-      const { data, error } = await supabase
+      const { data, error } = await enhancedSupabase
         .from('bookings')
         .select(`
           *,
@@ -260,7 +260,7 @@ export function EventBookingSystem({ isOpen, onClose }: EventBookingSystemProps)
     }
 
     try {
-      const { error } = await supabase
+      const { error } = await enhancedSupabase
         .from('bookings')
         .insert({
           event_id: bookingForm.event_id,

@@ -7,7 +7,7 @@ import { Switch } from '@/components/ui/switch'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase'
+import { enhancedSupabase } from '@/lib/supabase'
 import { SubscriptionPayment } from '@/components/payments/SubscriptionPayment'
 import { 
   Check, 
@@ -67,7 +67,7 @@ export function PricingPage() {
 
   const fetchPlans = async () => {
     try {
-      const { data, error } = await supabase
+          const { data, error } = await enhancedSupabase
         .from('subscription_plans')
         .select('*')
         .eq('active', true)
@@ -90,7 +90,7 @@ export function PricingPage() {
     if (!user) return
 
     try {
-      const { data, error } = await supabase
+          const { data, error } = await enhancedSupabase
         .from('user_subscriptions')
         .select(`
           *,
