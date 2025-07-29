@@ -10,9 +10,16 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useAuth } from '@/contexts/AuthContext'
-import { User, Settings, LogOut, Music } from 'lucide-react'
+import { User, Settings, LogOut, Camera, Sparkles, Wand2, Calendar } from 'lucide-react'
 
-export function UserMenu() {
+interface UserMenuProps {
+  onProfileClick?: () => void
+  onArtClick?: () => void
+  onAiStudioClick?: () => void
+  onBookingClick?: () => void
+}
+
+export function UserMenu({ onProfileClick, onArtClick, onAiStudioClick, onBookingClick }: UserMenuProps) {
   const { user, signOut } = useAuth()
 
   if (!user) return null
@@ -40,13 +47,21 @@ export function UserMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={onProfileClick}>
           <User className="mr-2 h-4 w-4" />
-          <span>Profile</span>
+          <span>My Profile</span>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Music className="mr-2 h-4 w-4" />
-          <span>My Music</span>
+        <DropdownMenuItem onClick={onArtClick}>
+          <Camera className="mr-2 h-4 w-4" />
+          <span>Upload Portfolio</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={onAiStudioClick}>
+          <Wand2 className="mr-2 h-4 w-4" />
+          <span>AI Studio</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={onBookingClick}>
+          <Calendar className="mr-2 h-4 w-4" />
+          <span>Event Bookings</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Settings className="mr-2 h-4 w-4" />
