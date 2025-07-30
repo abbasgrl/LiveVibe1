@@ -113,56 +113,56 @@ export function ArtistWheel() {
   return (
     <div className="relative">
       {/* Main Artist Card */}
-      <Card className={`bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 ${isAnimating ? 'scale-95 opacity-80' : 'scale-100 opacity-100'}`}>
+      <Card className={`bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 border-4 border-purple-100 ${isAnimating ? 'scale-95 opacity-80' : 'scale-100 opacity-100'}`}>
         <div className="relative">
           <img 
             src={currentArtist.image} 
             alt={currentArtist.name}
-            className="w-full h-64 object-cover"
+            className="w-full h-72 object-cover"
           />
           <div className="absolute top-4 right-4 flex gap-2">
             {currentArtist.verified && (
-              <Badge className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold">
                 Verified
               </Badge>
             )}
-            <Badge variant="secondary" className="bg-white/90 text-gray-800">
+            <Badge className="bg-green-500 text-white font-bold">
               {currentArtist.price}
             </Badge>
           </div>
           <div className="absolute top-4 left-4">
-            <Button size="sm" variant="secondary" className="bg-white/90 hover:bg-white">
+            <Button size="sm" className="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full">
               <Play className="h-4 w-4 mr-1" />
-              Preview
+              Watch AI Video
             </Button>
           </div>
         </div>
         
-        <CardContent className="p-6 space-y-4">
+        <CardContent className="p-8 space-y-6">
           <div className="space-y-2">
-            <h3 className="text-xl font-bold text-gray-900">{currentArtist.name}</h3>
-            <p className="text-blue-600 font-medium">{currentArtist.genre}</p>
-            <p className="text-gray-600 text-sm">{currentArtist.description}</p>
+            <h3 className="text-2xl font-black text-gray-900">{currentArtist.name}</h3>
+            <p className="text-purple-600 font-bold text-lg">{currentArtist.genre}</p>
+            <p className="text-gray-700 font-medium">{currentArtist.description}</p>
             <div className="flex items-center gap-4 text-sm text-gray-600">
               <div className="flex items-center gap-1">
                 <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span className="font-medium">{currentArtist.rating}</span>
-                <span className="text-gray-400">(127 reviews)</span>
+                <span className="font-bold">{currentArtist.rating}</span>
+                <span className="text-gray-500 font-medium">(127 reviews)</span>
               </div>
               <div className="flex items-center gap-1">
                 <MapPin className="h-4 w-4" />
-                <span>{currentArtist.location}</span>
+                <span className="font-medium">{currentArtist.location}</span>
               </div>
             </div>
           </div>
           
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <Button 
-              className="flex-1 bg-blue-600 hover:bg-blue-700"
+              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 font-bold rounded-xl"
             >
-              Book Now
+              Book {currentArtist.name.split(' ')[0]} Now
             </Button>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" className="rounded-xl border-2">
               <Heart className="h-4 w-4" />
             </Button>
           </div>
