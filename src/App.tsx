@@ -677,7 +677,7 @@ function AppContent() {
             </div>
             <p className="text-2xl text-white/90 max-w-3xl mx-auto font-medium">
               Join 10,000+ artists who've already transformed their passion into profit with Live Vibe
-            </h2>
+            </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Button 
