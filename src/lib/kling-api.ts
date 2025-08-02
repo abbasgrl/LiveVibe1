@@ -45,23 +45,40 @@ const ACCESS_KEY = 'APtpC9HaadbEHtmrANty9FNdPapNYLaD'
 const SECRET_KEY = 'eCndKhLdTTTPRRka4GE4aDhEm9LyrRyR'
 
 // Generate authentication signature
-function generateSignature(timestamp: string, nonce: string): string {
+async function generateSignature(timestamp: string, nonce: string): Promise<string> {
   const message = `${ACCESS_KEY}${timestamp}${nonce}`
+  
   // Create HMAC-SHA256 signature using Web Crypto API
-  return btoa(`${message}:${SECRET_KEY}`)
+  const encoder = new TextEncoder()
+  const keyData = encoder.encode(SECRET_KEY)
+  const messageData = encoder.encode(message)
+  
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    keyData,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  )
+  
+  const signature = await crypto.subtle.sign('HMAC', cryptoKey, messageData)
+  const signatureArray = new Uint8Array(signature)
+  
+  // Convert to base64
+  return btoa(String.fromCharCode(...signatureArray))
 }
 
 // Generate authentication headers
-function getAuthHeaders(): Record<string, string> {
+async function getAuthHeaders(): Promise<Record<string, string>> {
   const timestamp = Math.floor(Date.now() / 1000).toString()
   const nonce = Math.random().toString(36).substring(2, 15)
-  const signature = generateSignature(timestamp, nonce)
+  const signature = await generateSignature(timestamp, nonce)
   
   return {
-    'Authorization': `Bearer ${ACCESS_KEY}`,
+    'Authorization': `HMAC-SHA256 Credential=${ACCESS_KEY}, SignedHeaders=host;x-date, Signature=${signature}`,
     'X-Timestamp': timestamp,
     'X-Nonce': nonce,
-    'X-Signature': signature,
+    'X-Date': new Date().toISOString(),
     'Content-Type': 'application/json'
   }
 }
@@ -70,9 +87,10 @@ export class KlingAPI {
   // Create a video generation task
   static async createVideoTask(request: KlingVideoRequest): Promise<KlingVideoResponse> {
     try {
+      const headers = await getAuthHeaders()
       const response = await fetch(`${KLING_API_BASE}/v1/videos/text2video`, {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers,
         body: JSON.stringify(request)
       })
 
@@ -91,9 +109,10 @@ export class KlingAPI {
   // Check task status
   static async getTaskStatus(taskId: string): Promise<KlingTaskStatusResponse> {
     try {
+      const headers = await getAuthHeaders()
       const response = await fetch(`${KLING_API_BASE}/v1/videos/${taskId}`, {
         method: 'GET',
-        headers: getAuthHeaders()
+        headers
       })
 
       if (!response.ok) {

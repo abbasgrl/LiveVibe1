@@ -407,6 +407,8 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
 
   const generateVideoWithKling = async (project: AIProject) => {
     try {
+      console.log('🎬 Starting Kling AI video generation for project:', project.title)
+      
       // Generate prompt from project data
       const prompt = KlingAPI.generateVideoPrompt({
         lyrics: project.lyrics,
@@ -416,6 +418,8 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
         description: project.description
       })
 
+      console.log('📝 Generated prompt:', prompt)
+      
       const negativePrompt = KlingAPI.generateNegativePrompt()
 
       // Create Kling AI video generation task
@@ -431,7 +435,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
         }
       }
 
-      console.log('Starting Kling AI video generation with prompt:', prompt)
+      console.log('🚀 Sending request to Kling AI with settings:', videoRequest)
       
       const response = await KlingAPI.createVideoTask(videoRequest)
 
@@ -440,7 +444,7 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
       }
 
       const taskId = response.data.task_id
-      console.log('Kling AI task created with ID:', taskId)
+      console.log('✅ Kling AI task created successfully with ID:', taskId)
 
       // Update project with task ID
       await enhancedSupabase
@@ -480,12 +484,12 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
 
   const pollKlingTask = async (projectId: string, taskId: string) => {
     try {
-      console.log('Polling Kling AI task:', taskId)
+      console.log('🔄 Polling Kling AI task status:', taskId)
       const result = await KlingAPI.pollTaskCompletion(taskId)
 
       if (result.data.task_status === 'succeed' && result.data.task_result?.videos?.[0]) {
         const videoUrl = result.data.task_result.videos[0].url
-        console.log('Kling AI video generation completed:', videoUrl)
+        console.log('🎉 Kling AI video generation completed! Video URL:', videoUrl)
 
         // Update project with completed video
         await enhancedSupabase
@@ -501,11 +505,11 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
 
         toast({
           title: "Video generated!",
-          description: "Your AI music video has been generated successfully with Kling AI!",
+          description: "🎬 Your AI music video has been generated successfully with Kling AI! Click to preview.",
         })
       } else {
         // Task failed
-        console.error('Kling AI task failed:', result.data.task_status_msg)
+        console.error('❌ Kling AI task failed:', result.data.task_status_msg)
         await enhancedSupabase
           .from('ai_projects')
           .update({ 
@@ -518,12 +522,12 @@ export function AIShowcaseStudio({ isOpen, onClose }: AIShowcaseStudioProps) {
 
         toast({
           title: "Video generation failed",
-          description: result.data.task_status_msg || "Video generation failed",
+          description: result.data.task_status_msg || "❌ Video generation failed. Please try again.",
           variant: "destructive",
         })
       }
     } catch (error: any) {
-      console.error('Kling task polling error:', error)
+      console.error('❌ Kling task polling error:', error)
       
       await enhancedSupabase
         .from('ai_projects')
