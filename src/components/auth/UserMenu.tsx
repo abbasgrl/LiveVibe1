@@ -15,11 +15,10 @@ import { User, Settings, LogOut, Camera, Sparkles, Wand2, Calendar } from 'lucid
 interface UserMenuProps {
   onProfileClick?: () => void
   onArtClick?: () => void
-  onAiStudioClick?: () => void
   onBookingClick?: () => void
 }
 
-export function UserMenu({ onProfileClick, onArtClick, onAiStudioClick, onBookingClick }: UserMenuProps) {
+export function UserMenu({ onProfileClick, onArtClick, onBookingClick }: UserMenuProps) {
   const { user, signOut } = useAuth()
 
   if (!user) return null
@@ -54,10 +53,6 @@ export function UserMenu({ onProfileClick, onArtClick, onAiStudioClick, onBookin
         <DropdownMenuItem onClick={onArtClick}>
           <Camera className="mr-2 h-4 w-4" />
           <span>Upload Portfolio</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={onAiStudioClick}>
-          <Wand2 className="mr-2 h-4 w-4" />
-          <span>AI Studio</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={onBookingClick}>
           <Calendar className="mr-2 h-4 w-4" />
