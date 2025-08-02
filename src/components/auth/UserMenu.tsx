@@ -30,6 +30,11 @@ export function UserMenu({ onProfileClick, onArtClick, onBookingClick }: UserMen
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
+            <AvatarImage 
+              src={user.user_metadata?.avatar_url || ''} 
+              alt="Profile"
+              className="object-cover"
+            />
             <AvatarFallback className="bg-gradient-to-r from-purple-600 to-teal-500 text-white">
               {initials}
             </AvatarFallback>

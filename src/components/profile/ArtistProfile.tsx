@@ -370,7 +370,11 @@ export function ArtistProfile() {
         <CardContent className="relative pt-0 pb-8">
           <div className="flex flex-col md:flex-row md:items-end md:space-x-6 -mt-16 relative z-10">
             <Avatar className="h-32 w-32 border-4 border-white shadow-lg mb-4 md:mb-0">
-              <AvatarImage src={profile.profile_photo_url} alt={profile.name} />
+              <AvatarImage 
+                src={profile.profile_photo_url || ''} 
+                alt={profile.name}
+                className="object-cover"
+              />
               <AvatarFallback className="text-2xl bg-gray-200">
                 {profile.name?.charAt(0)?.toUpperCase() || 'A'}
               </AvatarFallback>
