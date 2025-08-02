@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -10,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useAuth } from '@/contexts/AuthContext'
+import { enhancedSupabase } from '@/lib/supabase'
 import { User, Settings, LogOut, Camera, Sparkles, Wand2, Calendar } from 'lucide-react'
 
 interface UserMenuProps {
@@ -20,6 +22,43 @@ interface UserMenuProps {
 
 export function UserMenu({ onProfileClick, onArtClick, onBookingClick }: UserMenuProps) {
   const { user, signOut } = useAuth()
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (user) {
+      fetchProfilePhoto()
+    }
+  }, [user])
+
+  const fetchProfilePhoto = async () => {
+    if (!user) return
+
+    try {
+      const { data, error } = await enhancedSupabase
+        .from('artist_profiles')
+        .select('profile_photo_url')
+        .eq('user_id', user.id)
+        .single()
+
+      if (error) {
+        console.log('No artist profile found, checking promoter profile')
+        // Try promoter profile if artist profile doesn't exist
+        const { data: promoterData, error: promoterError } = await enhancedSupabase
+          .from('promoter_profiles')
+          .select('profile_photo_url')
+          .eq('user_id', user.id)
+          .single()
+
+        if (!promoterError && promoterData?.profile_photo_url) {
+          setProfilePhoto(promoterData.profile_photo_url)
+        }
+      } else if (data?.profile_photo_url) {
+        setProfilePhoto(data.profile_photo_url)
+      }
+    } catch (error) {
+      console.log('Could not fetch profile photo:', error)
+    }
+  }
 
   if (!user) return null
 
@@ -31,7 +70,7 @@ export function UserMenu({ onProfileClick, onArtClick, onBookingClick }: UserMen
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
             <AvatarImage 
-              src={user.user_metadata?.avatar_url || ''} 
+              src={profilePhoto || user.user_metadata?.avatar_url || ''} 
               alt="Profile"
               className="object-cover"
             />
