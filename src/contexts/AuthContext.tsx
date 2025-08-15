@@ -126,7 +126,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .from('artist_profiles')
         .select('id')
         .eq('user_id', userId)
-        .single()
+        .maybeSingle()
       
       if (error || !profile) {
         // No profile found, trigger profile setup
