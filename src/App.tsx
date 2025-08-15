@@ -6,7 +6,6 @@ import { ArtistProfileSetup } from '@/components/profile/ArtistProfileSetup';
 import { ArtistProfile } from '@/components/profile/ArtistProfile';
 import { ArtUpload } from '@/components/profile/ArtUpload';
 import { PromoterProfileSetup } from '@/components/profile/PromoterProfileSetup';
-import { AIShowcaseStudio } from '@/components/ai-studio/AIShowcaseStudio';
 import { ArtistWheel } from '@/components/ArtistWheel';
 import { PricingPage } from '@/components/pricing/PricingPage';
 import { EventBookingSystem } from '@/components/booking/EventBookingSystem';
@@ -63,7 +62,6 @@ function AppContent() {
   const [profileSetupOpen, setProfileSetupOpen] = useState(false);
   const [promoterSetupOpen, setPromoterSetupOpen] = useState(false);
   const [artUploadOpen, setArtUploadOpen] = useState(false);
-  const [aiStudioOpen, setAiStudioOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [bookingSystemOpen, setBookingSystemOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
@@ -180,7 +178,6 @@ function AppContent() {
                 setProfileSetupOpen(false);
                 setPromoterSetupOpen(false);
                 setArtUploadOpen(false);
-                setAiStudioOpen(false);
                 setShowProfile(false);
                 setBookingSystemOpen(false);
                 setShowPricing(false);
@@ -339,14 +336,6 @@ function AppContent() {
                   size="lg" 
                   variant="ghost" 
                   className="px-8 py-5 text-lg font-semibold text-gray-700 hover:text-purple-600 underline decoration-2 underline-offset-4"
-                  onClick={() => {
-                    if (user) {
-                      setAiStudioOpen(true);
-                    } else {
-                      setAuthMode('signup');
-                      setAuthModalOpen(true);
-                    }
-                  }}
                 >
                   Watch Demo Video →
                 </Button>
@@ -729,7 +718,6 @@ function AppContent() {
                   setProfileSetupOpen(false);
                   setPromoterSetupOpen(false);
                   setArtUploadOpen(false);
-                  setAiStudioOpen(false);
                   setShowProfile(false);
                   setBookingSystemOpen(false);
                   setShowPricing(false);
@@ -913,10 +901,6 @@ function AppContent() {
       <ArtUpload
         isOpen={artUploadOpen}
         onClose={() => setArtUploadOpen(false)}
-      />
-      <AIShowcaseStudio
-        isOpen={aiStudioOpen}
-        onClose={() => setAiStudioOpen(false)}
       />
       <EventBookingSystem
         isOpen={bookingSystemOpen}
