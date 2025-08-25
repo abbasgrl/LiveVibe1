@@ -126,9 +126,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .from('artist_profiles')
         .select('id')
         .eq('user_id', userId)
-        .single()
+        .maybeSingle()
       
-      if (error || !profile) {
+      if ((error && error.code !== 'PGRST116') || !profile) {
         // No profile found, trigger profile setup
         console.log('AuthContext: No profile found, triggering profile setup')
         setTimeout(() => {

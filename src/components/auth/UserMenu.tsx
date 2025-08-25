@@ -38,18 +38,24 @@ export function UserMenu({ onProfileClick, onArtClick, onBookingClick }: UserMen
         .from('artist_profiles')
         .select('profile_photo_url')
         .eq('user_id', user.id)
-        .single()
+        .maybeSingle()
 
-      if (error) {
+      if (error && error.code !== 'PGRST116') {
+        console.log('Error fetching artist profile:', error)
+      }
+      
+      if (!data || !data.profile_photo_url) {
         console.log('No artist profile found, checking promoter profile')
         // Try promoter profile if artist profile doesn't exist
         const { data: promoterData, error: promoterError } = await enhancedSupabase
           .from('promoter_profiles')
           .select('profile_photo_url')
           .eq('user_id', user.id)
-          .single()
+          .maybeSingle()
 
-        if (!promoterError && promoterData?.profile_photo_url) {
+        if (promoterError && promoterError.code !== 'PGRST116') {
+          console.log('Error fetching promoter profile:', promoterError)
+        } else if (promoterData?.profile_photo_url) {
           setProfilePhoto(promoterData.profile_photo_url)
         }
       } else if (data?.profile_photo_url) {
