@@ -704,11 +704,17 @@ export function ArtistProfileSetup({ isOpen, onClose, existingProfile }: ArtistP
                   <div className="space-y-3">
                     {formData.profile_photo_url ? (
                       <div className="flex items-center gap-4 p-4 border rounded-lg bg-gray-50">
-                        <img 
-                          src={formData.profile_photo_url} 
-                          alt="Profile preview" 
-                          className="w-16 h-16 rounded-full object-cover"
-                        />
+                        <div className="relative">
+                          <img 
+                            src={formData.profile_photo_url} 
+                            alt="Profile preview" 
+                            className="w-16 h-16 rounded-full object-cover border-2 border-gray-200"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
                         <div className="flex-1">
                           <p className="font-medium text-gray-900">Profile photo uploaded</p>
                           <p className="text-sm text-gray-600">Your profile photo is ready</p>
